@@ -124,12 +124,17 @@
     @apply border-border;
   }
 
+  html {
+    font-size: 85%; /* Scales down all Tailwind rem units by 85% */
+  }
+
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* zoom: 0.85; DO NOT use zoom, it breaks layout bounds and cuts off components */
   }
 
   h1, h2, h3, h4, h5, h6 {
