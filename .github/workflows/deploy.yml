@@ -39,12 +39,18 @@ jobs:
       - name: Create App Service Plan (if needed)
         run: |
           # Create Linux App Service Plan (B1 = lowest paid tier with container support)
-          az appservice plan create \
-            --name bayer-app-plan \
-            --resource-group bayer-facility-rg \
-            --sku B1 \
-            --is-linux \
-            2>/dev/null || echo "Plan already exists"
+          PLAN_EXISTS=$(az appservice plan show --name bayer-app-plan --resource-group bayer-facility-rg --query "name" -o tsv 2>/dev/null || echo "")
+          if [ -z "$PLAN_EXISTS" ]; then
+            echo "Creating App Service Plan..."
+            az appservice plan create \
+              --name bayer-app-plan \
+              --resource-group bayer-facility-rg \
+              --sku B1 \
+              --is-linux \
+              --location eastus
+          else
+            echo "Plan already exists"
+          fi
 
       - name: Create or Update Web App
         run: |
@@ -57,7 +63,7 @@ jobs:
               --name bayer-backend-api \
               --resource-group bayer-facility-rg \
               --plan bayer-app-plan \
-              --deployment-container-image-name ${{ env.IMAGE_NAME }}
+              --container-image-name ${{ env.IMAGE_NAME }}
           fi
 
           # Configure the Docker registry credentials for GHCR
