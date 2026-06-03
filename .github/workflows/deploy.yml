@@ -39,10 +39,14 @@ jobs:
       - name: Deploy Backend to Azure Container Instances
         run: |
           # Delete existing container if it exists (to update)
+          # We use set +e because az container delete has a known bug in recent CLI versions 
+          # where it crashes with "invalid status 'OK'" even when successful
+          set +e
           az container delete \
             --name bayer-backend \
             --resource-group bayer-facility-rg \
-            --yes 2>/dev/null || true
+            --yes
+          set -e
 
           # Create container instance with GHCR image
           az container create \
