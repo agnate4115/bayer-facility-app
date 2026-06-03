@@ -36,34 +36,20 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy Backend to Azure Container Instances
+      - name: Deploy Backend to Azure Container Apps
         run: |
-          # Delete existing container if it exists (to update)
-          # We use set +e because az container delete has a known bug in recent CLI versions 
-          # where it crashes with "invalid status 'OK'" even when successful
-          set +e
-          az container delete \
+          az extension add --name containerapp --upgrade --yes || true
+          az containerapp up \
             --name bayer-backend \
             --resource-group bayer-facility-rg \
-            --yes
-          set -e
-
-          # Create container instance with GHCR image
-          az container create \
-            --name bayer-backend \
-            --resource-group bayer-facility-rg \
-            --location eastus \
+            --environment bayer-env \
             --image ${{ env.IMAGE_NAME }} \
-            --registry-login-server ghcr.io \
+            --registry-server ghcr.io \
             --registry-username ${{ github.actor }} \
             --registry-password ${{ secrets.GITHUB_TOKEN }} \
-            --cpu 0.5 \
-            --memory 1.0 \
-            --ports 8000 \
-            --ip-address Public \
-            --dns-name-label bayer-backend-api \
-            --os-type Linux \
-            --environment-variables \
+            --target-port 8000 \
+            --ingress external \
+            --env-vars \
               AZURE_OPENAI_BASE_URL="${{ secrets.AZURE_OPENAI_BASE_URL }}" \
               AZURE_OPENAI_API_KEY="${{ secrets.AZURE_OPENAI_API_KEY }}" \
               AZURE_OPENAI_DEPLOYMENT_NAME="${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}" \
@@ -76,9 +62,9 @@ jobs:
               PGPASSWORD="${{ secrets.PGPASSWORD }}" \
               ENABLE_AZURE_INTEGRATION="False"
 
-          # Get the public IP
-          FQDN=$(az container show --name bayer-backend --resource-group bayer-facility-rg --query "ipAddress.fqdn" -o tsv)
-          echo "Backend deployed at: http://$FQDN:8000"
+          # Get the HTTPS FQDN
+          FQDN=$(az containerapp show --name bayer-backend --resource-group bayer-facility-rg --query properties.configuration.ingress.fqdn -o tsv)
+          echo "Backend deployed at: https://$FQDN"
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -94,8 +80,8 @@ jobs:
       - name: Get Backend URL
         id: backend
         run: |
-          FQDN=$(az container show --name bayer-backend --resource-group bayer-facility-rg --query "ipAddress.fqdn" -o tsv)
-          echo "backend_url=http://$FQDN:8000" >> $GITHUB_OUTPUT
+          FQDN=$(az containerapp show --name bayer-backend --resource-group bayer-facility-rg --query properties.configuration.ingress.fqdn -o tsv)
+          echo "backend_url=https://$FQDN" >> $GITHUB_OUTPUT
 
       - name: Build And Deploy Frontend
         uses: Azure/static-web-apps-deploy@v1
