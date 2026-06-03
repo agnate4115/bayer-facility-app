@@ -110,9 +110,9 @@ export default function AnalyticsPage() {
       setLoading(true);
       try {
         const [tkRes, fbRes, offRes] = await Promise.all([
-          fetch(`${API}/api/tickets`),
-          fetch(`${API}/api/feedback`),
-          fetch(`${API}/api/offices`),
+          fetch(`${API}/api/tickets/`),
+          fetch(`${API}/api/feedback/`),
+          fetch(`${API}/api/offices/`),
         ]);
         if (tkRes.ok) setTickets(await tkRes.json());
         if (fbRes.ok) setFeedbacks(await fbRes.json());
