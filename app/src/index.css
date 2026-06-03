@@ -125,7 +125,7 @@
   }
 
   html {
-    font-size: 85%; /* Scales down all Tailwind rem units by 85% */
+    overflow-x: hidden;
   }
 
   body {
@@ -134,7 +134,12 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* zoom: 0.85; DO NOT use zoom, it breaks layout bounds and cuts off components */
+    
+    /* Cross-platform 80% Scaling */
+    transform: scale(0.80);
+    transform-origin: top left;
+    width: 125vw; /* 100 / 0.80 = 125 */
+    min-height: 125vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
