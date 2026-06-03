@@ -36,50 +36,30 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Create App Service Plan (if needed)
+      - name: Deploy Backend to Azure Container Instances
         run: |
-          # Create Linux App Service Plan (B1 = lowest paid tier with container support)
-          PLAN_EXISTS=$(az appservice plan show --name bayer-app-plan --resource-group bayer-facility-rg --query "name" -o tsv 2>/dev/null || echo "")
-          if [ -z "$PLAN_EXISTS" ]; then
-            echo "Creating App Service Plan..."
-            az appservice plan create \
-              --name bayer-app-plan \
-              --resource-group bayer-facility-rg \
-              --sku B1 \
-              --is-linux \
-              --location eastus
-          else
-            echo "Plan already exists"
-          fi
-
-      - name: Create or Update Web App
-        run: |
-          # Check if web app exists
-          APP_EXISTS=$(az webapp show --name bayer-backend-api --resource-group bayer-facility-rg --query "name" -o tsv 2>/dev/null || echo "")
-
-          if [ -z "$APP_EXISTS" ]; then
-            echo "Creating Web App with Docker container..."
-            az webapp create \
-              --name bayer-backend-api \
-              --resource-group bayer-facility-rg \
-              --plan bayer-app-plan \
-              --container-image-name ${{ env.IMAGE_NAME }}
-          fi
-
-          # Configure the Docker registry credentials for GHCR
-          az webapp config container set \
-            --name bayer-backend-api \
+          # Delete existing container if it exists (to update)
+          az container delete \
+            --name bayer-backend \
             --resource-group bayer-facility-rg \
-            --container-image-name ${{ env.IMAGE_NAME }} \
-            --container-registry-url https://ghcr.io \
-            --container-registry-user ${{ github.actor }} \
-            --container-registry-password ${{ secrets.GITHUB_TOKEN }}
+            --yes 2>/dev/null || true
 
-          # Set environment variables
-          az webapp config appsettings set \
-            --name bayer-backend-api \
+          # Create container instance with GHCR image
+          az container create \
+            --name bayer-backend \
             --resource-group bayer-facility-rg \
-            --settings \
+            --location eastus \
+            --image ${{ env.IMAGE_NAME }} \
+            --registry-login-server ghcr.io \
+            --registry-username ${{ github.actor }} \
+            --registry-password ${{ secrets.GITHUB_TOKEN }} \
+            --cpu 0.5 \
+            --memory 1.0 \
+            --ports 8000 \
+            --ip-address Public \
+            --dns-name-label bayer-backend-api \
+            --os-type Linux \
+            --environment-variables \
               AZURE_OPENAI_BASE_URL="${{ secrets.AZURE_OPENAI_BASE_URL }}" \
               AZURE_OPENAI_API_KEY="${{ secrets.AZURE_OPENAI_API_KEY }}" \
               AZURE_OPENAI_DEPLOYMENT_NAME="${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}" \
@@ -90,12 +70,11 @@ jobs:
               PGPORT="${{ secrets.PGPORT }}" \
               PGDATABASE="${{ secrets.PGDATABASE }}" \
               PGPASSWORD="${{ secrets.PGPASSWORD }}" \
-              ENABLE_AZURE_INTEGRATION="False" \
-              WEBSITES_PORT="8000"
+              ENABLE_AZURE_INTEGRATION="False"
 
-          # Get the backend URL
-          BACKEND_URL="https://bayer-backend-api.azurewebsites.net"
-          echo "Backend deployed at: $BACKEND_URL"
+          # Get the public IP
+          FQDN=$(az container show --name bayer-backend --resource-group bayer-facility-rg --query "ipAddress.fqdn" -o tsv)
+          echo "Backend deployed at: http://$FQDN:8000"
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -116,7 +95,10 @@ jobs:
           TOKEN=$(az staticwebapp secrets list -n bayer-frontend -g bayer-facility-rg --query "properties.apiKey" -o tsv)
           echo "::add-mask::$TOKEN"
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
-          echo "backend_url=https://bayer-backend-api.azurewebsites.net" >> $GITHUB_OUTPUT
+
+          # Get the backend FQDN from ACI
+          FQDN=$(az container show --name bayer-backend --resource-group bayer-facility-rg --query "ipAddress.fqdn" -o tsv)
+          echo "backend_url=http://$FQDN:8000" >> $GITHUB_OUTPUT
 
       - name: Build And Deploy Frontend
         uses: Azure/static-web-apps-deploy@v1
