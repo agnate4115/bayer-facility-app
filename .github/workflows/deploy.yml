@@ -35,6 +35,7 @@ jobs:
 
       - name: Deploy Backend to Azure Container Apps
         run: |
+          mkdir empty_deploy_dir && cd empty_deploy_dir
           az extension add --name containerapp --upgrade
           az containerapp up \
             --name bayer-backend \
