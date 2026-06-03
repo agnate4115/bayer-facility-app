@@ -62,7 +62,7 @@ export default function FeedbackDetail() {
     );
   }
 
-  const user = azureAdPeople.find(p => p.id === feedback.user_id || p.mail === ticket?.user_name || p.displayName === ticket?.user_name);
+  const user = azureAdPeople.find(p => p.id === feedback.user_id || p.email === ticket?.user_name || p.displayName === ticket?.user_name);
   
   const feedbackForView = {
     id: feedback.id,
@@ -83,8 +83,8 @@ export default function FeedbackDetail() {
     category: ticket?.category_name || 'Uncategorized',
     office: ticket?.office || 'Unknown Office',
     submittedBy: user?.displayName || ticket?.user_name || 'Anonymous',
-    submittedByEmail: user?.mail,
-    submittedByDesignation: user?.jobTitle || 'Employee',
+    submittedByEmail: user?.email,
+    submittedByDesignation: user?.designation || 'Employee',
     submittedByDepartment: user?.department,
     aiSummary: `Based on this ${feedback.overall_rating}-star rating, the customer experienced ${
       feedback.overall_rating >= 4 ? 'excellent' : feedback.overall_rating >= 3 ? 'satisfactory' : 'unsatisfactory'

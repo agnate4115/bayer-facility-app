@@ -88,7 +88,7 @@ export default function FeedbackForm({ user }: FeedbackFormProps) {
   const fetchTickets = async () => {
     try {
       // Find current user's AD object ID based on email or name (mocked user doesn't have ID, so we use azureAdPeople)
-      const currentUser = azureAdPeople.find(p => p.mail === user.email || p.displayName === user.name);
+      const currentUser = azureAdPeople.find(p => p.email === user.email || p.displayName === user.name);
       const user_id = currentUser ? currentUser.id : "user-123";
 
       const res = await fetch(`${API_URL}/api/tickets/`);
@@ -151,7 +151,7 @@ export default function FeedbackForm({ user }: FeedbackFormProps) {
 
     setIsSubmitting(true);
 
-    const currentUser = azureAdPeople.find(p => p.mail === user.email || p.displayName === user.name);
+    const currentUser = azureAdPeople.find(p => p.email === user.email || p.displayName === user.name);
     const user_id = currentUser ? currentUser.id : "user-123";
 
     const feedbackData = {

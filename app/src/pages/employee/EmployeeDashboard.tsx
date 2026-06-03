@@ -185,7 +185,7 @@ function DashboardHome() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const currentUser = azureAdPeople.find(p => p.mail === mockUser.email || p.displayName === mockUser.name);
+        const currentUser = azureAdPeople.find(p => p.email === mockUser.email || p.displayName === mockUser.name);
         const user_id = currentUser ? currentUser.id : "user-123";
 
         const [tRes, fRes] = await Promise.all([

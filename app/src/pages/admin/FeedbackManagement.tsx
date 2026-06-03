@@ -53,7 +53,7 @@ export default function FeedbackManagement() {
   const getCombinedData = () => {
     return feedbacks.map(fb => {
       const ticket = tickets.find(t => t.id === fb.ticket_id);
-      const user = azureAdPeople.find(p => p.id === fb.user_id || p.mail === ticket?.user_name || p.displayName === ticket?.user_name);
+      const user = azureAdPeople.find(p => p.id === fb.user_id || p.email === ticket?.user_name || p.displayName === ticket?.user_name);
       const office = offices.find(o => o.id === ticket?.office_id);
       
       return {
