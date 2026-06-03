@@ -3,8 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import offices, settings, tickets, feedback, audit_logs, reports, azure_auth
 from database import engine, Base
 
+import logging
+logger = logging.getLogger(__name__)
+
 # Create DB Tables
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+    db_status = "Connected"
+except Exception as e:
+    logger.error(f"Failed to connect to database on startup: {e}")
+    db_status = f"Disconnected: {e}"
 
 app = FastAPI(title="Bayer Facility Management API")
 
@@ -28,4 +36,7 @@ app.include_router(azure_auth.router)
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to Bayer Facility Management API"}
+    return {
+        "message": "Welcome to Bayer Facility Management API",
+        "database_status": db_status
+    }
