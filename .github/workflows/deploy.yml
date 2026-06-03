@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  packages: write
+  contents: read
+
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
@@ -21,9 +25,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          # Lowercase the repository name to satisfy Docker tagging rules
           REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          IMAGE_NAME="ghcr.io/$REPO_LOWER:backend-latest"
+          IMAGE_NAME="ghcr.io/$REPO_LOWER:backend-${{ github.sha }}"
           docker build -t $IMAGE_NAME ./backend
           docker push $IMAGE_NAME
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
@@ -33,33 +36,73 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy Backend to Azure Container Apps
+      - name: Create or Update Container App
         run: |
-          mkdir empty_deploy_dir && cd empty_deploy_dir
-          az extension add --name containerapp --upgrade
-          az containerapp up \
-            --name bayer-backend \
-            --resource-group bayer-facility-rg \
-            --location eastus \
-            --environment bayer-env \
-            --image ${{ env.IMAGE_NAME }} \
-            --registry-server ghcr.io \
-            --registry-username ${{ github.actor }} \
-            --registry-password ${{ secrets.GITHUB_TOKEN }} \
-            --ingress external \
-            --target-port 8000 \
-            --env-vars \
-              "AZURE_OPENAI_BASE_URL=${{ secrets.AZURE_OPENAI_BASE_URL }}" \
-              "AZURE_OPENAI_API_KEY=${{ secrets.AZURE_OPENAI_API_KEY }}" \
-              "AZURE_OPENAI_DEPLOYMENT_NAME=${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}" \
-              "AZURE_OPENAI_API_VERSION=${{ secrets.AZURE_OPENAI_API_VERSION }}" \
-              "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
-              "PGHOST=${{ secrets.PGHOST }}" \
-              "PGUSER=${{ secrets.PGUSER }}" \
-              "PGPORT=${{ secrets.PGPORT }}" \
-              "PGDATABASE=${{ secrets.PGDATABASE }}" \
-              "PGPASSWORD=${{ secrets.PGPASSWORD }}" \
-              "ENABLE_AZURE_INTEGRATION=False"
+          az extension add --name containerapp --upgrade --yes
+
+          # Check if the container app environment exists
+          ENV_EXISTS=$(az containerapp env show -n bayer-env -g bayer-facility-rg --query "name" -o tsv 2>/dev/null || echo "")
+
+          if [ -z "$ENV_EXISTS" ]; then
+            echo "Creating Container App Environment..."
+            az containerapp env create \
+              --name bayer-env \
+              --resource-group bayer-facility-rg \
+              --location eastus
+          fi
+
+          # Check if the container app exists
+          APP_EXISTS=$(az containerapp show -n bayer-backend -g bayer-facility-rg --query "name" -o tsv 2>/dev/null || echo "")
+
+          if [ -z "$APP_EXISTS" ]; then
+            echo "Creating Container App..."
+            az containerapp create \
+              --name bayer-backend \
+              --resource-group bayer-facility-rg \
+              --environment bayer-env \
+              --image ${{ env.IMAGE_NAME }} \
+              --registry-server ghcr.io \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }} \
+              --ingress external \
+              --target-port 8000 \
+              --min-replicas 0 \
+              --max-replicas 1 \
+              --env-vars \
+                "AZURE_OPENAI_BASE_URL=${{ secrets.AZURE_OPENAI_BASE_URL }}" \
+                "AZURE_OPENAI_API_KEY=${{ secrets.AZURE_OPENAI_API_KEY }}" \
+                "AZURE_OPENAI_DEPLOYMENT_NAME=${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}" \
+                "AZURE_OPENAI_API_VERSION=${{ secrets.AZURE_OPENAI_API_VERSION }}" \
+                "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
+                "PGHOST=${{ secrets.PGHOST }}" \
+                "PGUSER=${{ secrets.PGUSER }}" \
+                "PGPORT=${{ secrets.PGPORT }}" \
+                "PGDATABASE=${{ secrets.PGDATABASE }}" \
+                "PGPASSWORD=${{ secrets.PGPASSWORD }}" \
+                "ENABLE_AZURE_INTEGRATION=False"
+          else
+            echo "Updating existing Container App..."
+            az containerapp update \
+              --name bayer-backend \
+              --resource-group bayer-facility-rg \
+              --image ${{ env.IMAGE_NAME }} \
+              --set-env-vars \
+                "AZURE_OPENAI_BASE_URL=${{ secrets.AZURE_OPENAI_BASE_URL }}" \
+                "AZURE_OPENAI_API_KEY=${{ secrets.AZURE_OPENAI_API_KEY }}" \
+                "AZURE_OPENAI_DEPLOYMENT_NAME=${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}" \
+                "AZURE_OPENAI_API_VERSION=${{ secrets.AZURE_OPENAI_API_VERSION }}" \
+                "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
+                "PGHOST=${{ secrets.PGHOST }}" \
+                "PGUSER=${{ secrets.PGUSER }}" \
+                "PGPORT=${{ secrets.PGPORT }}" \
+                "PGDATABASE=${{ secrets.PGDATABASE }}" \
+                "PGPASSWORD=${{ secrets.PGPASSWORD }}" \
+                "ENABLE_AZURE_INTEGRATION=False"
+          fi
+
+          # Output the backend FQDN
+          BACKEND_FQDN=$(az containerapp show -n bayer-backend -g bayer-facility-rg --query "properties.configuration.ingress.fqdn" -o tsv)
+          echo "Backend deployed at: https://$BACKEND_FQDN"
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -75,17 +118,13 @@ jobs:
       - name: Provision Static Web App & Get Token
         id: swa
         run: |
-          # Try to create the app. If it already exists, this command will safely error out or warn, which we ignore.
-          az staticwebapp create -n bayer-frontend -g bayer-facility-rg -l eastus || true
-          
-          # Fetch the deployment token dynamically
+          az staticwebapp create -n bayer-frontend -g bayer-facility-rg -l eastus 2>/dev/null || true
+
           TOKEN=$(az staticwebapp secrets list -n bayer-frontend -g bayer-facility-rg --query "properties.apiKey" -o tsv)
-          
-          # Mask the token so it doesn't appear in logs
           echo "::add-mask::$TOKEN"
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
-          
-          # Get the backend URL (the Container App FQDN)
+
+          az extension add --name containerapp --upgrade --yes
           BACKEND_URL="https://$(az containerapp show -n bayer-backend -g bayer-facility-rg --query 'properties.configuration.ingress.fqdn' -o tsv)"
           echo "backend_url=$BACKEND_URL" >> $GITHUB_OUTPUT
 
