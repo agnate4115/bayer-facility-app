@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import {
 import { API_URL } from '@/config';
+import {
   Search,
   ChevronLeft,
   ChevronRight,

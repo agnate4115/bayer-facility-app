@@ -13,8 +13,8 @@ import {
   Activity,
   Layers
 } from 'lucide-react';
-import {
 import { API_URL } from '@/config';
+import {
   BarChart,
   Bar,
   XAxis,

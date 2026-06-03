@@ -15,8 +15,8 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import {
 import { API_URL } from '@/config';
+import {
   TrendingUp,
   Ticket,
   MessageSquare,
@@ -39,7 +39,7 @@ const BAYER_CYAN    = '#01BEFF';
 const BAYER_GREEN   = '#56D500';
 const BAYER_BLUE_LT = '#004A78';
 
-const API = import.meta.env.VITE_API_URL || `${API_URL}`;
+const API = import.meta.env.VITE_API_URL || API_URL;
 
 interface TicketData {
   id: string;
