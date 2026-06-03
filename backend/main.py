@@ -19,7 +19,11 @@ app = FastAPI(title="Bayer Facility Management API")
 # Configure CORS for the frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to the frontend URL
+    allow_origins=[
+        "https://blue-sea-071565b0f.7.azurestaticapps.net",
+        "http://localhost:3000",
+        "http://localhost:5173"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
