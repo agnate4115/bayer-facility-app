@@ -21,18 +21,18 @@ const TEXT_TERTIARY = '#9CA3AF';
 function EmployeeLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: BG_GRAY }}>
-      <header className="h-16 flex items-center justify-between px-4" style={{ backgroundColor: BG_LIGHT, borderBottom: `1px solid ${BORDER_LIGHT}` }}>
-        <Link to="/" className="flex items-center gap-2">
+      <header className="h-[64px] flex items-center justify-between px-[16px]" style={{ backgroundColor: BG_LIGHT, borderBottom: `1px solid ${BORDER_LIGHT}` }}>
+        <Link to="/" className="flex items-center gap-[8px]">
           <ArrowLeft size={18} style={{ color: TEXT_SECONDARY }} />
-          <span className="font-display text-sm font-medium" style={{ color: TEXT_PRIMARY }}>Back</span>
+          <span className="font-display text-[14px] font-medium" style={{ color: TEXT_PRIMARY }}>Back</span>
         </Link>
-        <div className="flex items-center gap-2.5">
-          <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-8 w-auto" />
-          <span className="font-display text-base font-semibold" style={{ color: BAYER_BLUE }}>FacilityDesk</span>
+        <div className="flex items-center gap-[10px]">
+          <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-[32px] w-auto" />
+          <span className="font-display text-[16px] font-semibold" style={{ color: BAYER_BLUE }}>FacilityDesk</span>
         </div>
-        <div className="w-16"></div>
+        <div className="w-[64px]"></div>
       </header>
-      <main className="max-w-lg mx-auto px-4 py-6">
+      <main className="max-w-lg mx-auto px-[16px] py-6">
         {children}
       </main>
     </div>
@@ -57,7 +57,7 @@ function QRScan() {
         <h1 className="font-display text-2xl font-semibold mb-3" style={{ color: BAYER_BLUE }}>
           Scan QR Code
         </h1>
-        <p className="font-body text-sm mb-8" style={{ color: TEXT_SECONDARY }}>
+        <p className="font-body text-[14px] mb-8" style={{ color: TEXT_SECONDARY }}>
           Point your camera at the QR code posted near the facility issue
         </p>
 
@@ -95,7 +95,7 @@ function QRScan() {
 
         <Link
           to="/app/auth"
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg font-display text-sm font-semibold uppercase tracking-wide shadow-sm hover:shadow-md transition-shadow"
+          className="inline-flex items-center gap-[8px] px-8 py-3.5 rounded-lg font-display text-[14px] font-semibold uppercase tracking-wide shadow-sm hover:shadow-md transition-shadow"
           style={{ backgroundColor: BAYER_GREEN, color: BG_LIGHT }}
         >
           Scan QR Code
@@ -132,13 +132,13 @@ function MockAuth() {
           {/* Innovation Green Circle */}
           <div className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full right-[-10%] top-[20%] opacity-90" style={{ backgroundColor: '#56D500', mixBlendMode: 'screen' }}></div>
           {/* White Outline Circle */}
-          <div className="absolute w-48 h-48 md:w-80 md:h-80 rounded-full border-[8px] md:border-[16px] border-white opacity-20 left-[-10%] bottom-[10%]"></div>
+          <div className="absolute w-48 h-48 md:w-80 md:h-[32px]0 rounded-full border-[8px] md:border-[16px] border-white opacity-20 left-[-10%] bottom-[10%]"></div>
           {/* Solid White Square */}
           <div className="absolute w-24 h-24 bg-white opacity-10 right-[15%] bottom-[20%] rotate-12"></div>
         </div>
 
         <div className="relative z-10">
-          <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-10 md:h-14 lg:h-16 w-auto brightness-0 invert" />
+          <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-10 md:h-14 lg:h-[64px] w-auto brightness-0 invert" />
         </div>
 
         <div className="relative z-10 mt-12 md:mt-0">
@@ -146,8 +146,8 @@ function MockAuth() {
             FacilityDesk
             <span className="block" style={{ color: '#01BEFF' }}>Employee Portal</span>
           </h1>
-          <div className="w-16 md:w-24 h-2 md:h-3 mb-6" style={{ backgroundColor: '#56D500' }}></div>
-          <p className="font-body text-base md:text-lg lg:text-xl text-slate-300 max-w-md font-light leading-relaxed">
+          <div className="w-[64px] md:w-24 h-2 md:h-3 mb-6" style={{ backgroundColor: '#56D500' }}></div>
+          <p className="font-body text-[16px] md:text-lg lg:text-xl text-slate-300 max-w-md font-light leading-relaxed">
             Report issues, track progress, and manage your facilities.
           </p>
         </div>
@@ -184,7 +184,7 @@ function MockAuth() {
               className="h-10 w-auto mb-4 hidden md:block"
             />
             <h2
-              className="font-display text-base font-semibold mb-1"
+              className="font-display text-[16px] font-semibold mb-1"
               style={{ color: TEXT_PRIMARY }}
             >
               Sign in to continue
@@ -200,7 +200,7 @@ function MockAuth() {
           <button
             onClick={handleAzureLogin}
             disabled={isLoading}
-            className="w-full rounded-xl font-body text-base font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+            className="w-full rounded-xl font-body text-[16px] font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             style={{
               backgroundColor: '#FFFFFF',
               color: '#5E5E5E',
@@ -247,7 +247,7 @@ function MockAuth() {
 
           {/* Security note */}
           <div
-            className="mt-6 flex items-start gap-2 p-3 rounded-lg"
+            className="mt-6 flex items-start gap-[8px] p-3 rounded-lg"
             style={{
               backgroundColor: `${BAYER_CYAN}08`,
               border: `1px solid ${BAYER_CYAN}20`
@@ -297,7 +297,7 @@ function ComplaintForm() {
       <div className="py-4">
         {/* Location badge */}
         <div
-          className="flex items-center gap-2 px-3 py-2.5 rounded-lg mb-6"
+          className="flex items-center gap-[8px] px-3 py-2.5 rounded-lg mb-6"
           style={{ backgroundColor: `${BAYER_CYAN}15`, border: `1px solid ${BAYER_CYAN}40` }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BAYER_CYAN} strokeWidth="2">
@@ -313,7 +313,7 @@ function ComplaintForm() {
           <h1 className="font-display text-2xl font-semibold mb-2" style={{ color: BAYER_BLUE }}>
             Report an Issue
           </h1>
-          <p className="font-body text-sm" style={{ color: TEXT_SECONDARY }}>
+          <p className="font-body text-[14px]" style={{ color: TEXT_SECONDARY }}>
             Logged in as <strong style={{ color: TEXT_PRIMARY }}>Priya Patel</strong> &middot; Finance
           </p>
         </div>
@@ -326,7 +326,7 @@ function ComplaintForm() {
             <textarea
               defaultValue="The AC unit in the cafeteria area on Floor 3 has not been operational since morning. Multiple employees are affected."
               rows={5}
-              className="w-full px-4 py-3 rounded-lg font-body text-sm outline-none resize-vertical focus:ring-2"
+              className="w-full px-[16px] py-3 rounded-lg font-body text-[14px] outline-none resize-vertical focus:ring-2"
               style={{
                 backgroundColor: BG_LIGHT,
                 border: `1px solid ${BORDER_LIGHT}`,
@@ -350,7 +350,7 @@ function ComplaintForm() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={TEXT_TERTIARY} strokeWidth="2" className="mx-auto mb-2">
                 <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="M21 15l-5-5L5 21" />
               </svg>
-              <span className="font-body text-sm" style={{ color: TEXT_TERTIARY }}>
+              <span className="font-body text-[14px]" style={{ color: TEXT_TERTIARY }}>
                 Tap to upload photos
               </span>
             </div>
@@ -358,7 +358,7 @@ function ComplaintForm() {
 
           <Link
             to="/app/processing"
-            className="block w-full text-center py-3.5 rounded-lg font-display text-sm font-semibold uppercase tracking-wide shadow-sm hover:shadow-md transition-shadow mt-6"
+            className="block w-full text-center py-3.5 rounded-lg font-display text-[14px] font-semibold uppercase tracking-wide shadow-sm hover:shadow-md transition-shadow mt-6"
             style={{ backgroundColor: BAYER_GREEN, color: BG_LIGHT }}
           >
             Submit Report
@@ -373,7 +373,7 @@ function Processing() {
   return (
     <EmployeeLayout>
       <div className="text-center py-16">
-        <div className="relative w-16 h-16 mx-auto mb-6">
+        <div className="relative w-[64px] h-[64px] mx-auto mb-6">
           <div
             className="absolute inset-0 rounded-full animate-spin"
             style={{
@@ -390,7 +390,7 @@ function Processing() {
         <h1 className="font-display text-2xl font-semibold mb-2" style={{ color: BAYER_BLUE }}>
           Processing your request...
         </h1>
-        <p className="font-body text-sm" style={{ color: TEXT_SECONDARY }}>
+        <p className="font-body text-[14px]" style={{ color: TEXT_SECONDARY }}>
           AI is categorising, prioritising, and routing your ticket
         </p>
 
@@ -413,7 +413,7 @@ function Processing() {
                 {step.done && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={BAYER_GREEN} strokeWidth="3"><path d="M5 12l5 5L20 7" /></svg>}
               </div>
               <span
-                className="font-body text-sm"
+                className="font-body text-[14px]"
                 style={{ color: step.done ? TEXT_PRIMARY : TEXT_TERTIARY }}
               >
                 {step.label}
@@ -426,7 +426,7 @@ function Processing() {
         <div className="mt-8">
           <Link
             to="/app/ticket"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-display text-sm font-medium hover:bg-gray-100 transition-colors"
+            className="inline-flex items-center gap-[8px] px-6 py-2.5 rounded-lg font-display text-[14px] font-medium hover:bg-gray-100 transition-colors"
             style={{ backgroundColor: BG_LIGHT, border: `1px solid ${BORDER_LIGHT}`, color: TEXT_PRIMARY }}
           >
             View Ticket
@@ -446,12 +446,12 @@ function TicketView() {
       <div className="py-4">
         {/* Success banner */}
         <div
-          className="flex items-center gap-3 px-4 py-3 rounded-lg mb-6"
+          className="flex items-center gap-3 px-[16px] py-3 rounded-lg mb-6"
           style={{ backgroundColor: `${BAYER_GREEN}15`, border: `1px solid ${BAYER_GREEN}40` }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={BAYER_GREEN} strokeWidth="2"><path d="M5 12l5 5L20 7" /></svg>
           <div>
-            <p className="font-body text-sm font-semibold" style={{ color: BAYER_GREEN }}>Ticket created successfully</p>
+            <p className="font-body text-[14px] font-semibold" style={{ color: BAYER_GREEN }}>Ticket created successfully</p>
             <p className="font-mono text-xs font-medium" style={{ color: BAYER_GREEN }}>BYR-THN-2026-003847</p>
           </div>
         </div>
@@ -467,13 +467,13 @@ function TicketView() {
               P2 &middot; High
             </span>
           </div>
-          <h2 className="font-display text-base font-semibold mb-2" style={{ color: BAYER_BLUE }}>
+          <h2 className="font-display text-[16px] font-semibold mb-2" style={{ color: BAYER_BLUE }}>
             Air conditioning unit non-functional
           </h2>
-          <p className="font-body text-sm mb-4" style={{ color: TEXT_SECONDARY }}>
+          <p className="font-body text-[14px] mb-4" style={{ color: TEXT_SECONDARY }}>
             The AC unit in the cafeteria area on Floor 3 has not been operational since morning. Multiple employees are affected. Immediate attention required.
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-[8px]">
             <span className="font-display text-[8px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style={{ backgroundColor: `${BAYER_CYAN}15`, color: BAYER_CYAN }}>
               HVAC / AC
             </span>
@@ -510,7 +510,7 @@ function TicketView() {
                     </div>
                     <div className="pt-0.5">
                       <span
-                        className="font-body text-sm"
+                        className="font-body text-[14px]"
                         style={{ color: isDone ? TEXT_PRIMARY : TEXT_TERTIARY }}
                       >
                         {stage}
@@ -540,7 +540,7 @@ function TicketView() {
             RS
           </div>
           <div>
-            <p className="font-body text-sm font-semibold" style={{ color: TEXT_PRIMARY }}>Assigned to Rahul Sharma</p>
+            <p className="font-body text-[14px] font-semibold" style={{ color: TEXT_PRIMARY }}>Assigned to Rahul Sharma</p>
             <p className="font-body text-xs" style={{ color: TEXT_SECONDARY }}>HVAC Maintenance Team, Thane</p>
           </div>
         </div>
@@ -552,7 +552,7 @@ function TicketView() {
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-wide hover:underline"
+            className="inline-flex items-center gap-[8px] font-display text-[14px] font-semibold uppercase tracking-wide hover:underline"
             style={{ color: BAYER_CYAN }}
           >
             Return to home

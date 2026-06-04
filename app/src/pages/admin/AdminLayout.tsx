@@ -18,7 +18,7 @@ export default function AdminLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Top Bar */}
         <div
-          className="lg:hidden flex items-center gap-3 px-4 py-3 border-b ] (210,20%,20%)]"
+          className="lg:hidden flex items-center gap-[12px] px-[16px] py-[12px] border-b ] (210,20%,20%)]"
           style={{
             backgroundColor: theme === 'dark' ? undefined : '#FFFFFF',
             borderColor: theme === 'dark' ? undefined : '#E1E8ED',
@@ -26,12 +26,12 @@ export default function AdminLayout() {
         >
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 hover:bg-gray-100 :bg-white/10 rounded-lg transition-colors"
+            className="p-[8px] hover:bg-gray-100 :bg-white/10 rounded-lg transition-colors"
           >
             <Menu size={22} style={{ color: '#00314E' }}  />
           </button>
-          <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-8 w-auto" />
-          <span className="font-display text-sm font-semibold " style={{ color: theme === 'dark' ? undefined : '#00314E' }}>
+          <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-[32px] w-auto" />
+          <span className="font-display text-[14px] font-semibold " style={{ color: theme === 'dark' ? undefined : '#00314E' }}>
             FacilityDesk
           </span>
         </div>

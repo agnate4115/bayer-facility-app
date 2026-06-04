@@ -58,7 +58,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
           transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen
-          lg:p-4 lg:bg-transparent
+          lg:p-[16px] lg:bg-transparent
         `}
         style={{ width: '280px' }}
       >
@@ -69,10 +69,10 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
         `}>
 
           {/* Header */}
-          <div className="h-20 flex items-center px-6 gap-3 flex-shrink-0 border-b border-slate-100  relative z-10">
-            <img src="/Bayer-Logo.wine.svg" alt="Bayer" className="h-10 w-auto flex-shrink-0 drop-shadow-sm" />
+          <div className="h-[80px] flex items-center px-[24px] gap-[12px] flex-shrink-0 border-b border-slate-100  relative z-10">
+            <img src="/Bayer-Logo.wine.svg" alt="Bayer" className="h-[40px] w-auto flex-shrink-0 drop-shadow-sm" />
             <div className="flex flex-col min-w-0">
-              <span className="font-display text-lg font-bold tracking-tight text-[#00314E]  truncate leading-tight">
+              <span className="font-display text-[18px] font-bold tracking-tight text-[#00314E]  truncate leading-tight">
                 FacilityDesk
               </span>
               <span className="font-mono text-[8px] uppercase tracking-widest font-semibold text-[#56D500] leading-tight">
@@ -89,7 +89,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
           </div>
 
           {/* Menu */}
-          <nav className="flex-1 py-6 px-4 flex flex-col gap-1.5 overflow-y-auto z-10 custom-scrollbar">
+          <nav className="flex-1 py-[24px] px-[16px] flex flex-col gap-[6px] overflow-y-auto z-10 custom-scrollbar">
             {menuItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
@@ -100,7 +100,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                   to={item.path}
                   onClick={handleNavClick}
                   className={`
-                    relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 group
+                    relative flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-300 group
                     ${active 
                       ? 'bg-gradient-to-r from-[#56D500]/10 to-transparent' 
                       : 'hover:bg-slate-50'
@@ -109,7 +109,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                 >
                   {/* Active Indicator Line */}
                   {active && (
-                    <div className="absolute left-0 top-2 bottom-2 w-1 bg-[#56D500] rounded-r-full shadow-[0_0_8px_rgba(86,213,0,0.5)]" />
+                    <div className="absolute left-0 top-2 bottom-2 w-[4px] bg-[#56D500] rounded-r-full shadow-[0_0_8px_rgba(86,213,0,0.5)]" />
                   )}
                   
                   <Icon 
@@ -119,7 +119,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                     }`} 
                   />
                   
-                  <span className={`font-display text-sm font-semibold tracking-wide truncate transition-colors duration-300 ${
+                  <span className={`font-display text-[14px] font-semibold tracking-wide truncate transition-colors duration-300 ${
                     active ? 'text-[#00314E] ' : 'text-slate-600  group-hover:text-slate-900'
                   }`}>
                     {item.label}
@@ -130,7 +130,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
           </nav>
 
           {/* Footer Actions */}
-          <div className="p-4 flex flex-col gap-2 border-t border-slate-100  z-10 bg-slate-50/50 ">
+          <div className="p-[16px] flex flex-col gap-[8px] border-t border-slate-100  z-10 bg-slate-50/50 ">
             {/* Logout */}
             <button
               onClick={() => {
@@ -138,31 +138,31 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                   window.location.href = '/';
                 }
               }}
-              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 hover:bg-red-50 group border border-transparent hover:border-red-100"
+              className="w-full flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 hover:bg-red-50 group border border-transparent hover:border-red-100"
             >
               <LogOut size={20} className="flex-shrink-0 text-slate-400 group-hover:text-red-500 transition-colors" />
-              <span className="font-display text-xs uppercase tracking-wider font-semibold text-slate-600  group-hover:text-red-600 transition-colors">Log Out</span>
+              <span className="font-display text-[12px] uppercase tracking-wider font-semibold text-slate-600  group-hover:text-red-600 transition-colors">Log Out</span>
             </button>
           </div>
 
           {/* Premium Azure AD Badge */}
-          <div className="p-4 border-t border-slate-100  bg-white z-10 relative overflow-hidden group">
+          <div className="p-[16px] border-t border-slate-100  bg-white z-10 relative overflow-hidden group">
             {/* Subtle glow on hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#01BEFF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
-            <div className="flex items-center gap-3 relative z-10">
+            <div className="flex items-center gap-[12px] relative z-10">
               <div className="relative flex-shrink-0">
                 <img
                   src={currentAdmin.profilePic}
                   alt={currentAdmin.displayName}
-                  className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover"
+                  className="w-[4px]0 h-[40px] rounded-full border-2 border-white shadow-sm object-cover"
                   title={currentAdmin.displayName}
                 />
-                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#56D500] rounded-full border-2 border-white shadow-[0_0_8px_rgba(86,213,0,0.6)]" />
+                <div className="absolute -bottom-0.5 -right-0.5 w-[14px] h-[14px] bg-[#56D500] rounded-full border-2 border-white shadow-[0_0_8px_rgba(86,213,0,0.6)]" />
               </div>
               
               <div className="flex-1 min-w-0">
-                <p className="font-display text-sm font-bold text-slate-900  truncate">
+                <p className="font-display text-[14px] font-bold text-slate-900  truncate">
                   {currentAdmin.displayName}
                 </p>
                 <p className="font-mono text-[8px] text-slate-500  truncate flex items-center gap-1 mt-0.5">

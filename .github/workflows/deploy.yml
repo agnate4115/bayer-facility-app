@@ -44,9 +44,6 @@ jobs:
             --resource-group bayer-facility-rg \
             --environment bayer-env \
             --image ${{ env.IMAGE_NAME }} \
-            --registry-server ghcr.io \
-            --registry-username ${{ github.actor }} \
-            --registry-password ${{ secrets.GITHUB_TOKEN }} \
             --target-port 8000 \
             --ingress external \
             --env-vars \
