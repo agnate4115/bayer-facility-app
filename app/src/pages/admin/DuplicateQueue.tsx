@@ -402,7 +402,7 @@ export default function DuplicateQueue() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-body text-gray-500">Category:</span>
-                      <span className="font-display uppercase tracking-wider px-2 py-0.5 rounded" style={{ backgroundColor: '#3B82F614', color: '#3B82F6', fontSize: '10px' }}>
+                      <span className="font-display uppercase tracking-wider px-2 py-0.5 rounded" style={{ backgroundColor: '#3B82F614', color: '#3B82F6', fontSize: '8px' }}>
                         {dup.original.category}
                       </span>
                     </div>
@@ -446,7 +446,7 @@ export default function DuplicateQueue() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-body text-gray-500">Category:</span>
-                      <span className="font-display uppercase tracking-wider px-2 py-0.5 rounded" style={{ backgroundColor: '#3B82F614', color: '#3B82F6', fontSize: '10px' }}>
+                      <span className="font-display uppercase tracking-wider px-2 py-0.5 rounded" style={{ backgroundColor: '#3B82F614', color: '#3B82F6', fontSize: '8px' }}>
                         {dup.duplicate.category}
                       </span>
                     </div>

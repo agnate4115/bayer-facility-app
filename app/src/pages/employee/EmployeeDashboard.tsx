@@ -71,7 +71,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
               <span className="font-display text-lg font-bold tracking-tight text-[#00314E] truncate leading-tight">
                 FacilityDesk
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-widest font-semibold text-[#01BEFF] leading-tight">
+              <span className="font-mono text-[8px] uppercase tracking-widest font-semibold text-[#01BEFF] leading-tight">
                 Employee Portal
               </span>
             </div>
@@ -161,7 +161,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                 <p className="font-display text-sm font-bold text-slate-900 truncate">
                   {currentEmployee.displayName}
                 </p>
-                <p className="font-mono text-[10px] text-slate-500 truncate flex items-center gap-1 mt-0.5">
+                <p className="font-mono text-[8px] text-slate-500 truncate flex items-center gap-1 mt-0.5">
                   <Briefcase size={10} className="text-[#56D500]" />
                   {currentEmployee.department}
                 </p>

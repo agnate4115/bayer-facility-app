@@ -14,7 +14,7 @@ export default function Footer() {
             <span className="font-display text-lg font-semibold" style={{ color: '#00314E' }}>
               FacilityDesk
             </span>
-            <span className="block font-body text-[13px] mt-0.5" style={{ color: '#6B7280' }}>
+            <span className="block font-body text-[10px] mt-0.5" style={{ color: '#6B7280' }}>
               by Bayer
             </span>
           </div>
@@ -26,7 +26,7 @@ export default function Footer() {
           {['Platform', 'QR Intelligence', 'Dashboard', 'Security', 'Privacy Policy'].map((item, i, arr) => (
             <span key={item} className="flex items-center gap-4">
               <span
-                className="font-body text-[13px] cursor-pointer hover:text-[#56D500] transition-colors"
+                className="font-body text-[10px] cursor-pointer hover:text-[#56D500] transition-colors"
                 style={{ color: '#6B7280', letterSpacing: '0.04em' }}
               >
                 {item}

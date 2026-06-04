@@ -263,7 +263,7 @@ export default function FeedbackManagement() {
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-          <span className="font-display text-[10px] uppercase tracking-widest text-gray-500">
+          <span className="font-display text-[8px] uppercase tracking-widest text-gray-500">
             Avg Rating
           </span>
           <div className="flex items-center gap-2 mt-2">
@@ -272,7 +272,7 @@ export default function FeedbackManagement() {
           </div>
         </div>
         <div className="p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-          <span className="font-display text-[10px] uppercase tracking-widest text-gray-500">
+          <span className="font-display text-[8px] uppercase tracking-widest text-gray-500">
             Total Reviews
           </span>
           <span className="block font-mono text-2xl mt-2 text-gray-900">
@@ -280,7 +280,7 @@ export default function FeedbackManagement() {
           </span>
         </div>
         <div className="p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-          <span className="font-display text-[10px] uppercase tracking-widest text-gray-500">
+          <span className="font-display text-[8px] uppercase tracking-widest text-gray-500">
             5-Star Reviews
           </span>
           <span style={{ color: BAYER_GREEN }} className="block font-mono text-2xl mt-2">
@@ -288,7 +288,7 @@ export default function FeedbackManagement() {
           </span>
         </div>
         <div className="p-5 rounded-xl bg-white border border-gray-200 shadow-sm">
-          <span className="font-display text-[10px] uppercase tracking-widest text-gray-500">
+          <span className="font-display text-[8px] uppercase tracking-widest text-gray-500">
             1-Star Reviews
           </span>
           <span style={{ color: '#EF4444' }} className="block font-mono text-2xl mt-2">
@@ -360,7 +360,7 @@ export default function FeedbackManagement() {
                 {['Ticket ID', 'Rating', 'Submitted By', 'Technician', 'Office', 'Date', 'Actions'].map((h) => (
                   <th
                     key={h}
-                    className="text-left px-4 py-3 font-display text-[10px] uppercase tracking-wider whitespace-nowrap text-gray-500"
+                    className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider whitespace-nowrap text-gray-500"
                   >
                     {h}
                   </th>
@@ -399,7 +399,7 @@ export default function FeedbackManagement() {
                   <td className="px-4 py-3">
                     <span
                       style={{ backgroundColor: `${BAYER_CYAN}15`, color: BAYER_CYAN }}
-                      className="font-display text-[10px] uppercase tracking-wider px-2 py-0.5 rounded">
+                      className="font-display text-[8px] uppercase tracking-wider px-2 py-0.5 rounded">
                       {fb.office_name}
                     </span>
                   </td>

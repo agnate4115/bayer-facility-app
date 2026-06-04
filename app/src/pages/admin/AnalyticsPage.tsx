@@ -345,7 +345,7 @@ export default function AnalyticsPage() {
             >
               <div className="flex items-center gap-1.5 mb-2">
                 <Icon size={12} style={{ color: stat.color }} />
-                <span style={{ color: 'var(--text-tertiary)' }} className="font-display text-[9px] uppercase tracking-widest">
+                <span style={{ color: 'var(--text-tertiary)' }} className="font-display text-[7px] uppercase tracking-widest">
                   {stat.label}
                 </span>
               </div>
@@ -389,8 +389,8 @@ export default function AnalyticsPage() {
               </linearGradient>
             </defs>
             <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="var(--border-subtle)" />
-            <XAxis dataKey="name" tick={{ fill: 'var(--text-tertiary)', fontSize: 10, fontFamily: 'monospace' }} axisLine={false} tickLine={false} dy={8} />
-            <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 10, fontFamily: 'monospace' }} axisLine={false} tickLine={false} dx={-8} />
+            <XAxis dataKey="name" tick={{ fill: 'var(--text-tertiary)', fontSize: 8, fontFamily: 'monospace' }} axisLine={false} tickLine={false} dy={8} />
+            <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 8, fontFamily: 'monospace' }} axisLine={false} tickLine={false} dx={-8} />
             <Tooltip content={<CustomTooltip />} />
             <Area type="monotone" dataKey="Opened" stroke={BAYER_BLUE} strokeWidth={2.5} fill="url(#gradOpened)"
               dot={{ r: 3, fill: BAYER_BLUE, strokeWidth: 0 }} activeDot={{ r: 5, fill: BAYER_BLUE, stroke: '#fff', strokeWidth: 2 }} />
@@ -413,8 +413,8 @@ export default function AnalyticsPage() {
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={officeDistribution} layout="vertical" margin={{ top: 0, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid horizontal={false} strokeDasharray="3 3" stroke="var(--border-subtle)" />
-              <XAxis type="number" tick={{ fill: 'var(--text-tertiary)', fontSize: 10, fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
-              <YAxis dataKey="name" type="category" tick={{ fill: 'var(--text-secondary)', fontSize: 10 }} axisLine={false} tickLine={false} width={70} />
+              <XAxis type="number" tick={{ fill: 'var(--text-tertiary)', fontSize: 8, fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
+              <YAxis dataKey="name" type="category" tick={{ fill: 'var(--text-secondary)', fontSize: 8 }} axisLine={false} tickLine={false} width={70} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count" fill={BAYER_CYAN} radius={[0, 6, 6, 0]} maxBarSize={22} name="Tickets" />
             </BarChart>
@@ -433,7 +433,7 @@ export default function AnalyticsPage() {
             <select
               value={priorityOffice}
               onChange={(e) => setPriorityOffice(e.target.value)}
-              className="px-2 py-1 rounded-md font-body text-[10px] outline-none"
+              className="px-2 py-1 rounded-md font-body text-[8px] outline-none"
               style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
             >
               <option value="all">All</option>
@@ -466,9 +466,9 @@ export default function AnalyticsPage() {
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={categoryData} margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="var(--border-subtle)" />
-              <XAxis dataKey="name" tick={{ fill: 'var(--text-tertiary)', fontSize: 9, fontFamily: 'monospace' }} axisLine={false} tickLine={false} dy={6}
+              <XAxis dataKey="name" tick={{ fill: 'var(--text-tertiary)', fontSize: 7, fontFamily: 'monospace' }} axisLine={false} tickLine={false} dy={6}
                 interval={0} angle={-25} textAnchor="end" height={50} />
-              <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 10, fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 8, fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="value" fill={BAYER_GREEN} radius={[6, 6, 0, 0]} maxBarSize={28} name="Tickets" />
             </BarChart>
@@ -489,8 +489,8 @@ export default function AnalyticsPage() {
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={ratingData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="var(--border-subtle)" />
-              <XAxis dataKey="name" tick={{ fill: 'var(--text-tertiary)', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 10, fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="name" tick={{ fill: 'var(--text-tertiary)', fontSize: 9 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: 'var(--text-tertiary)', fontSize: 8, fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count" name="Responses" radius={[6, 6, 0, 0]} maxBarSize={36}>
                 {ratingData.map((_, i) => (
@@ -577,7 +577,7 @@ export default function AnalyticsPage() {
                           insight.impact === 'Positive' ? '#065F46' :
                           insight.impact === 'Medium' ? '#1E40AF' : '#6B21A8',
                       }}
-                      className="inline-block px-2 py-0.5 rounded font-display text-[9px] uppercase tracking-wider font-semibold"
+                      className="inline-block px-2 py-0.5 rounded font-display text-[7px] uppercase tracking-wider font-semibold"
                     >
                       {insight.impact}
                     </span>
@@ -601,7 +601,7 @@ export default function AnalyticsPage() {
           </div>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div>
-              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[9px] uppercase tracking-wider mb-1.5">Period</label>
+              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[7px] uppercase tracking-wider mb-1.5">Period</label>
               <select value={reportType} onChange={e => setReportType(e.target.value as any)}
                 className="w-full px-3 py-2 rounded-lg font-body text-sm outline-none"
                 style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
@@ -611,7 +611,7 @@ export default function AnalyticsPage() {
               </select>
             </div>
             <div>
-              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[9px] uppercase tracking-wider mb-1.5">Office</label>
+              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[7px] uppercase tracking-wider mb-1.5">Office</label>
               <select value={reportOffice} onChange={e => setReportOffice(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg font-body text-sm outline-none"
                 style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
@@ -631,7 +631,7 @@ export default function AnalyticsPage() {
             {generatingTicket ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
             {generatingTicket ? 'Generating...' : 'Download Ticket Report'}
           </button>
-          <p style={{ color: 'var(--text-tertiary)' }} className="font-body text-[10px] mt-3 leading-relaxed">
+          <p style={{ color: 'var(--text-tertiary)' }} className="font-body text-[8px] mt-3 leading-relaxed">
             Includes: executive summary, KPI metrics, charts (priority & category pie charts, office distribution, daily trends), breakdown tables, AI insights, and recent tickets list.
           </p>
         </div>
@@ -646,7 +646,7 @@ export default function AnalyticsPage() {
           </div>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div>
-              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[9px] uppercase tracking-wider mb-1.5">Period</label>
+              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[7px] uppercase tracking-wider mb-1.5">Period</label>
               <select value={fbReportType} onChange={e => setFbReportType(e.target.value as any)}
                 className="w-full px-3 py-2 rounded-lg font-body text-sm outline-none"
                 style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
@@ -656,7 +656,7 @@ export default function AnalyticsPage() {
               </select>
             </div>
             <div>
-              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[9px] uppercase tracking-wider mb-1.5">Office</label>
+              <label style={{ color: 'var(--text-tertiary)' }} className="block font-display text-[7px] uppercase tracking-wider mb-1.5">Office</label>
               <select value={fbReportOffice} onChange={e => setFbReportOffice(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg font-body text-sm outline-none"
                 style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
@@ -676,7 +676,7 @@ export default function AnalyticsPage() {
             {generatingFeedback ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
             {generatingFeedback ? 'Generating...' : 'Download Feedback Report'}
           </button>
-          <p style={{ color: 'var(--text-tertiary)' }} className="font-body text-[10px] mt-3 leading-relaxed">
+          <p style={{ color: 'var(--text-tertiary)' }} className="font-body text-[8px] mt-3 leading-relaxed">
             Includes: executive summary, satisfaction KPIs (overall, quality, response, communication, professionalism), rating distribution chart, category satisfaction table, AI recommendations, and recent feedback list.
           </p>
         </div>

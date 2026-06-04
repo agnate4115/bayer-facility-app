@@ -21,7 +21,7 @@ export default function SLATimer({ elapsed, breached = false }: SLATimerProps) {
   const display = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
 
   return (
-    <div className={`flex items-center gap-1.5 font-mono text-[13px] ${isCritical ? 'animate-sla-breach' : ''}`}>
+    <div className={`flex items-center gap-1.5 font-mono text-[10px] ${isCritical ? 'animate-sla-breach' : ''}`}>
       <Clock size={14} style={{ color }} />
       <span style={{ color }}>{display}</span>
     </div>

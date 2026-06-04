@@ -191,7 +191,7 @@ export default function TicketDetailView({
             <div className="space-y-2">
               <h3 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900  flex items-center gap-2">
                 AI Quick Summary
-                <span className="px-2 py-0.5 rounded-full bg-[#56D500]/10 text-[#56D500] text-[10px] uppercase font-bold tracking-wider">Beta</span>
+                <span className="px-2 py-0.5 rounded-full bg-[#56D500]/10 text-[#56D500] text-[8px] uppercase font-bold tracking-wider">Beta</span>
               </h3>
               <p className="text-slate-600  leading-relaxed font-medium">
                 {ticket.aiSummary}
@@ -225,7 +225,7 @@ export default function TicketDetailView({
                   `}>
                     {isCompleted ? <CheckCircle2 size={20} className="text-white" /> : <div className={`w-2.5 h-2.5 rounded-full ${isCurrent ? 'bg-[#01BEFF]' : 'bg-slate-300 '}`} />}
                   </div>
-                  <span className={`text-[11px] font-bold uppercase tracking-wider text-center max-w-[80px]
+                  <span className={`text-[9px] font-bold uppercase tracking-wider text-center max-w-[80px]
                     ${isCompleted ? 'text-[#56D500]' : ''}
                     ${isCurrent ? 'text-[#01BEFF] ' : ''}
                     ${isPending ? 'text-slate-400 ' : ''}
@@ -351,25 +351,25 @@ export default function TicketDetailView({
               </h3>
               
               <div className="p-4 rounded-2xl bg-slate-50 ] border border-slate-100 ">
-                <div className="font-mono text-[10px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Location ID</div>
+                <div className="font-mono text-[8px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Location ID</div>
                 <div className="font-mono text-sm font-semibold text-slate-900 ">{ticket.locationId}</div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Office</div>
+                  <div className="text-[8px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Office</div>
                   <div className="text-sm font-semibold text-slate-900 ">{ticket.office}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Floor</div>
+                  <div className="text-[8px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Floor</div>
                   <div className="text-sm font-semibold text-slate-900 ">{ticket.floor}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Zone</div>
+                  <div className="text-[8px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Zone</div>
                   <div className="text-sm font-semibold text-slate-900 ">{ticket.zone}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Dept</div>
+                  <div className="text-[8px] font-bold text-slate-400 mb-1 tracking-widest uppercase">Dept</div>
                   <div className="text-sm font-semibold text-slate-900  truncate" title={ticket.department}>{ticket.department}</div>
                 </div>
               </div>
@@ -386,7 +386,7 @@ export default function TicketDetailView({
                   <User size={18} className="text-blue-500 " />
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 mb-0.5 tracking-widest uppercase">Reported By</div>
+                  <div className="text-[8px] font-bold text-slate-400 mb-0.5 tracking-widest uppercase">Reported By</div>
                   <div className="text-sm font-bold text-slate-900 ">{ticket.reportedBy}</div>
                   <a href={`mailto:${ticket.reportedByEmail}`} className="text-xs text-blue-500 hover:underline">{ticket.reportedByEmail}</a>
                 </div>
@@ -399,7 +399,7 @@ export default function TicketDetailView({
                   <AlertTriangle size={18} className="text-emerald-500 " />
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 mb-0.5 tracking-widest uppercase">Assigned To</div>
+                  <div className="text-[8px] font-bold text-slate-400 mb-0.5 tracking-widest uppercase">Assigned To</div>
                   <div className="text-sm font-bold text-slate-900 ">{assignee}</div>
                   {team && <div className="text-xs text-slate-500 ">{team}</div>}
                 </div>

@@ -158,7 +158,7 @@ function Hero() {
         transition={{ delay: 1.3 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="font-display text-[10px] font-medium uppercase tracking-widest" style={{ color: '#71717A' }}>
+        <span className="font-display text-[8px] font-medium uppercase tracking-widest" style={{ color: '#71717A' }}>
           Scroll
         </span>
         <motion.div
@@ -435,7 +435,7 @@ function DashboardPreview() {
               >
                 <div className="flex items-center gap-2.5 mb-4">
                   <Icon size={16} style={{ color: '#01BEFF' }} strokeWidth={2.5} />
-                  <span className="font-display text-[10px] font-bold uppercase tracking-widest" style={{ color: '#71717A' }}>
+                  <span className="font-display text-[8px] font-bold uppercase tracking-widest" style={{ color: '#71717A' }}>
                     {stat.label}
                   </span>
                 </div>
@@ -465,7 +465,7 @@ function DashboardPreview() {
             {['All', 'Resolved', 'Open', 'In Progress', 'Failed'].map((tab, idx) => (
               <span
                 key={tab}
-                className="font-display text-[10px] font-bold uppercase tracking-wider px-4 py-2 rounded-lg transition-all cursor-pointer"
+                className="font-display text-[8px] font-bold uppercase tracking-wider px-4 py-2 rounded-lg transition-all cursor-pointer"
                 style={{
                   backgroundColor: idx === 0 ? '#00314E' : 'transparent',
                   color: idx === 0 ? '#FFFFFF' : '#71717A',
@@ -481,7 +481,7 @@ function DashboardPreview() {
               <thead>
                 <tr style={{ backgroundColor: '#F8F9FA' }}>
                   {['Ticket ID', 'Subject', 'Assignee', 'Category', 'Priority'].map((h) => (
-                    <th key={h} className="text-left px-6 py-4 font-display text-[10px] font-bold uppercase tracking-wider" style={{ color: '#71717A' }}>
+                    <th key={h} className="text-left px-6 py-4 font-display text-[8px] font-bold uppercase tracking-wider" style={{ color: '#71717A' }}>
                       {h}
                     </th>
                   ))}
@@ -499,12 +499,12 @@ function DashboardPreview() {
                     <td className="px-6 py-4 font-body text-sm font-medium" style={{ color: '#18181B' }}>{row.subject}</td>
                     <td className="px-6 py-4 font-body text-sm" style={{ color: '#52525B' }}>{row.assignee}</td>
                     <td className="px-6 py-4">
-                      <span className="font-display text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg" style={{ backgroundColor: 'rgba(86, 213, 0, 0.12)', color: '#56D500' }}>
+                      <span className="font-display text-[8px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg" style={{ backgroundColor: 'rgba(86, 213, 0, 0.12)', color: '#56D500' }}>
                         {row.category}
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="font-display text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg" style={{ backgroundColor: `${row.color}15`, color: row.color }}>
+                      <span className="font-display text-[8px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg" style={{ backgroundColor: `${row.color}15`, color: row.color }}>
                         {row.priority}
                       </span>
                     </td>

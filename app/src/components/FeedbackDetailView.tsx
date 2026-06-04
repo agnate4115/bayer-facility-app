@@ -101,7 +101,7 @@ function RatingBar({ value, label, description }: { value: number; label: string
           <p className="font-display text-sm font-bold text-slate-900  tracking-wide">
             {label}
           </p>
-          <p className="font-body text-[10px] font-medium text-slate-500  mt-0.5">
+          <p className="font-body text-[8px] font-medium text-slate-500  mt-0.5">
             {description}
           </p>
         </div>
@@ -215,7 +215,7 @@ export default function FeedbackDetailView({
               <div className="space-y-2">
                 <h3 className="font-display text-sm font-bold uppercase tracking-widest text-slate-900  flex items-center gap-2">
                   AI Sentiment Analysis
-                  <span className="px-2 py-0.5 rounded-full bg-[#56D500]/10 text-[#56D500] text-[10px] uppercase font-bold tracking-wider">Beta</span>
+                  <span className="px-2 py-0.5 rounded-full bg-[#56D500]/10 text-[#56D500] text-[8px] uppercase font-bold tracking-wider">Beta</span>
                 </h3>
                 <p className="text-slate-600  leading-relaxed font-medium">
                   {feedback.aiSummary}
@@ -300,7 +300,7 @@ export default function FeedbackDetailView({
               <div className="space-y-4">
                 {/* Reviewer */}
                 <div className="p-4 rounded-2xl bg-slate-50 ] border border-slate-100 ">
-                  <div className="text-[10px] font-bold text-slate-400 mb-3 tracking-widest uppercase flex items-center gap-1.5">
+                  <div className="text-[8px] font-bold text-slate-400 mb-3 tracking-widest uppercase flex items-center gap-1.5">
                     <User size={12} /> Submitted By
                   </div>
                   {feedback.submittedBy ? (
@@ -324,7 +324,7 @@ export default function FeedbackDetailView({
 
                 {/* Technician */}
                 <div className="p-4 rounded-2xl bg-indigo-50  border border-indigo-100 ">
-                  <div className="text-[10px] font-bold text-indigo-400  mb-3 tracking-widest uppercase flex items-center gap-1.5">
+                  <div className="text-[8px] font-bold text-indigo-400  mb-3 tracking-widest uppercase flex items-center gap-1.5">
                     <User size={12} /> Technician Reviewed
                   </div>
                   <div className="text-sm font-bold text-indigo-900 ">{feedback.technician}</div>

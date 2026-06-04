@@ -316,21 +316,21 @@ export default function AddOffice() {
               {departments.map((dept) => (
                 <div key={dept.id} className="p-4 rounded-xl border border-gray-200 bg-white flex flex-col md:flex-row gap-4 relative group">
                   <div className="flex-1">
-                    <label className="block font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1.5">Department Type</label>
+                    <label className="block font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1.5">Department Type</label>
                     <select value={dept.name} onChange={(e) => updateDepartmentName(dept.id, e.target.value)}
                       className="w-full px-3 py-2 rounded-lg border border-gray-200 font-body text-sm bg-gray-50 focus:bg-white focus:outline-none focus:border-[#01BEFF]">
                       {DEPARTMENT_TYPES.map(type => <option key={type} value={type}>{type}</option>)}
                     </select>
                   </div>
                   <div className="flex-1">
-                    <label className="block font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1.5">Manager</label>
+                    <label className="block font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1.5">Manager</label>
                     <button onClick={() => { setPersonSearch(''); setShowPersonPicker({ show: true, type: 'dept-manager', deptId: dept.id }); }}
                       className="w-full text-left px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 hover:bg-white hover:border-[#01BEFF] transition-colors flex items-center h-[38px]">
                       {dept.managerId ? <PersonPill personId={dept.managerId} /> : <span className="text-gray-400 font-body text-sm">Assign manager...</span>}
                     </button>
                   </div>
                   <div className="flex-1">
-                    <label className="block font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1.5">Technicians ({dept.technicianIds.length})</label>
+                    <label className="block font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1.5">Technicians ({dept.technicianIds.length})</label>
                     <button onClick={() => { setPersonSearch(''); setShowPersonPicker({ show: true, type: 'dept-techs', deptId: dept.id }); }}
                       className="w-full text-left px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 hover:bg-white hover:border-[#01BEFF] transition-colors flex items-center h-[38px] overflow-hidden">
                       {dept.technicianIds.length > 0 ? (

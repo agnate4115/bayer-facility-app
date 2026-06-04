@@ -202,14 +202,14 @@ export default function AuditLogs() {
           <div className="flex rounded-lg overflow-hidden border border-gray-200">
             <button
               onClick={() => setViewMode('timeline')}
-              className="px-3 py-2 font-display text-[10px] uppercase tracking-wider transition-colors"  style={{ backgroundColor: viewMode === 'timeline' ? BAYER_BLUE : '#FFFFFF',
+              className="px-3 py-2 font-display text-[8px] uppercase tracking-wider transition-colors"  style={{ backgroundColor: viewMode === 'timeline' ? BAYER_BLUE : '#FFFFFF',
                 color: viewMode === 'timeline' ? '#FFFFFF' : '#6B7280' }}
             >
               Timeline
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className="px-3 py-2 font-display text-[10px] uppercase tracking-wider transition-colors"  style={{ backgroundColor: viewMode === 'table' ? BAYER_BLUE : '#FFFFFF',
+              className="px-3 py-2 font-display text-[8px] uppercase tracking-wider transition-colors"  style={{ backgroundColor: viewMode === 'table' ? BAYER_BLUE : '#FFFFFF',
                 color: viewMode === 'table' ? '#FFFFFF' : '#6B7280' }}
             >
               Table
@@ -218,7 +218,7 @@ export default function AuditLogs() {
           <button
             onClick={handleExportToExcel}
               style={{ backgroundColor: BAYER_GREEN }}
-           className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-display text-[10px] uppercase tracking-wider font-semibold text-white transition-colors">
+           className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-display text-[8px] uppercase tracking-wider font-semibold text-white transition-colors">
             <Download size={14} />
             Export
           </button>
@@ -282,7 +282,7 @@ export default function AuditLogs() {
         </div>
         <div className="flex items-center gap-2 mb-3">
           <Filter size={14} className="text-gray-400" />
-          <span className="font-display text-[10px] uppercase tracking-wider text-gray-500">Filters</span>
+          <span className="font-display text-[8px] uppercase tracking-wider text-gray-500">Filters</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <select value={actionFilter} onChange={(e) => { setActionFilter(e.target.value); setPage(1); }}
@@ -356,7 +356,7 @@ export default function AuditLogs() {
                       {/* Timestamp */}
                       <div className="flex items-center gap-1.5 flex-shrink-0">
                         <Clock size={12} className="text-gray-400" />
-                        <span className="font-mono text-[11px] text-gray-400 whitespace-nowrap">
+                        <span className="font-mono text-[9px] text-gray-400 whitespace-nowrap">
                           {formatTimestamp(log.timestamp)}
                         </span>
                       </div>
@@ -373,17 +373,17 @@ export default function AuditLogs() {
                       {/* Action Type Badge */}
                       <span
                           style={{ backgroundColor: `${actionColor}12`, color: actionColor }}
-                       className="font-display text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-md font-semibold">
+                       className="font-display text-[7px] uppercase tracking-widest px-2 py-0.5 rounded-md font-semibold">
                         {log.action_type}
                       </span>
 
                       {/* Entity */}
                       <div className="flex items-center gap-1.5">
                         <EntityIcon size={12} className="text-gray-400" />
-                        <span   style={{ color: BAYER_CYAN }} className="font-mono text-[11px]">
+                        <span   style={{ color: BAYER_CYAN }} className="font-mono text-[9px]">
                           {log.entity}
                         </span>
-                        <span className="font-body text-[10px] text-gray-400">({log.entity_type})</span>
+                        <span className="font-body text-[8px] text-gray-400">({log.entity_type})</span>
                       </div>
                     </div>
                   </div>
@@ -401,11 +401,11 @@ export default function AuditLogs() {
             <table className="w-full">
               <thead>
                 <tr  style={{ backgroundColor: '#F8FAFC', borderBottom: '1px solid #E1E8ED' }}>
-                  <th className="text-left px-4 py-3 font-display text-[10px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Time</th>
-                  <th className="text-left px-4 py-3 font-display text-[10px] uppercase tracking-wider text-gray-500 whitespace-nowrap">User</th>
-                  <th className="text-left px-4 py-3 font-display text-[10px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Action</th>
-                  <th className="text-left px-4 py-3 font-display text-[10px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Entity</th>
-                  <th className="text-left px-4 py-3 font-display text-[10px] uppercase tracking-wider text-gray-500">Details</th>
+                  <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Time</th>
+                  <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500 whitespace-nowrap">User</th>
+                  <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Action</th>
+                  <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Entity</th>
+                  <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500">Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -413,7 +413,7 @@ export default function AuditLogs() {
                   const actionColor = getActionColor(log.action_type);
                   return (
                     <tr key={log.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                      <td className="px-4 py-3.5 font-mono text-[11px] text-gray-500 whitespace-nowrap">
+                      <td className="px-4 py-3.5 font-mono text-[9px] text-gray-500 whitespace-nowrap">
                         {formatTimestamp(log.timestamp)}
                       </td>
                       <td className="px-4 py-3.5">
@@ -421,7 +421,7 @@ export default function AuditLogs() {
                           <img src={log.user_avatar} alt={log.user_name} className="w-6 h-6 rounded-full" />
                           <div>
                             <span className="font-body text-sm text-gray-900 block">{log.user_name}</span>
-                            <span className="font-body text-[10px] text-gray-400">{log.user_email}</span>
+                            <span className="font-body text-[8px] text-gray-400">{log.user_email}</span>
                           </div>
                         </div>
                       </td>
@@ -429,13 +429,13 @@ export default function AuditLogs() {
                         <span className="font-body text-sm text-gray-900 block">{log.action}</span>
                         <span
                             style={{ backgroundColor: `${actionColor}12`, color: actionColor }}
-                         className="font-display text-[9px] uppercase tracking-wider px-2 py-0.5 rounded inline-block mt-1 font-semibold">
+                         className="font-display text-[7px] uppercase tracking-wider px-2 py-0.5 rounded inline-block mt-1 font-semibold">
                           {log.action_type}
                         </span>
                       </td>
                       <td className="px-4 py-3.5">
                         <span   style={{ color: BAYER_CYAN }} className="font-mono text-xs block">{log.entity}</span>
-                        <span className="font-body text-[10px] text-gray-400">{log.entity_type}</span>
+                        <span className="font-body text-[8px] text-gray-400">{log.entity_type}</span>
                       </td>
                       <td className="px-4 py-3.5 font-body text-xs text-gray-600 max-w-xs">{log.details}</td>
                     </tr>

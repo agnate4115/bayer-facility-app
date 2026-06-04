@@ -405,7 +405,7 @@ export default function OfficeManagement() {
           <Link
             to="/admin/offices/new"
               style={{ backgroundColor: BAYER_GREEN }}
-           className="flex items-center gap-2 px-4 py-2 rounded-lg font-display text-[10px] uppercase tracking-wider font-semibold text-white transition-colors flex-shrink-0">
+           className="flex items-center gap-2 px-4 py-2 rounded-lg font-display text-[8px] uppercase tracking-wider font-semibold text-white transition-colors flex-shrink-0">
             <Plus size={14} />
             <span className="hidden sm:inline">Add Office</span>
           </Link>
@@ -437,7 +437,7 @@ export default function OfficeManagement() {
                       <h2 className="font-display text-lg font-semibold truncate text-[#00314E] ">
                         {office.name}
                       </h2>
-                      <span className="font-display text-[9px] uppercase tracking-widest px-2 py-0.5 rounded font-semibold bg-green-50 text-green-700">
+                      <span className="font-display text-[7px] uppercase tracking-widest px-2 py-0.5 rounded font-semibold bg-green-50 text-green-700">
                         {office.status}
                       </span>
                     </div>
@@ -451,12 +451,12 @@ export default function OfficeManagement() {
                 <div className="flex items-center gap-4">
                   {overallManager && (
                     <div className="hidden md:block border-r border-gray-100 pr-4">
-                      <p className="font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1">Overall Manager</p>
+                      <p className="font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1">Overall Manager</p>
                       <PersonPill personId={office.overallManagerId} />
                     </div>
                   )}
                   <div className="hidden sm:block text-center border-r border-gray-100 pr-4">
-                    <p className="font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1">Departments</p>
+                    <p className="font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1">Departments</p>
                     <p className="font-mono text-sm font-semibold">{office.departments.length}</p>
                   </div>
                   <button
@@ -478,7 +478,7 @@ export default function OfficeManagement() {
                     {/* Left Col: Info & Overall Manager */}
                     <div className="space-y-6">
                       <div>
-                        <h3 className="font-display text-[10px] uppercase tracking-wider font-semibold text-gray-400 mb-3">Office Details</h3>
+                        <h3 className="font-display text-[8px] uppercase tracking-wider font-semibold text-gray-400 mb-3">Office Details</h3>
                         <div className="space-y-3">
                           <div className="flex items-start gap-2">
                             <MapPin size={14} className="text-gray-400 mt-0.5" />
@@ -499,13 +499,13 @@ export default function OfficeManagement() {
                       </div>
                       
                       <div>
-                        <h3 className="font-display text-[10px] uppercase tracking-wider font-semibold text-gray-400 mb-3">Overall Manager</h3>
+                        <h3 className="font-display text-[8px] uppercase tracking-wider font-semibold text-gray-400 mb-3">Overall Manager</h3>
                         {overallManager ? (
                           <div className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50">
                             <img src={overallManager.profilePic} alt={overallManager.displayName} className="w-10 h-10 rounded-full" />
                             <div>
                               <p className="font-body text-sm font-semibold text-gray-900">{overallManager.displayName}</p>
-                              <p className="font-body text-[11px] text-gray-500">{overallManager.email}</p>
+                              <p className="font-body text-[9px] text-gray-500">{overallManager.email}</p>
                             </div>
                           </div>
                         ) : (
@@ -516,7 +516,7 @@ export default function OfficeManagement() {
 
                     {/* Right Col: Departments */}
                     <div className="lg:col-span-2">
-                      <h3 className="font-display text-[10px] uppercase tracking-wider font-semibold text-gray-400 mb-3">Departments & Teams</h3>
+                      <h3 className="font-display text-[8px] uppercase tracking-wider font-semibold text-gray-400 mb-3">Departments & Teams</h3>
                       
                       {office.departments.length === 0 ? (
                         <div className="text-center p-6 bg-gray-50 rounded-xl border border-dashed border-gray-200">
@@ -532,14 +532,14 @@ export default function OfficeManagement() {
                               <div key={dept.id} className="p-4 rounded-xl border border-gray-100 bg-white shadow-sm hover:border-gray-200 transition-colors">
                                 <h4 className="font-display text-sm font-semibold text-gray-900 mb-3 flex items-center justify-between">
                                   {dept.name}
-                                  <span className="font-mono text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">
+                                  <span className="font-mono text-[8px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">
                                     {techs.length} tech{techs.length !== 1 && 's'}
                                   </span>
                                 </h4>
                                 
                                 <div className="space-y-2">
                                   <div className="flex items-start justify-between">
-                                    <span className="font-display text-[9px] uppercase text-gray-400 w-16 pt-1">Manager</span>
+                                    <span className="font-display text-[7px] uppercase text-gray-400 w-16 pt-1">Manager</span>
                                     <div className="flex-1">
                                       <PersonPill personId={dept.managerId} />
                                     </div>
@@ -547,7 +547,7 @@ export default function OfficeManagement() {
                                   
                                   {techs.length > 0 && (
                                     <div className="flex items-start justify-between mt-2 pt-2 border-t border-gray-50">
-                                      <span className="font-display text-[9px] uppercase text-gray-400 w-16 pt-1">Team</span>
+                                      <span className="font-display text-[7px] uppercase text-gray-400 w-16 pt-1">Team</span>
                                       <div className="flex-1 flex flex-wrap gap-1">
                                         {techs.map(t => (
                                           <img 
@@ -688,7 +688,7 @@ export default function OfficeManagement() {
                       
                       {/* Dept Name */}
                       <div className="flex-1">
-                        <label className="block font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1">Department Type</label>
+                        <label className="block font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1">Department Type</label>
                         <select
                           value={dept.name}
                           onChange={(e) => updateDepartmentName(dept.id, e.target.value)}
@@ -700,7 +700,7 @@ export default function OfficeManagement() {
 
                       {/* Dept Manager */}
                       <div className="flex-1">
-                        <label className="block font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1">Dept. Manager</label>
+                        <label className="block font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1">Dept. Manager</label>
                         <button 
                           onClick={() => {
                             setPersonSearch('');
@@ -714,7 +714,7 @@ export default function OfficeManagement() {
 
                       {/* Dept Techs */}
                       <div className="flex-1">
-                        <label className="block font-display text-[9px] uppercase tracking-wider text-gray-400 mb-1">Technicians ({dept.technicianIds.length})</label>
+                        <label className="block font-display text-[7px] uppercase tracking-wider text-gray-400 mb-1">Technicians ({dept.technicianIds.length})</label>
                         <button 
                           onClick={() => {
                             setPersonSearch('');

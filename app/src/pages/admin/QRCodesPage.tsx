@@ -109,7 +109,7 @@ export default function QRCodesPage() {
                 <button
                   disabled={!office.qr_pdf_url}
                   onClick={() => window.open(office.qr_pdf_url, '_blank')}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg font-display text-[10px] uppercase tracking-wider transition-all duration-300 hover:shadow-md disabled:opacity-50" style={{ backgroundColor: '#00314E', color: '#FFFFFF' }}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg font-display text-[8px] uppercase tracking-wider transition-all duration-300 hover:shadow-md disabled:opacity-50" style={{ backgroundColor: '#00314E', color: '#FFFFFF' }}
                 >
                   <Download size={12} />
                   Download PDF

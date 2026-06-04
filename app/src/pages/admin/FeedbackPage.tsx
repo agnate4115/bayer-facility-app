@@ -90,22 +90,22 @@ export default function FeedbackPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="p-5 rounded-xl" style={{ backgroundColor: 'var(--surface-mid)', border: '1px solid var(--border-subtle)' }}>
-          <span className="font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Avg Rating</span>
+          <span className="font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Avg Rating</span>
           <div className="flex items-center gap-2 mt-2">
             <span className="font-mono text-2xl" style={{ color: 'var(--text-primary)' }}>{avgRating}</span>
             <span className="text-lg" style={{ color: '#F59E0B' }}>★</span>
           </div>
         </div>
         <div className="p-5 rounded-xl" style={{ backgroundColor: 'var(--surface-mid)', border: '1px solid var(--border-subtle)' }}>
-          <span className="font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Total Reviews</span>
+          <span className="font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Total Reviews</span>
           <span className="block font-mono text-2xl mt-2" style={{ color: 'var(--text-primary)' }}>{feedbacks.length}</span>
         </div>
         <div className="p-5 rounded-xl" style={{ backgroundColor: 'var(--surface-mid)', border: '1px solid var(--border-subtle)' }}>
-          <span className="font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>5-Star Reviews</span>
+          <span className="font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>5-Star Reviews</span>
           <span className="block font-mono text-2xl mt-2" style={{ color: '#009B77' }}>{feedbacks.filter(f => f.overall_rating === 5).length}</span>
         </div>
         <div className="p-5 rounded-xl" style={{ backgroundColor: 'var(--surface-mid)', border: '1px solid var(--border-subtle)' }}>
-          <span className="font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Response Rate</span>
+          <span className="font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Response Rate</span>
           <span className="block font-mono text-2xl mt-2" style={{ color: '#0055FF' }}>--%</span>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function FeedbackPage() {
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>AI Trend Analysis</h2>
-          <span className="px-2 py-1 rounded text-[10px] uppercase tracking-widest" style={{ backgroundColor: 'rgba(0,155,119,0.1)', color: '#009B77' }}>
+          <span className="px-2 py-1 rounded text-[8px] uppercase tracking-widest" style={{ backgroundColor: 'rgba(0,155,119,0.1)', color: '#009B77' }}>
             {period} Report
           </span>
         </div>
@@ -142,11 +142,11 @@ export default function FeedbackPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                <th className="px-6 py-4 font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Ticket</th>
-                <th className="px-6 py-4 font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>User</th>
-                <th className="px-6 py-4 font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Rating</th>
-                <th className="px-6 py-4 font-display text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Date</th>
-                <th className="px-6 py-4 font-display text-[10px] uppercase tracking-widest text-right" style={{ color: 'var(--text-tertiary)' }}>Action</th>
+                <th className="px-6 py-4 font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Ticket</th>
+                <th className="px-6 py-4 font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>User</th>
+                <th className="px-6 py-4 font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Rating</th>
+                <th className="px-6 py-4 font-display text-[8px] uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Date</th>
+                <th className="px-6 py-4 font-display text-[8px] uppercase tracking-widest text-right" style={{ color: 'var(--text-tertiary)' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -179,7 +179,7 @@ export default function FeedbackPage() {
                     <td className="px-6 py-4 text-right">
                       <Link
                         to={`/admin/feedback/${f.id}`}
-                        className="inline-block px-3 py-1.5 rounded font-display text-[10px] uppercase tracking-widest transition-colors"
+                        className="inline-block px-3 py-1.5 rounded font-display text-[8px] uppercase tracking-widest transition-colors"
                         style={{ backgroundColor: 'var(--surface-light)', color: 'var(--text-primary)' }}
                       >
                         View

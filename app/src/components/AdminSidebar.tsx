@@ -75,7 +75,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
               <span className="font-display text-lg font-bold tracking-tight text-[#00314E]  truncate leading-tight">
                 FacilityDesk
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-widest font-semibold text-[#56D500] leading-tight">
+              <span className="font-mono text-[8px] uppercase tracking-widest font-semibold text-[#56D500] leading-tight">
                 Admin Portal
               </span>
             </div>
@@ -165,7 +165,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                 <p className="font-display text-sm font-bold text-slate-900  truncate">
                   {currentAdmin.displayName}
                 </p>
-                <p className="font-mono text-[10px] text-slate-500  truncate flex items-center gap-1 mt-0.5">
+                <p className="font-mono text-[8px] text-slate-500  truncate flex items-center gap-1 mt-0.5">
                   <ShieldAlert size={10} className="text-[#01BEFF]" />
                   {currentAdmin.role}
                 </p>

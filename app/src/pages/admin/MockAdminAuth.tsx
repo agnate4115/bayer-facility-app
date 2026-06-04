@@ -55,7 +55,7 @@ export default function MockAdminAuth() {
         </div>
         
         <div className="relative z-10 hidden md:block">
-          <p className="font-mono text-[10px] text-slate-400 uppercase tracking-[0.2em]">Bayer Global &middot; Authorized Access Only</p>
+          <p className="font-mono text-[8px] text-slate-400 uppercase tracking-[0.2em]">Bayer Global &middot; Authorized Access Only</p>
         </div>
       </div>
 
@@ -158,7 +158,7 @@ export default function MockAdminAuth() {
             <svg className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: '#6B7280' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
-            <p className="font-body text-[11px] leading-relaxed" style={{ color: '#6B7280' }}>
+            <p className="font-body text-[9px] leading-relaxed" style={{ color: '#6B7280' }}>
               Authentication is handled securely by Microsoft Azure Active Directory. Bayer FacilityDesk does not store your credentials.
             </p>
           </div>

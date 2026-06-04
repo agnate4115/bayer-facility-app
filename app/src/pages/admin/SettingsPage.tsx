@@ -270,7 +270,7 @@ export default function SettingsPage() {
             <div
               key={cat.id}
               style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
-              className="group flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-lg font-display text-[10px] uppercase tracking-wider"
+              className="group flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-lg font-display text-[8px] uppercase tracking-wider"
             >
               <span>{cat.name}</span>
               <button 

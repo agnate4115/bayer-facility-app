@@ -202,7 +202,7 @@ export default function DashboardOverview() {
               <button
                 key={range}
                 onClick={() => setTimeRange(range)}
-                className="px-3 py-1.5 rounded-md font-display text-[10px] uppercase tracking-wider transition-colors"  style={{ backgroundColor: timeRange === range ? `${BAYER_CYAN}15` : 'transparent',
+                className="px-3 py-1.5 rounded-md font-display text-[8px] uppercase tracking-wider transition-colors"  style={{ backgroundColor: timeRange === range ? `${BAYER_CYAN}15` : 'transparent',
                   color: timeRange === range ? BAYER_CYAN : 'var(--text-secondary)',
                   border: timeRange === range ? `1px solid ${BAYER_CYAN}30` : '1px solid var(--border-subtle)' }}
               >
@@ -245,7 +245,7 @@ export default function DashboardOverview() {
                 <div   style={{ color: 'var(--text-primary)' }} className="font-mono text-2xl lg:text-3xl font-bold mb-1">
                   {stat.value}
                 </div>
-                <div   style={{ color: 'var(--text-tertiary)' }} className="font-display text-[10px] uppercase tracking-widest">
+                <div   style={{ color: 'var(--text-tertiary)' }} className="font-display text-[8px] uppercase tracking-widest">
                   {stat.label}
                 </div>
               </div>
@@ -336,13 +336,13 @@ export default function DashboardOverview() {
               <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="var(--border-subtle)" />
               <XAxis 
                 dataKey="name" 
-                tick={{ fill: 'var(--text-tertiary)', fontSize: 10, fontFamily: 'monospace' }} 
+                tick={{ fill: 'var(--text-tertiary)', fontSize: 8, fontFamily: 'monospace' }} 
                 axisLine={false} 
                 tickLine={false} 
                 dy={10} 
               />
               <YAxis 
-                tick={{ fill: 'var(--text-tertiary)', fontSize: 10, fontFamily: 'monospace' }} 
+                tick={{ fill: 'var(--text-tertiary)', fontSize: 8, fontFamily: 'monospace' }} 
                 axisLine={false} 
                 tickLine={false} 
                 dx={-10} 
@@ -453,7 +453,7 @@ export default function DashboardOverview() {
                         color: ticket.priority === 'P1' ? '#DC2626' : 
                                ticket.priority === 'P2' ? BAYER_CYAN : BAYER_GREEN 
                       }}
-                   className="font-display text-[9px] uppercase tracking-wider px-2 py-0.5 rounded font-semibold">
+                   className="font-display text-[7px] uppercase tracking-wider px-2 py-0.5 rounded font-semibold">
                     {ticket.priority}
                   </span>
                 </div>

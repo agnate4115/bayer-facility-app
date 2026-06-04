@@ -153,7 +153,7 @@ function MockAuth() {
         </div>
         
         <div className="relative z-10 hidden md:block">
-          <p className="font-mono text-[10px] text-slate-400 uppercase tracking-[0.2em]">Bayer Global &middot; Authorized Access Only</p>
+          <p className="font-mono text-[8px] text-slate-400 uppercase tracking-[0.2em]">Bayer Global &middot; Authorized Access Only</p>
         </div>
       </div>
 
@@ -335,7 +335,7 @@ function ComplaintForm() {
               }}
             />
             <div className="text-right mt-1">
-              <span className="font-body text-[11px]" style={{ color: TEXT_TERTIARY }}>142 / 1000</span>
+              <span className="font-body text-[9px]" style={{ color: TEXT_TERTIARY }}>142 / 1000</span>
             </div>
           </div>
 
@@ -463,7 +463,7 @@ function TicketView() {
         >
           <div className="flex items-center justify-between mb-4">
             <span className="font-mono text-xs font-medium" style={{ color: BAYER_CYAN }}>BYR-THN-2026-003847</span>
-            <span className="font-display text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style={{ backgroundColor: '#F59E0B15', color: '#F59E0B' }}>
+            <span className="font-display text-[8px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style={{ backgroundColor: '#F59E0B15', color: '#F59E0B' }}>
               P2 &middot; High
             </span>
           </div>
@@ -474,10 +474,10 @@ function TicketView() {
             The AC unit in the cafeteria area on Floor 3 has not been operational since morning. Multiple employees are affected. Immediate attention required.
           </p>
           <div className="flex flex-wrap gap-2">
-            <span className="font-display text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style={{ backgroundColor: `${BAYER_CYAN}15`, color: BAYER_CYAN }}>
+            <span className="font-display text-[8px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style={{ backgroundColor: `${BAYER_CYAN}15`, color: BAYER_CYAN }}>
               HVAC / AC
             </span>
-            <span className="font-display text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded" style={{ backgroundColor: BG_GRAY, color: TEXT_SECONDARY }}>
+            <span className="font-display text-[8px] font-medium uppercase tracking-wider px-2.5 py-1 rounded" style={{ backgroundColor: BG_GRAY, color: TEXT_SECONDARY }}>
               Thane &middot; Floor 3 &middot; Cafeteria
             </span>
           </div>
@@ -516,7 +516,7 @@ function TicketView() {
                         {stage}
                       </span>
                       {isCurrent && (
-                        <span className="block font-body text-[11px] font-medium mt-0.5" style={{ color: BAYER_GREEN }}>
+                        <span className="block font-body text-[9px] font-medium mt-0.5" style={{ color: BAYER_GREEN }}>
                           Current stage
                         </span>
                       )}

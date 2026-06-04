@@ -46,7 +46,7 @@ function PersonCard({ person }: { person: AzureAdPerson }) {
             </div>
             <span
                 style={{ backgroundColor: colors.bg, color: colors.text }}
-             className="font-display text-[9px] uppercase tracking-widest px-2.5 py-1 rounded-md font-semibold flex-shrink-0">
+             className="font-display text-[7px] uppercase tracking-widest px-2.5 py-1 rounded-md font-semibold flex-shrink-0">
               {person.role}
             </span>
           </div>
@@ -55,32 +55,32 @@ function PersonCard({ person }: { person: AzureAdPerson }) {
           <div className="mt-3 space-y-1.5">
             <div className="flex items-center gap-2">
               <Briefcase size={12} className="text-gray-400 flex-shrink-0" />
-              <span className="font-body text-[11px] text-gray-600 truncate">{person.department}</span>
+              <span className="font-body text-[9px] text-gray-600 truncate">{person.department}</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin size={12} className="text-gray-400 flex-shrink-0" />
-              <span className="font-body text-[11px] text-gray-600 truncate">{person.office} Office</span>
+              <span className="font-body text-[9px] text-gray-600 truncate">{person.office} Office</span>
             </div>
             <div className="flex items-center gap-2">
               <Mail size={12} className="text-gray-400 flex-shrink-0" />
-              <span className="font-body text-[11px] text-gray-500 truncate">{person.email}</span>
+              <span className="font-body text-[9px] text-gray-500 truncate">{person.email}</span>
             </div>
             <div className="flex items-center gap-2">
               <Hash size={12} className="text-gray-400 flex-shrink-0" />
-              <span className="font-mono text-[10px] text-gray-400 truncate">{person.employeeId}</span>
+              <span className="font-mono text-[8px] text-gray-400 truncate">{person.employeeId}</span>
             </div>
           </div>
 
           {/* Teams Team Name */}
           <div className="mt-3 pt-3 border-t border-gray-100">
             <div className="flex items-center justify-between">
-              <span className="font-body text-[10px] text-gray-400 truncate">
+              <span className="font-body text-[8px] text-gray-400 truncate">
                 Teams: {person.teamsTeamName}
               </span>
               <span
                   style={{ backgroundColor: person.status === 'Active' ? '#22C55E15' : '#EF444415',
                   color: person.status === 'Active' ? '#16A34A' : '#DC2626' }}
-               className="font-display text-[9px] uppercase tracking-wider px-2 py-0.5 rounded font-medium">
+               className="font-display text-[7px] uppercase tracking-wider px-2 py-0.5 rounded font-medium">
                 {person.status}
               </span>
             </div>
@@ -208,7 +208,7 @@ export default function PeopleManagement() {
         {/* Filters */}
         <div className="flex items-center gap-2 mb-3">
           <Filter size={14} className="text-gray-400" />
-          <span className="font-display text-[10px] uppercase tracking-wider text-gray-500">Filters</span>
+          <span className="font-display text-[8px] uppercase tracking-wider text-gray-500">Filters</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <select
