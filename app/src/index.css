@@ -124,12 +124,100 @@
     @apply border-border;
   }
 
+  /* ── Cross-Platform Normalization ──
+     Forces identical rendering on Windows & Mac by overriding
+     OS-native form element styling and font rendering differences. */
+
+  html {
+    /* 80% compact mode: 12.8px = 80% of default 16px */
+    font-size: 12.8px;
+    /* Prevent Windows/mobile from auto-inflating text sizes */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Windows ClearType rendering normalization */
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ── Form Element Normalization ──
+     Remove ALL OS-native styling so buttons, selects, and inputs
+     render identically on Windows and Mac. */
+
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+    /* Remove Windows native padding bloat */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* ── Select / Dropdown Normalization ──
+     Windows selects are notoriously chunky. This forces thin, Mac-like styling. */
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 28px !important;
+    cursor: pointer;
+  }
+
+  /* Remove Windows default select arrow */
+  select::-ms-expand {
+    display: none;
+  }
+
+  /* ── Button Normalization ── */
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    /* Windows adds extra inner padding to buttons */
+    padding: inherit;
+  }
+
+  button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  /* ── Input Normalization ── */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="number"],
+  textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* Remove Windows autofill blue background */
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--surface-mid) inset;
+    -webkit-text-fill-color: inherit;
+  }
+
+  /* ── Scrollbar Normalization (Windows shows thick scrollbars) ── */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-lighter) transparent;
   }
 
   h1, h2, h3, h4, h5, h6 {
