@@ -16,25 +16,26 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        run: |
-          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          IMAGE_NAME="ghcr.io/$REPO_LOWER:backend-${{ github.sha }}"
-          docker build -t $IMAGE_NAME ./backend
-          docker push $IMAGE_NAME
-          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
-
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and Push Docker Image to Azure Container Registry
+        run: |
+          ACR_NAME="cac8d9625509acr"
+          # Log into ACR
+          az acr login -n $ACR_NAME
+          # Build and Push
+          IMAGE_NAME="$ACR_NAME.azurecr.io/bayer-backend:${{ github.sha }}"
+          docker build -t $IMAGE_NAME ./backend
+          docker push $IMAGE_NAME
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          
+          # Get ACR Password for Container App
+          ACR_PASSWORD=$(az acr credential show -n $ACR_NAME --query "passwords[0].value" -o tsv)
+          echo "::add-mask::$ACR_PASSWORD"
+          echo "ACR_PASSWORD=$ACR_PASSWORD" >> $GITHUB_ENV
 
       - name: Deploy Backend to Azure Container Apps
         run: |
@@ -44,6 +45,9 @@ jobs:
             --resource-group bayer-facility-rg \
             --environment bayer-env \
             --image ${{ env.IMAGE_NAME }} \
+            --registry-server cac8d9625509acr.azurecr.io \
+            --registry-username cac8d9625509acr \
+            --registry-password ${{ env.ACR_PASSWORD }} \
             --target-port 8000 \
             --ingress external \
             --env-vars \
