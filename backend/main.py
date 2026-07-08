@@ -20,7 +20,7 @@ app = FastAPI(title="Bayer Facility Management API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://blue-sea-071565b0f.7.azurestaticapps.net",
+        "https://thankful-bay-0a2aa9f00.7.azurestaticapps.net",
         "http://localhost:3000",
         "http://localhost:5173"
     ],
