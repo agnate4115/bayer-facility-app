@@ -33,7 +33,7 @@ def _fmt(n):
 # ══════════════════════════════════════════════════════════════════
 #  DONUT CHART  (priority mix, rating distribution)
 # ══════════════════════════════════════════════════════════════════
-def donut_chart(segments, center_label="", center_sub="", size=200, thickness=30):
+def donut_chart(segments, center_label="", center_sub="", size=140, thickness=22):
     """
     segments: list of dicts {label, value, color}
     Returns an SVG donut with a legend rendered separately by the template.
@@ -79,19 +79,20 @@ def donut_chart(segments, center_label="", center_sub="", size=200, thickness=30
     center = ""
     if center_label:
         center = (
-            f'<text x="{cx}" y="{cy - 2}" text-anchor="middle" '
-            f'font-size="26" font-weight="700" fill="{INK}">{escape(str(center_label))}</text>'
+            f'<text x="{cx}" y="{cy - 1}" text-anchor="middle" '
+            f'font-size="22" font-weight="700" fill="{INK}">{escape(str(center_label))}</text>'
         )
         if center_sub:
             center += (
-                f'<text x="{cx}" y="{cy + 16}" text-anchor="middle" '
-                f'font-size="9" letter-spacing="1" fill="{INK_SOFT}">{escape(str(center_sub)).upper()}</text>'
+                f'<text x="{cx}" y="{cy + 13}" text-anchor="middle" '
+                f'font-size="7.5" letter-spacing="1" fill="{INK_SOFT}">{escape(str(center_sub)).upper()}</text>'
             )
 
+    # Fixed compact size — WeasyPrint does not reliably resolve % widths against
+    # a flex column, so a hard px size guarantees the donut fits the exhibit.
     return (
-        f'<svg viewBox="0 0 {size} {size}" width="100%" height="auto" '
-        f'preserveAspectRatio="xMidYMid meet" '
-        f'style="display:block;width:100%;height:auto;max-width:{size}px;margin:0 auto" '
+        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" '
+        f'style="display:block" '
         f'xmlns="http://www.w3.org/2000/svg">{"".join(parts)}{center}</svg>'
     )
 

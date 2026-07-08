@@ -187,9 +187,8 @@ h2.block-title {
 .exhibit-title { font-size: 10.5pt; font-weight: 700; color: var(--navy); margin: 0.5mm 0 0 0; }
 .exhibit-sub { font-size: 8pt; color: var(--ink-soft); margin-top: 0.5mm; }
 
-.exhibit-row { display: flex; gap: 5mm; align-items: center; }
-.exhibit-row .chart { flex: 0 0 44mm; max-width: 44mm; }
-.exhibit-row .chart svg { width: 100%; height: auto; }
+.exhibit-row { display: flex; gap: 4mm; align-items: center; }
+.exhibit-row .chart { flex: 0 0 140px; width: 140px; }
 .exhibit-row .legend { flex: 1; min-width: 0; }
 
 /* Legend */
