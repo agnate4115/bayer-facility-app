@@ -187,9 +187,11 @@ h2.block-title {
 .exhibit-title { font-size: 10.5pt; font-weight: 700; color: var(--navy); margin: 0.5mm 0 0 0; }
 .exhibit-sub { font-size: 8pt; color: var(--ink-soft); margin-top: 0.5mm; }
 
-.exhibit-row { display: flex; gap: 4mm; align-items: center; }
-.exhibit-row .chart { flex: 0 0 140px; width: 140px; }
-.exhibit-row .legend { flex: 1; min-width: 0; }
+/* Donut + legend stacked vertically — WeasyPrint's flex-shrink starves a
+   side-by-side legend, so we center the donut and list the legend beneath it. */
+.exhibit-row { text-align: center; }
+.exhibit-row .chart { margin: 0 auto 3mm auto; width: 140px; }
+.exhibit-row .legend { text-align: left; margin: 0 auto; max-width: 60mm; }
 
 /* Legend */
 .legend-item { display: flex; align-items: center; gap: 2.5mm; margin-bottom: 2mm; font-size: 8.5pt; }
