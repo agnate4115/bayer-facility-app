@@ -11,8 +11,8 @@ interface BayerLogoBadgeProps {
 export default function BayerLogoBadge({ size = 44, className = '' }: BayerLogoBadgeProps) {
   return (
     <div
-      className={`flex items-center justify-center rounded-full bg-white flex-shrink-0 shadow-sm ${className}`}
-      style={{ width: size, height: size }}
+      className={`flex items-center justify-center rounded-full flex-shrink-0 shadow-sm ${className}`}
+      style={{ width: size, height: size, backgroundColor: '#FFFFFF' }}
     >
       <img
         src="/Bayer-Logo.wine.svg"
