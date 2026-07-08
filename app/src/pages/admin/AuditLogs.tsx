@@ -271,7 +271,7 @@ export default function AuditLogs() {
 
       {/* Search & Filters */}
       <div className="rounded-2xl p-5 mb-6 bg-white  border border-slate-200 ">
-        <div   style={{ backgroundColor: '#F8FAFC', border: '1px solid #E2E8F0' }} className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-4">
+        <div   style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border)' }} className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-4">
           <Search size={16} className="text-gray-400" />
           <input
             type="text"
@@ -400,7 +400,7 @@ export default function AuditLogs() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr  style={{ backgroundColor: '#F8FAFC', borderBottom: '1px solid #E1E8ED' }}>
+                <tr  style={{ backgroundColor: 'var(--surface-light)', borderBottom: '1px solid var(--border)' }}>
                   <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Time</th>
                   <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500 whitespace-nowrap">User</th>
                   <th className="text-left px-4 py-3 font-display text-[8px] uppercase tracking-wider text-gray-500 whitespace-nowrap">Action</th>

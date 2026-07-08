@@ -48,7 +48,7 @@ export default function AppSidebar({
   const isActive = (item: SidebarMenuItem) =>
     item.exact ? location.pathname === item.path : location.pathname.startsWith(item.path);
 
-  const width = collapsed ? '76px' : '272px';
+  const width = collapsed ? '92px' : '272px';
 
   // Shared footer button — one consistent shape for every action row.
   const footerBtn =

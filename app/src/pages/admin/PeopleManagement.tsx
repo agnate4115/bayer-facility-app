@@ -195,7 +195,7 @@ export default function PeopleManagement() {
       {/* Search & Filters */}
       <div className="rounded-2xl p-5 mb-6 bg-white  border border-slate-200 ">
         {/* Search */}
-        <div   style={{ backgroundColor: '#F8FAFC', border: '1px solid #E2E8F0' }} className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-4">
+        <div   style={{ backgroundColor: 'var(--surface-light)', border: '1px solid var(--border)' }} className="flex items-center gap-2 px-4 py-2.5 rounded-xl mb-4">
           <Search size={16} className="text-gray-400" />
           <input
             type="text"

@@ -187,7 +187,7 @@ export default function TicketsPage() {
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead style={{ backgroundColor: '#F8F9FA' }}>
+            <thead style={{ backgroundColor: 'var(--surface-light)' }}>
               <tr>
                 <th className="px-4 py-3 text-left font-display text-xs uppercase tracking-wider text-gray-600">ID</th>
                 <th className="px-4 py-3 text-left font-display text-xs uppercase tracking-wider text-gray-600">Category</th>
