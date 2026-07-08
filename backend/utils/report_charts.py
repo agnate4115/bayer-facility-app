@@ -89,8 +89,9 @@ def donut_chart(segments, center_label="", center_sub="", size=200, thickness=30
             )
 
     return (
-        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" '
-        f'style="max-width:{size}px;height:auto;display:block" '
+        f'<svg viewBox="0 0 {size} {size}" width="100%" height="auto" '
+        f'preserveAspectRatio="xMidYMid meet" '
+        f'style="display:block;width:100%;height:auto;max-width:{size}px;margin:0 auto" '
         f'xmlns="http://www.w3.org/2000/svg">{"".join(parts)}{center}</svg>'
     )
 
