@@ -35,16 +35,21 @@ def generate_office_qr_assets(office_id: str, office_name: str, location_id: str
     c = canvas.Canvas(pdf_buffer, pagesize=A4)
     width, height = A4
     
-    # Draw logo at top
-    logo_path = os.path.join(os.path.dirname(__file__), '../../app/public/Bayer-Logo.wine.png')
-    if os.path.exists(logo_path):
+    # Draw logo at top. Prefer the logo bundled with the backend (exists in the
+    # container); fall back to the frontend copy for local dev.
+    logo_candidates = [
+        os.path.join(os.path.dirname(__file__), '..', 'static', 'Bayer-Logo.wine.png'),
+        os.path.join(os.path.dirname(__file__), '..', '..', 'app', 'public', 'Bayer-Logo.wine.png'),
+    ]
+    logo_path = next((p for p in logo_candidates if os.path.exists(p)), None)
+    if logo_path:
         logo_reader = ImageReader(logo_path)
         img_w, img_h = logo_reader.getSize()
         aspect = img_w / float(img_h)
-        logo_width = 150
+        logo_width = 210
         logo_height = logo_width / aspect
         # Use mask='auto' to respect PNG transparency
-        c.drawImage(logo_reader, (width - logo_width) / 2, height - 60 - logo_height, width=logo_width, height=logo_height, mask='auto')
+        c.drawImage(logo_reader, (width - logo_width) / 2, height - 70 - logo_height, width=logo_width, height=logo_height, mask='auto')
     
     c.setFont("Helvetica-Bold", 32)
     c.drawCentredString(width/2, height - 260, "FacilityDesk")

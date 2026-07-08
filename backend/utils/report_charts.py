@@ -47,24 +47,34 @@ def donut_chart(segments, center_label="", center_sub="", size=200, thickness=30
         return cx + r * math.cos(a), cy + r * math.sin(a)
 
     parts = []
-    start = 0.0
-    for s in segments:
-        frac = s["value"] / total
-        end = start + frac * 360
-        # A tiny gap between segments
-        gap = 1.5 if len(segments) > 1 else 0
-        a0, a1 = start + gap / 2, end - gap / 2
-        if a1 <= a0:
-            a1 = a0 + 0.01
-        x1, y1 = polar(a0)
-        x2, y2 = polar(a1)
-        large = 1 if (a1 - a0) > 180 else 0
-        path = f"M {x1:.2f} {y1:.2f} A {r:.2f} {r:.2f} 0 {large} 1 {x2:.2f} {y2:.2f}"
+    # Count non-zero segments — a lone segment must render as a full ring,
+    # because an SVG arc whose start and end points coincide collapses to nothing.
+    nonzero = [s for s in segments if s["value"] > 0]
+    if len(nonzero) == 1:
         parts.append(
-            f'<path d="{path}" fill="none" stroke="{s["color"]}" '
-            f'stroke-width="{thickness}" stroke-linecap="butt" />'
+            f'<circle cx="{cx}" cy="{cy}" r="{r:.2f}" fill="none" '
+            f'stroke="{nonzero[0]["color"]}" stroke-width="{thickness}" />'
         )
-        start = end
+    else:
+        start = 0.0
+        for s in segments:
+            if s["value"] <= 0:
+                continue
+            frac = s["value"] / total
+            end = start + frac * 360
+            gap = 1.5
+            a0, a1 = start + gap / 2, end - gap / 2
+            if a1 <= a0:
+                a1 = a0 + 0.01
+            x1, y1 = polar(a0)
+            x2, y2 = polar(a1)
+            large = 1 if (a1 - a0) > 180 else 0
+            path = f"M {x1:.2f} {y1:.2f} A {r:.2f} {r:.2f} 0 {large} 1 {x2:.2f} {y2:.2f}"
+            parts.append(
+                f'<path d="{path}" fill="none" stroke="{s["color"]}" '
+                f'stroke-width="{thickness}" stroke-linecap="butt" />'
+            )
+            start = end
 
     center = ""
     if center_label:

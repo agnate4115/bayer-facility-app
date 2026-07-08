@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
-import { Menu, X, LogOut, Ticket, History, MessageSquare, FileText, ChevronRight, CheckCircle, Home, Sun, Moon, Briefcase, Loader2 } from 'lucide-react';
+import { Routes, Route, Link, Navigate } from 'react-router-dom';
+import { Menu, Ticket, History, MessageSquare, FileText, ChevronRight, CheckCircle, Home, Loader2 } from 'lucide-react';
 import NewTicket from './NewTicket';
 import TicketHistory from './TicketHistory';
 import TicketDetail from './TicketDetail';
@@ -11,7 +11,15 @@ import EditFeedback from './EditFeedback';
 import { useTheme } from '@/context/ThemeContext';
 import { currentEmployee, azureAdPeople } from '@/data/azureAdPeople';
 import { API_URL } from '@/config';
-import BayerLogoBadge from '@/components/BayerLogoBadge';
+import AppSidebar, { type SidebarMenuItem } from '@/components/AppSidebar';
+
+const employeeMenu: SidebarMenuItem[] = [
+  { path: '/app/dashboard', icon: Home, label: 'Home', exact: true },
+  { path: '/app/dashboard/new-ticket', icon: Ticket, label: 'New Ticket', exact: true },
+  { path: '/app/dashboard/ticket-history', icon: History, label: 'My Tickets' },
+  { path: '/app/dashboard/feedback', icon: MessageSquare, label: 'Feedback', exact: true },
+  { path: '/app/dashboard/feedback-history', icon: FileText, label: 'My Feedbacks' },
+];
 
 // Mock user data - sourced from Azure AD
 const mockUser = {
@@ -27,179 +35,6 @@ const mockUser = {
 // Bayer colors
 const BAYER_GREEN = '#56D500';
 const BAYER_CYAN = '#01BEFF';
-
-function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const location = useLocation();
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === 'dark';
-
-  const menuItems = [
-    { path: '/app/dashboard', icon: Home, label: 'Home' },
-    { path: '/app/dashboard/new-ticket', icon: Ticket, label: 'New Ticket' },
-    { path: '/app/dashboard/ticket-history', icon: History, label: 'My Tickets' },
-    { path: '/app/dashboard/feedback', icon: MessageSquare, label: 'Feedback' },
-    { path: '/app/dashboard/feedback-history', icon: FileText, label: 'My Feedbacks' },
-  ];
-
-  const isActive = (path: string) => location.pathname === path;
-
-  return (
-    <>
-      {/* Mobile Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
-          onClick={onClose}
-        />
-      )}
-
-      {/* Floating Premium Sidebar */}
-      <aside
-        className={`
-          fixed top-0 left-0 h-[100dvh] z-50 flex flex-col
-          transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen
-          lg:p-4 lg:bg-transparent
-        `}
-        style={{ width: '280px' }}
-      >
-        <div
-          className="flex flex-col h-full lg:rounded-2xl lg:shadow-2xl lg:border overflow-hidden transition-all duration-300 relative"
-          style={{
-            backgroundColor: isDark ? 'var(--surface-mid)' : '#FFFFFF',
-            borderColor: isDark ? 'var(--border-subtle)' : '#E2E8F0',
-          }}
-        >
-          {/* Header */}
-          <div
-            className="h-20 flex items-center px-6 gap-3 flex-shrink-0 border-b relative z-10"
-            style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
-          >
-            <BayerLogoBadge size={42} />
-            <div className="flex flex-col min-w-0">
-              <span className="font-display text-lg font-bold tracking-tight truncate leading-tight" style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}>
-                FacilityDesk
-              </span>
-              <span className="font-mono text-[8px] uppercase tracking-widest font-semibold text-[#01BEFF] leading-tight">
-                Employee Portal
-              </span>
-            </div>
-            {/* Mobile close button */}
-            <button
-              onClick={onClose}
-              className="lg:hidden ml-auto p-2 rounded-xl transition-colors hover:bg-black/5 dark:hover:bg-white/10"
-            >
-              <X size={20} style={{ color: 'var(--text-tertiary)' }} />
-            </button>
-          </div>
-
-          {/* Menu */}
-          <nav className="flex-1 py-6 px-4 flex flex-col gap-1.5 overflow-y-auto z-10 custom-scrollbar">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
-
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={onClose}
-                  className={`
-                    relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 group
-                    ${active ? 'bg-gradient-to-r from-[#56D500]/15 to-transparent' : 'hover:bg-black/5 dark:hover:bg-white/[0.06]'}
-                  `}
-                >
-                  {/* Active Indicator Line */}
-                  {active && (
-                    <div className="absolute left-0 top-2 bottom-2 w-1 bg-[#56D500] rounded-r-full shadow-[0_0_8px_rgba(86,213,0,0.5)]" />
-                  )}
-
-                  <Icon
-                    size={20}
-                    className="flex-shrink-0 transition-colors duration-300"
-                    style={{ color: active ? '#56D500' : 'var(--text-tertiary)' }}
-                  />
-
-                  <span
-                    className="font-display text-sm font-semibold tracking-wide truncate transition-colors duration-300"
-                    style={{ color: active ? (isDark ? 'var(--text-primary)' : '#00314E') : 'var(--text-secondary)' }}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Footer Actions — compact */}
-          <div
-            className="px-[12px] py-[10px] flex flex-col gap-[6px] border-t z-10"
-            style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
-          >
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              title={isDark ? 'Light mode' : 'Dark mode'}
-              className="w-full flex items-center justify-center gap-[8px] h-[34px] rounded-lg transition-all duration-200 hover:bg-black/5 dark:hover:bg-white/[0.06]"
-            >
-              {isDark
-                ? <Sun size={16} className="flex-shrink-0 text-[#38CFFF]" />
-                : <Moon size={16} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
-              <span className="font-display text-[10px] uppercase tracking-wider font-semibold" style={{ color: 'var(--text-secondary)' }}>
-                {isDark ? 'Light' : 'Dark'}
-              </span>
-            </button>
-
-            {/* Logout — slim */}
-            <button
-              onClick={() => {
-                if (confirm('Are you sure you want to log out?')) {
-                  window.location.href = '/';
-                }
-              }}
-              className="w-full flex items-center gap-[10px] px-[10px] h-[34px] rounded-lg transition-all duration-200 group hover:bg-red-500/10"
-            >
-              <LogOut size={16} className="flex-shrink-0 transition-colors group-hover:text-red-500" style={{ color: 'var(--text-tertiary)' }} />
-              <span className="font-display text-[10px] uppercase tracking-wider font-semibold group-hover:text-red-500 transition-colors" style={{ color: 'var(--text-secondary)' }}>Log Out</span>
-            </button>
-          </div>
-
-          {/* Premium Azure AD Badge */}
-          <div
-            className="p-4 border-t z-10 relative overflow-hidden group"
-            style={{
-              borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9',
-              backgroundColor: isDark ? 'var(--surface-dark)' : '#FFFFFF',
-            }}
-          >
-            <div className="flex items-center gap-3 relative z-10">
-              <div className="relative flex-shrink-0">
-                <img
-                  src={currentEmployee.profilePic}
-                  alt={currentEmployee.displayName}
-                  className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover"
-                  title={currentEmployee.displayName}
-                />
-                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#56D500] rounded-full border-2 border-white shadow-[0_0_8px_rgba(86,213,0,0.6)]" />
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <p className="font-display text-sm font-bold truncate" style={{ color: 'var(--text-primary)' }}>
-                  {currentEmployee.displayName}
-                </p>
-                <p className="font-mono text-[8px] truncate flex items-center gap-1 mt-0.5" style={{ color: 'var(--text-tertiary)' }}>
-                  <Briefcase size={10} className="text-[#56D500]" />
-                  {currentEmployee.department}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </>
-  );
-}
 
 function DashboardHome() {
   const currentHour = new Date().getHours();
@@ -422,7 +257,19 @@ export default function EmployeeDashboard() {
 
   return (
     <div className="dashboard-shell min-h-screen flex" style={{ backgroundColor: isDark ? 'var(--surface-dark)' : '#F9FAFB' }}>
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <AppSidebar
+        portalLabel="Employee Portal"
+        accent="#01BEFF"
+        items={employeeMenu}
+        storageKey="facilitydesk-emp-sidebar-collapsed"
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        user={{
+          name: currentEmployee.displayName,
+          subtitle: currentEmployee.department,
+          avatar: currentEmployee.profilePic,
+        }}
+      />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}

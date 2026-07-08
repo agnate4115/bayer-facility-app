@@ -17,7 +17,7 @@ export default function BayerLogoBadge({ size = 44, className = '' }: BayerLogoB
       <img
         src="/Bayer-Logo.wine.svg"
         alt="Bayer"
-        style={{ width: size * 0.72, height: size * 0.72, objectFit: 'contain' }}
+        style={{ width: size * 0.92, height: size * 0.92, objectFit: 'contain' }}
       />
     </div>
   );
