@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <style>{{ css }}</style>
+</head>
+<body>
+
+  <!-- ══════════════ COVER ══════════════ -->
+  <div class="cover">
+    <div class="accent-bar"></div>
+    <div class="wordmark">Bayer<span>.</span></div>
+    <div style="margin-top:40mm">
+      <div class="eyebrow">FacilityDesk Analytics · {{ period_label }} Review</div>
+      <h1>Facility Operations<br/>Performance Report</h1>
+      <div class="subtitle">
+        Ticket intake, resolution performance, and operational risk across
+        {{ office_label }} for the {{ period_label|lower }} reporting period.
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="k">Scope</div><div class="v">{{ office_label }}</div></div>
+      <div class="meta-item"><div class="k">Period</div><div class="v">{{ date_range }}</div></div>
+      <div class="meta-item"><div class="k">Tickets</div><div class="v">{{ total }}</div></div>
+      <div class="meta-item"><div class="k">Generated</div><div class="v">{{ generated_at }}</div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ EXECUTIVE SUMMARY ══════════════ -->
+  <div class="section">
+    <div class="section-kicker">01 · Executive Summary</div>
+    <h1 class="section-title">The story in brief</h1>
+    <div class="section-rule"></div>
+
+    <p class="lead">{{ summary_html|safe }}</p>
+
+    <div class="takeaways">
+      <div class="t-head">Key Takeaways</div>
+      <ol>
+        {% for t in takeaways %}<li>{{ t|safe }}</li>{% endfor %}
+      </ol>
+    </div>
+
+    <!-- KPI STRIP -->
+    <div class="kpi-strip">
+      <div class="kpi" style="--accent: var(--navy)">
+        <div class="k-val">{{ total }}</div>
+        <div class="k-lbl">Total Tickets</div>
+      </div>
+      <div class="kpi" style="--accent: var(--green)">
+        <div class="k-val">{{ resolution_rate }}%</div>
+        <div class="k-lbl">Resolution Rate</div>
+        <div class="k-delta {{ res_trend_cls }}">{{ res_trend_txt }}</div>
+      </div>
+      <div class="kpi" style="--accent: var(--cyan)">
+        <div class="k-val">{{ resolved }}</div>
+        <div class="k-lbl">Resolved</div>
+      </div>
+      <div class="kpi" style="--accent: var(--amber)">
+        <div class="k-val">{{ open_count }}</div>
+        <div class="k-lbl">Still Open</div>
+      </div>
+      <div class="kpi" style="--accent: var(--red)">
+        <div class="k-val">{{ p1_count }}</div>
+        <div class="k-lbl">P1 Critical</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ VOLUME & TREND ══════════════ -->
+  <div class="section">
+    <div class="section-kicker">02 · Demand Profile</div>
+    <h1 class="section-title">Where the work is coming from</h1>
+    <div class="section-rule"></div>
+
+    <!-- Exhibit 1: daily trend -->
+    <div class="exhibit">
+      <div class="exhibit-head">
+        <div class="exhibit-label">Exhibit 1</div>
+        <div class="exhibit-title">Daily ticket volume — opened vs. resolved</div>
+        <div class="exhibit-sub">Trailing {{ trend_days }} days · {{ office_label }}</div>
+      </div>
+      {{ trend_svg|safe }}
+      <div style="display:flex; gap:6mm; margin-top:2mm; font-size:8pt;">
+        <span><span class="legend-swatch" style="display:inline-block;background:var(--navy)"></span> Opened</span>
+        <span><span class="legend-swatch" style="display:inline-block;background:var(--green)"></span> Resolved</span>
+      </div>
+    </div>
+
+    <!-- Exhibit 2 + 3 side by side -->
+    <div class="grid-2">
+      <div class="exhibit">
+        <div class="exhibit-head">
+          <div class="exhibit-label">Exhibit 2</div>
+          <div class="exhibit-title">Priority mix</div>
+        </div>
+        <div class="exhibit-row">
+          <div class="chart">{{ priority_donut|safe }}</div>
+          <div class="legend">
+            {% for s in priority_legend %}
+            <div class="legend-item">
+              <span class="legend-swatch" style="background:{{ s.color }}"></span>
+              <span class="l-label">{{ s.label }}</span>
+              <span class="l-val">{{ s.value }}</span>
+              <span class="l-pct">{{ s.pct }}%</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="exhibit">
+        <div class="exhibit-head">
+          <div class="exhibit-label">Exhibit 3</div>
+          <div class="exhibit-title">Tickets by category</div>
+        </div>
+        {{ category_hbar|safe }}
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ OFFICE BREAKDOWN ══════════════ -->
+  {% if show_offices %}
+  <div class="section page-break">
+    <div class="section-kicker">03 · Portfolio View</div>
+    <h1 class="section-title">Performance across offices</h1>
+    <div class="section-rule"></div>
+
+    <div class="exhibit">
+      <div class="exhibit-head">
+        <div class="exhibit-label">Exhibit 4</div>
+        <div class="exhibit-title">Ticket load by office</div>
+      </div>
+      {{ office_hbar|safe }}
+    </div>
+
+    <h2 class="block-title">Office-level detail</h2>
+    <table class="data">
+      <thead>
+        <tr><th>Office</th><th class="num">Tickets</th><th class="num">% Share</th><th class="num">P1 Critical</th><th class="num">Resolution</th></tr>
+      </thead>
+      <tbody>
+        {% for o in office_rows %}
+        <tr>
+          <td>{{ o.name }}</td>
+          <td class="num">{{ o.count }}</td>
+          <td class="num">{{ o.pct }}%</td>
+          <td class="num">{{ o.p1 }}</td>
+          <td class="num">{{ o.res }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <!-- ══════════════ CATEGORY BREAKDOWN ══════════════ -->
+  <div class="section {% if not show_offices %}page-break{% endif %}">
+    <div class="section-kicker">04 · Root-Cause Lens</div>
+    <h1 class="section-title">What is driving demand</h1>
+    <div class="section-rule"></div>
+
+    <table class="data">
+      <thead>
+        <tr><th>Category</th><th class="num">Tickets</th><th class="num">% of Total</th><th>Dominant Priority</th></tr>
+      </thead>
+      <tbody>
+        {% for c in category_rows %}
+        <tr>
+          <td class="bar-cell"><span class="mini" style="width:{{ c.bar }}mm"></span>{{ c.name }}</td>
+          <td class="num">{{ c.count }}</td>
+          <td class="num">{{ c.pct }}%</td>
+          <td><span class="pill {{ c.pri_cls }}">{{ c.pri }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════ INSIGHTS ══════════════ -->
+  <div class="section">
+    <div class="section-kicker">05 · Recommendations</div>
+    <h1 class="section-title">Insights &amp; recommended actions</h1>
+    <div class="section-rule"></div>
+
+    {% for i in insights %}
+    <div class="insight {{ i.sev }}">
+      <div class="tag"></div>
+      <div class="body">
+        <div class="i-title">{{ i.title }}<span class="sev">{{ i.sev_label }}</span></div>
+        <div class="i-body">{{ i.body|safe }}</div>
+        {% if i.rec %}<div class="i-rec"><b>Recommendation:</b> {{ i.rec|safe }}</div>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ══════════════ APPENDIX: RECENT TICKETS ══════════════ -->
+  {% if recent %}
+  <div class="section page-break">
+    <div class="section-kicker">Appendix A</div>
+    <h1 class="section-title">Recent ticket ledger</h1>
+    <div class="section-rule"></div>
+    <table class="data">
+      <thead>
+        <tr><th>ID</th><th>Category</th><th>Priority</th><th>Status</th><th>Office</th><th>Created</th></tr>
+      </thead>
+      <tbody>
+        {% for t in recent %}
+        <tr>
+          <td style="font-family:monospace">{{ t.id }}</td>
+          <td>{{ t.category }}</td>
+          <td><span class="pill {{ t.pri_cls }}">{{ t.priority }}</span></td>
+          <td>{{ t.status }}</td>
+          <td>{{ t.office }}</td>
+          <td>{{ t.created }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="footnote">
+    Source: Bayer FacilityDesk live operational database. Figures reflect tickets with a creation
+    timestamp inside the stated reporting window; resolution rate is computed as (Resolved + Closed) ÷ Total.
+    This document is auto-generated and intended for internal management use only.
+    For methodology questions contact facilities@bayer.com.
+  </div>
+
+</body>
+</html>

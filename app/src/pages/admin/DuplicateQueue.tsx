@@ -287,7 +287,7 @@ export default function DuplicateQueue() {
   };
 
   return (
-    <div className="p-6 lg:p-8" style={{ backgroundColor: '#FAFAFA', minHeight: '100vh' }}>
+    <div className="p-6 lg:p-8" style={{ backgroundColor: 'var(--surface-dark)', minHeight: '100vh' }}>
       <div className="mb-6">
         <h1 className="font-display text-xl lg:text-2xl font-medium text-gray-900">Duplicate Tickets</h1>
         <p className="font-body text-sm mt-1 text-gray-600">Review AI-flagged potential duplicate tickets</p>
@@ -382,7 +382,7 @@ export default function DuplicateQueue() {
               {/* Side-by-side comparison */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Original Ticket */}
-                <div className="rounded-lg border-2 border-gray-200 p-4" style={{ backgroundColor: '#F9FAFB' }}>
+                <div className="rounded-lg border-2 border-gray-200 p-4" style={{ backgroundColor: 'var(--surface-light)' }}>
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="font-display text-xs uppercase tracking-wider font-medium text-gray-500">Original Ticket</h4>
                     <span className="font-mono text-xs text-blue-600">{dup.original.id}</span>
@@ -426,7 +426,7 @@ export default function DuplicateQueue() {
                 </div>
 
                 {/* Potential Duplicate */}
-                <div className="rounded-lg border-2 p-4" style={{ borderColor: '#3B82F6', backgroundColor: '#FFFFFF' }}>
+                <div className="rounded-lg border-2 p-4" style={{ borderColor: '#3B82F6', backgroundColor: 'var(--surface-mid)' }}>
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="font-display text-xs uppercase tracking-wider font-medium" style={{ color: '#3B82F6' }}>Potential Duplicate</h4>
                     <span className="font-mono text-xs" style={{ color: '#3B82F6' }}>{dup.duplicate.id}</span>

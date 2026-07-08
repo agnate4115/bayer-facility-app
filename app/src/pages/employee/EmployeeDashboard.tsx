@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
-import { Menu, X, LogOut, Ticket, History, MessageSquare, FileText, ChevronRight, ChevronLeft, CheckCircle, Home, Sun, Moon, Briefcase, MapPin, Mail, Hash, Loader2 } from 'lucide-react';
+import { Menu, X, LogOut, Ticket, History, MessageSquare, FileText, ChevronRight, CheckCircle, Home, Sun, Moon, Briefcase, Loader2 } from 'lucide-react';
 import NewTicket from './NewTicket';
 import TicketHistory from './TicketHistory';
 import TicketDetail from './TicketDetail';
@@ -25,11 +25,12 @@ const mockUser = {
 
 // Bayer colors
 const BAYER_GREEN = '#56D500';
-const BAYER_BLUE = '#00314E';
 const BAYER_CYAN = '#01BEFF';
 
 function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
 
   const menuItems = [
     { path: '/app/dashboard', icon: Home, label: 'Home' },
@@ -46,7 +47,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
           onClick={onClose}
         />
       )}
@@ -62,13 +63,21 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
         `}
         style={{ width: '280px' }}
       >
-        <div className="flex flex-col h-full bg-white lg:rounded-2xl lg:shadow-2xl lg:border border-slate-200 overflow-hidden transition-all duration-300 relative">
-
+        <div
+          className="flex flex-col h-full lg:rounded-2xl lg:shadow-2xl lg:border overflow-hidden transition-all duration-300 relative"
+          style={{
+            backgroundColor: isDark ? 'var(--surface-mid)' : '#FFFFFF',
+            borderColor: isDark ? 'var(--border-subtle)' : '#E2E8F0',
+          }}
+        >
           {/* Header */}
-          <div className="h-20 flex items-center px-6 gap-3 flex-shrink-0 border-b border-slate-100 relative z-10">
+          <div
+            className="h-20 flex items-center px-6 gap-3 flex-shrink-0 border-b relative z-10"
+            style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
+          >
             <img src="/Bayer-Logo.wine.svg" alt="Bayer" className="h-10 w-auto flex-shrink-0 drop-shadow-sm" />
             <div className="flex flex-col min-w-0">
-              <span className="font-display text-lg font-bold tracking-tight text-[#00314E] truncate leading-tight">
+              <span className="font-display text-lg font-bold tracking-tight truncate leading-tight" style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}>
                 FacilityDesk
               </span>
               <span className="font-mono text-[8px] uppercase tracking-widest font-semibold text-[#01BEFF] leading-tight">
@@ -78,9 +87,9 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             {/* Mobile close button */}
             <button
               onClick={onClose}
-              className="lg:hidden ml-auto p-2 hover:bg-slate-100 rounded-xl transition-colors"
+              className="lg:hidden ml-auto p-2 rounded-xl transition-colors hover:bg-black/5 dark:hover:bg-white/10"
             >
-              <X size={20} className="text-slate-500" />
+              <X size={20} style={{ color: 'var(--text-tertiary)' }} />
             </button>
           </div>
 
@@ -89,7 +98,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             {menuItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
-              
+
               return (
                 <Link
                   key={item.path}
@@ -97,27 +106,24 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                   onClick={onClose}
                   className={`
                     relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 group
-                    ${active 
-                      ? 'bg-gradient-to-r from-[#56D500]/10 to-transparent' 
-                      : 'hover:bg-slate-50'
-                    }
+                    ${active ? 'bg-gradient-to-r from-[#56D500]/15 to-transparent' : 'hover:bg-black/5 dark:hover:bg-white/[0.06]'}
                   `}
                 >
                   {/* Active Indicator Line */}
                   {active && (
                     <div className="absolute left-0 top-2 bottom-2 w-1 bg-[#56D500] rounded-r-full shadow-[0_0_8px_rgba(86,213,0,0.5)]" />
                   )}
-                  
-                  <Icon 
-                    size={20} 
-                    className={`flex-shrink-0 transition-colors duration-300 ${
-                      active ? 'text-[#56D500]' : 'text-slate-400 group-hover:text-slate-600'
-                    }`} 
+
+                  <Icon
+                    size={20}
+                    className="flex-shrink-0 transition-colors duration-300"
+                    style={{ color: active ? '#56D500' : 'var(--text-tertiary)' }}
                   />
-                  
-                  <span className={`font-display text-sm font-semibold tracking-wide truncate transition-colors duration-300 ${
-                    active ? 'text-[#00314E]' : 'text-slate-600 group-hover:text-slate-900'
-                  }`}>
+
+                  <span
+                    className="font-display text-sm font-semibold tracking-wide truncate transition-colors duration-300"
+                    style={{ color: active ? (isDark ? 'var(--text-primary)' : '#00314E') : 'var(--text-secondary)' }}
+                  >
                     {item.label}
                   </span>
                 </Link>
@@ -126,7 +132,23 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
           </nav>
 
           {/* Footer Actions */}
-          <div className="p-4 flex flex-col gap-2 border-t border-slate-100 z-10 bg-slate-50/50">
+          <div
+            className="p-4 flex flex-col gap-2 border-t z-10"
+            style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
+          >
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group hover:bg-black/5 dark:hover:bg-white/[0.06]"
+            >
+              {isDark
+                ? <Sun size={20} className="flex-shrink-0 text-[#01BEFF]" />
+                : <Moon size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
+              <span className="font-display text-xs uppercase tracking-wider font-semibold" style={{ color: 'var(--text-secondary)' }}>
+                {isDark ? 'Light Mode' : 'Dark Mode'}
+              </span>
+            </button>
+
             {/* Logout */}
             <button
               onClick={() => {
@@ -134,18 +156,21 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                   window.location.href = '/';
                 }
               }}
-              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 hover:bg-red-50 group border border-transparent hover:border-red-100"
+              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group border border-transparent hover:bg-red-500/10 hover:border-red-500/20"
             >
-              <LogOut size={20} className="flex-shrink-0 text-slate-400 group-hover:text-red-500 transition-colors" />
-              <span className="font-display text-xs uppercase tracking-wider font-semibold text-slate-600 group-hover:text-red-600 transition-colors">Log Out</span>
+              <LogOut size={20} className="flex-shrink-0 transition-colors group-hover:text-red-500" style={{ color: 'var(--text-tertiary)' }} />
+              <span className="font-display text-xs uppercase tracking-wider font-semibold group-hover:text-red-500 transition-colors" style={{ color: 'var(--text-secondary)' }}>Log Out</span>
             </button>
           </div>
 
           {/* Premium Azure AD Badge */}
-          <div className="p-4 border-t border-slate-100 bg-white z-10 relative overflow-hidden group">
-            {/* Subtle glow on hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#56D500]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+          <div
+            className="p-4 border-t z-10 relative overflow-hidden group"
+            style={{
+              borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9',
+              backgroundColor: isDark ? 'var(--surface-dark)' : '#FFFFFF',
+            }}
+          >
             <div className="flex items-center gap-3 relative z-10">
               <div className="relative flex-shrink-0">
                 <img
@@ -156,12 +181,12 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
                 />
                 <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#56D500] rounded-full border-2 border-white shadow-[0_0_8px_rgba(86,213,0,0.6)]" />
               </div>
-              
+
               <div className="flex-1 min-w-0">
-                <p className="font-display text-sm font-bold text-slate-900 truncate">
+                <p className="font-display text-sm font-bold truncate" style={{ color: 'var(--text-primary)' }}>
                   {currentEmployee.displayName}
                 </p>
-                <p className="font-mono text-[8px] text-slate-500 truncate flex items-center gap-1 mt-0.5">
+                <p className="font-mono text-[8px] truncate flex items-center gap-1 mt-0.5" style={{ color: 'var(--text-tertiary)' }}>
                   <Briefcase size={10} className="text-[#56D500]" />
                   {currentEmployee.department}
                 </p>
@@ -177,7 +202,14 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
 function DashboardHome() {
   const currentHour = new Date().getHours();
   const greeting = currentHour < 12 ? 'Good morning' : currentHour < 18 ? 'Good afternoon' : 'Good evening';
-  
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
+  const cardStyle = {
+    backgroundColor: 'var(--surface-mid)',
+    borderColor: 'var(--border-subtle)',
+  };
+
   const [tickets, setTickets] = useState<any[]>([]);
   const [feedbacks, setFeedbacks] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -192,7 +224,7 @@ function DashboardHome() {
           fetch(`${API_URL}/api/tickets/`),
           fetch(`${API_URL}/api/feedback/?user_id=${user_id}`)
         ]);
-        
+
         if (tRes.ok) {
           const allTickets = await tRes.json();
           setTickets(allTickets.filter((t: any) => t.user_id === user_id || t.user_name === mockUser.name));
@@ -214,7 +246,7 @@ function DashboardHome() {
   const resolvedRequests = tickets.filter(t => t.status === 'Resolved' || t.status === 'Closed').length;
   const resolutionRate = totalRequests > 0 ? Math.round((resolvedRequests / totalRequests) * 100) : 0;
   const totalFeedbacks = feedbacks.length;
-  
+
   const recentTickets = [...tickets].sort((a, b) => new Date(b.updated_at || b.created_at).getTime() - new Date(a.updated_at || a.created_at).getTime()).slice(0, 3);
 
   if (isLoading) {
@@ -229,51 +261,51 @@ function DashboardHome() {
     <div className="max-w-7xl mx-auto">
       {/* Header Section */}
       <div className="mb-8">
-        <p className="font-body text-sm text-gray-500 mb-1">{greeting}</p>
-        <h1 className="font-display text-3xl sm:text-4xl font-bold mb-1 text-[#00314E] ">
+        <p className="font-body text-sm mb-1" style={{ color: 'var(--text-tertiary)' }}>{greeting}</p>
+        <h1 className="font-display text-3xl sm:text-4xl font-bold mb-1" style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}>
           {mockUser.name}
         </h1>
-        <p className="font-body text-sm text-gray-600">
+        <p className="font-body text-sm" style={{ color: 'var(--text-secondary)' }}>
           {mockUser.designation} · {mockUser.department}
         </p>
       </div>
 
       {/* Stats Overview - Top Priority */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl p-5 border border-gray-200">
+        <div className="rounded-xl p-5 border" style={cardStyle}>
           <div className="flex items-baseline justify-between mb-1">
-            <span className="font-display text-3xl font-bold text-[#00314E] ">{totalRequests}</span>
-            <Ticket size={18} className="text-gray-400" />
+            <span className="font-display text-3xl font-bold" style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}>{totalRequests}</span>
+            <Ticket size={18} style={{ color: 'var(--text-tertiary)' }} />
           </div>
-          <p className="font-body text-sm font-medium text-gray-700">Total Requests</p>
-          <p className="font-body text-xs text-gray-500 mt-1">Overall</p>
+          <p className="font-body text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Total Requests</p>
+          <p className="font-body text-xs mt-1" style={{ color: 'var(--text-tertiary)' }}>Overall</p>
         </div>
 
-        <div   style={{ backgroundColor: '#FFF7ED' }} className="bg-white rounded-xl p-5 border-2 border-orange-200">
+        <div className="rounded-xl p-5 border-2" style={{ backgroundColor: isDark ? 'rgba(249,115,22,0.08)' : '#FFF7ED', borderColor: isDark ? 'rgba(249,115,22,0.3)' : '#FED7AA' }}>
           <div className="flex items-baseline justify-between mb-1">
-            <span className="font-display text-3xl font-bold text-orange-600">{activeRequests}</span>
+            <span className="font-display text-3xl font-bold" style={{ color: isDark ? '#FB923C' : '#EA580C' }}>{activeRequests}</span>
             <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
           </div>
-          <p className="font-body text-sm font-medium text-gray-900">Active</p>
-          <p className="font-body text-xs text-gray-600 mt-1">In progress</p>
+          <p className="font-body text-sm font-medium" style={{ color: isDark ? 'var(--text-primary)' : '#111827' }}>Active</p>
+          <p className="font-body text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>In progress</p>
         </div>
 
-        <div className="bg-white rounded-xl p-5 border border-gray-200">
+        <div className="rounded-xl p-5 border" style={cardStyle}>
           <div className="flex items-baseline justify-between mb-1">
-            <span   style={{ color: BAYER_GREEN }} className="font-display text-3xl font-bold">{resolvedRequests}</span>
-            <CheckCircle size={18}  style={{ color: BAYER_GREEN }} />
+            <span className="font-display text-3xl font-bold" style={{ color: BAYER_GREEN }}>{resolvedRequests}</span>
+            <CheckCircle size={18} style={{ color: BAYER_GREEN }} />
           </div>
-          <p className="font-body text-sm font-medium text-gray-700">Resolved</p>
-          <p className="font-body text-xs text-gray-500 mt-1">{resolutionRate}% resolution rate</p>
+          <p className="font-body text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Resolved</p>
+          <p className="font-body text-xs mt-1" style={{ color: 'var(--text-tertiary)' }}>{resolutionRate}% resolution rate</p>
         </div>
 
-        <div className="bg-white rounded-xl p-5 border border-gray-200">
+        <div className="rounded-xl p-5 border" style={cardStyle}>
           <div className="flex items-baseline justify-between mb-1">
-            <span   style={{ color: BAYER_CYAN }} className="font-display text-3xl font-bold">{totalFeedbacks}</span>
-            <MessageSquare size={18} className="text-gray-400" />
+            <span className="font-display text-3xl font-bold" style={{ color: BAYER_CYAN }}>{totalFeedbacks}</span>
+            <MessageSquare size={18} style={{ color: 'var(--text-tertiary)' }} />
           </div>
-          <p className="font-body text-sm font-medium text-gray-700">Feedbacks</p>
-          <p className="font-body text-xs text-gray-500 mt-1">Total submitted</p>
+          <p className="font-body text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Feedbacks</p>
+          <p className="font-body text-xs mt-1" style={{ color: 'var(--text-tertiary)' }}>Total submitted</p>
         </div>
       </div>
 
@@ -282,8 +314,8 @@ function DashboardHome() {
         {/* Primary CTA */}
         <Link
           to="/app/dashboard/new-ticket"
-            style={{ background: `linear-gradient(135deg, ${BAYER_GREEN} 0%, #45b000 100%)` }}
-         className="lg:col-span-2 group relative overflow-hidden rounded-2xl p-8 sm:p-10 transition-all hover:shadow-2xl">
+          style={{ background: `linear-gradient(135deg, ${BAYER_GREEN} 0%, #45b000 100%)` }}
+          className="lg:col-span-2 group relative overflow-hidden rounded-2xl p-8 sm:p-10 transition-all hover:shadow-2xl">
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm mb-4">
               <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -307,67 +339,70 @@ function DashboardHome() {
         <div className="flex flex-col gap-3">
           <Link
             to="/app/dashboard/ticket-history"
-            className="group flex items-center gap-4 bg-white rounded-xl p-5 border border-gray-200 hover:border-gray-300 transition-all hover:shadow-md"
+            className="group flex items-center gap-4 rounded-xl p-5 border transition-all hover:shadow-md"
+            style={cardStyle}
           >
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-blue-50 group-hover:bg-blue-100 transition-colors">
-              <History size={22}  style={{ color: BAYER_CYAN }} />
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: isDark ? 'rgba(1,190,255,0.12)' : '#EFF6FF' }}>
+              <History size={22} style={{ color: BAYER_CYAN }} />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-display text-sm font-bold text-gray-900">My Tickets</h3>
-              <p className="font-body text-xs text-gray-600">Track requests</p>
+              <h3 className="font-display text-sm font-bold" style={{ color: 'var(--text-primary)' }}>My Tickets</h3>
+              <p className="font-body text-xs" style={{ color: 'var(--text-secondary)' }}>Track requests</p>
             </div>
-            <ChevronRight size={16} className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-0.5 transition-all" />
+            <ChevronRight size={16} style={{ color: 'var(--text-tertiary)' }} className="group-hover:translate-x-0.5 transition-all" />
           </Link>
 
           <Link
             to="/app/dashboard/feedback"
-            className="group flex items-center gap-4 bg-white rounded-xl p-5 border border-gray-200 hover:border-gray-300 transition-all hover:shadow-md"
+            className="group flex items-center gap-4 rounded-xl p-5 border transition-all hover:shadow-md"
+            style={cardStyle}
           >
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-amber-50 group-hover:bg-amber-100 transition-colors">
-              <MessageSquare size={22} className="text-amber-600" />
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: isDark ? 'rgba(245,158,11,0.12)' : '#FFFBEB' }}>
+              <MessageSquare size={22} className="text-amber-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-display text-sm font-bold text-gray-900">Give Feedback</h3>
-              <p className="font-body text-xs text-gray-600">Rate service</p>
+              <h3 className="font-display text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Give Feedback</h3>
+              <p className="font-body text-xs" style={{ color: 'var(--text-secondary)' }}>Rate service</p>
             </div>
-            <ChevronRight size={16} className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-0.5 transition-all" />
+            <ChevronRight size={16} style={{ color: 'var(--text-tertiary)' }} className="group-hover:translate-x-0.5 transition-all" />
           </Link>
 
           <Link
             to="/app/dashboard/feedback-history"
-            className="group flex items-center gap-4 bg-white rounded-xl p-5 border border-gray-200 hover:border-gray-300 transition-all hover:shadow-md"
+            className="group flex items-center gap-4 rounded-xl p-5 border transition-all hover:shadow-md"
+            style={cardStyle}
           >
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 group-hover:bg-gray-200 transition-colors">
-              <FileText size={22} className="text-gray-600" />
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: isDark ? 'var(--surface-light)' : '#F3F4F6' }}>
+              <FileText size={22} style={{ color: 'var(--text-secondary)' }} />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-display text-sm font-bold text-gray-900">My Feedbacks</h3>
-              <p className="font-body text-xs text-gray-600">Past feedback</p>
+              <h3 className="font-display text-sm font-bold" style={{ color: 'var(--text-primary)' }}>My Feedbacks</h3>
+              <p className="font-body text-xs" style={{ color: 'var(--text-secondary)' }}>Past feedback</p>
             </div>
-            <ChevronRight size={16} className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-0.5 transition-all" />
+            <ChevronRight size={16} style={{ color: 'var(--text-tertiary)' }} className="group-hover:translate-x-0.5 transition-all" />
           </Link>
         </div>
       </div>
 
       {/* Recent Activity */}
       {recentTickets.length > 0 && (
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="rounded-xl border p-6" style={cardStyle}>
           <div className="flex items-center justify-between mb-5">
-            <h3 className="font-display text-base font-bold text-gray-900">Recent Activity</h3>
-            <Link to="/app/dashboard/ticket-history"   style={{ color: BAYER_CYAN }} className="font-body text-sm font-medium hover:underline">
+            <h3 className="font-display text-base font-bold" style={{ color: 'var(--text-primary)' }}>Recent Activity</h3>
+            <Link to="/app/dashboard/ticket-history" style={{ color: BAYER_CYAN }} className="font-body text-sm font-medium hover:underline">
               View all
             </Link>
           </div>
           <div className="space-y-4">
             {recentTickets.map((t, index) => (
-              <div key={t.id} className={`flex items-start gap-3 pb-4 ${index !== recentTickets.length - 1 ? 'border-b border-gray-100' : ''}`}>
+              <div key={t.id} className="flex items-start gap-3 pb-4" style={{ borderBottom: index !== recentTickets.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
                 <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
                   t.status === 'Resolved' || t.status === 'Closed' ? 'bg-[#56D500]' :
-                  t.status === 'In Progress' ? 'bg-orange-500' : 'bg-gray-300'
+                  t.status === 'In Progress' ? 'bg-orange-500' : 'bg-gray-400'
                 }`} />
                 <div className="flex-1 min-w-0">
-                  <p className="font-body text-sm text-gray-900">Ticket <span className="font-mono font-semibold">{t.id.substring(0,8).toUpperCase()}</span> - {t.status}</p>
-                  <p className="font-body text-xs text-gray-500 mt-0.5 truncate">{t.description.substring(0,50)} — {new Date(t.updated_at || t.created_at).toLocaleDateString()}</p>
+                  <p className="font-body text-sm" style={{ color: 'var(--text-primary)' }}>Ticket <span className="font-mono font-semibold">{t.id.substring(0,8).toUpperCase()}</span> - {t.status}</p>
+                  <p className="font-body text-xs mt-0.5 truncate" style={{ color: 'var(--text-tertiary)' }}>{t.description.substring(0,50)} — {new Date(t.updated_at || t.created_at).toLocaleDateString()}</p>
                 </div>
               </div>
             ))}
@@ -380,19 +415,27 @@ function DashboardHome() {
 
 export default function EmployeeDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="dashboard-shell min-h-screen flex" style={{ backgroundColor: isDark ? 'var(--surface-dark)' : '#F9FAFB' }}>
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4 lg:hidden">
+        <div
+          className="border-b px-6 py-4 lg:hidden"
+          style={{
+            backgroundColor: isDark ? 'var(--surface-mid)' : '#FFFFFF',
+            borderColor: isDark ? 'var(--border-subtle)' : '#E5E7EB',
+          }}
+        >
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 hover:bg-gray-100 rounded-lg"
+            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10"
           >
-            <Menu size={24} className="text-[#00314E] " />
+            <Menu size={24} style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }} />
           </button>
         </div>
 

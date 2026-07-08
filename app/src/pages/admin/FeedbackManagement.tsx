@@ -196,7 +196,7 @@ export default function FeedbackManagement() {
   }
 
   return (
-    <div style={{ backgroundColor: '#FAFAFA', minHeight: '100vh' }} className="p-6 lg:p-8">
+    <div style={{ backgroundColor: 'var(--surface-dark)', minHeight: '100vh' }} className="p-6 lg:p-8">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>

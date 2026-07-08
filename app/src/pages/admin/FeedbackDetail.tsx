@@ -47,7 +47,7 @@ export default function FeedbackDetail() {
 
   if (!feedback) {
     return (
-      <div className="p-6 lg:p-8" style={{ backgroundColor: '#F5F7FA' }}>
+      <div className="p-6 lg:p-8" style={{ backgroundColor: 'var(--surface-dark)' }}>
         <div className="text-center py-16">
           <p className="font-body text-lg" style={{ color: 'oklch(0.45 0.01 250)' }}>Feedback not found</p>
           <a

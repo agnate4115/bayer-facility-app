@@ -7,31 +7,35 @@ import { useTheme } from '@/context/ThemeContext';
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
     <div
-      className="flex min-h-screen ]"
-      style={{ backgroundColor: theme === 'dark' ? undefined : '#F5F7FA' }}
+      className="dashboard-shell flex min-h-screen"
+      style={{ backgroundColor: isDark ? 'var(--surface-dark)' : '#F5F7FA' }}
     >
       <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Top Bar */}
         <div
-          className="lg:hidden flex items-center gap-[12px] px-[16px] py-[12px] border-b ] (210,20%,20%)]"
+          className="lg:hidden flex items-center gap-[12px] px-[16px] py-[12px] border-b"
           style={{
-            backgroundColor: theme === 'dark' ? undefined : '#FFFFFF',
-            borderColor: theme === 'dark' ? undefined : '#E1E8ED',
+            backgroundColor: isDark ? 'var(--surface-mid)' : '#FFFFFF',
+            borderColor: isDark ? 'var(--border-subtle)' : '#E1E8ED',
           }}
         >
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-[8px] hover:bg-gray-100 :bg-white/10 rounded-lg transition-colors"
+            className="p-[8px] rounded-lg transition-colors hover:bg-black/5 dark:hover:bg-white/10"
           >
-            <Menu size={22} style={{ color: '#00314E' }}  />
+            <Menu size={22} style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }} />
           </button>
           <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-[32px] w-auto" />
-          <span className="font-display text-[14px] font-semibold " style={{ color: theme === 'dark' ? undefined : '#00314E' }}>
+          <span
+            className="font-display text-[14px] font-semibold"
+            style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}
+          >
             FacilityDesk
           </span>
         </div>

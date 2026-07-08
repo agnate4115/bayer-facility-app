@@ -106,7 +106,7 @@ export default function TicketsPage() {
   };
 
   return (
-    <div style={{ backgroundColor: '#FAFAFA', minHeight: '100vh' }} className="p-6 lg:p-8">
+    <div style={{ backgroundColor: 'var(--surface-dark)', minHeight: '100vh' }} className="p-6 lg:p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="font-display text-xl lg:text-2xl font-medium text-gray-900">Tickets</h1>

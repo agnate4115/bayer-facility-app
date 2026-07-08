@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -12,8 +13,13 @@ import {
   ScrollText,
   X,
   ShieldAlert,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { currentAdmin } from '@/data/azureAdPeople';
+import { useTheme } from '@/context/ThemeContext';
 
 const menuItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
@@ -34,6 +40,17 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarProps) {
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
+
+  // Desktop collapse state, persisted
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    return localStorage.getItem('facilitydesk-sidebar-collapsed') === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('facilitydesk-sidebar-collapsed', String(collapsed));
+  }, [collapsed]);
 
   const handleNavClick = () => {
     onClose?.();
@@ -41,12 +58,15 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
 
   const isActive = (path: string) => location.pathname.startsWith(path);
 
+  // On mobile the drawer is always full-width; collapse only applies on lg+
+  const width = collapsed ? '80px' : '280px';
+
   return (
     <>
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
           onClick={onClose}
         />
       )}
@@ -60,19 +80,26 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
           lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen
           lg:p-[16px] lg:bg-transparent
         `}
-        style={{ width: '280px' }}
+        style={{ width }}
       >
-        <div className={`
-          flex flex-col h-full bg-white 
-          lg:rounded-2xl lg:shadow-2xl lg:border border-slate-200 
-          overflow-hidden transition-all duration-300 relative
-        `}>
-
+        <div
+          className="flex flex-col h-full lg:rounded-2xl lg:shadow-2xl lg:border overflow-hidden transition-all duration-300 relative"
+          style={{
+            backgroundColor: isDark ? 'var(--surface-mid)' : '#FFFFFF',
+            borderColor: isDark ? 'var(--border-subtle)' : '#E2E8F0',
+          }}
+        >
           {/* Header */}
-          <div className="h-[80px] flex items-center px-[24px] gap-[12px] flex-shrink-0 border-b border-slate-100  relative z-10">
+          <div
+            className={`h-[80px] flex items-center gap-[12px] flex-shrink-0 border-b relative z-10 ${collapsed ? 'lg:px-[18px] px-[24px]' : 'px-[24px]'}`}
+            style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
+          >
             <img src="/Bayer-Logo.wine.svg" alt="Bayer" className="h-[40px] w-auto flex-shrink-0 drop-shadow-sm" />
-            <div className="flex flex-col min-w-0">
-              <span className="font-display text-[18px] font-bold tracking-tight text-[#00314E]  truncate leading-tight">
+            <div className={`flex flex-col min-w-0 ${collapsed ? 'lg:hidden' : ''}`}>
+              <span
+                className="font-display text-[18px] font-bold tracking-tight truncate leading-tight"
+                style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}
+              >
                 FacilityDesk
               </span>
               <span className="font-mono text-[8px] uppercase tracking-widest font-semibold text-[#56D500] leading-tight">
@@ -82,46 +109,45 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
             {/* Mobile close button */}
             <button
               onClick={onClose}
-              className="lg:hidden ml-auto p-2 hover:bg-slate-100 rounded-xl transition-colors"
+              className="lg:hidden ml-auto p-2 rounded-xl transition-colors hover:bg-black/5 dark:hover:bg-white/10"
             >
-              <X size={20} className="text-slate-500 " />
+              <X size={20} style={{ color: 'var(--text-tertiary)' }} />
             </button>
           </div>
 
           {/* Menu */}
-          <nav className="flex-1 py-[24px] px-[16px] flex flex-col gap-[6px] overflow-y-auto z-10 custom-scrollbar">
+          <nav className="flex-1 py-[24px] px-[12px] flex flex-col gap-[6px] overflow-y-auto overflow-x-hidden z-10 custom-scrollbar">
             {menuItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
-              
+
               return (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={handleNavClick}
+                  title={collapsed ? item.label : undefined}
                   className={`
                     relative flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-300 group
-                    ${active 
-                      ? 'bg-gradient-to-r from-[#56D500]/10 to-transparent' 
-                      : 'hover:bg-slate-50'
-                    }
+                    ${collapsed ? 'lg:justify-center' : ''}
+                    ${active ? 'bg-gradient-to-r from-[#56D500]/15 to-transparent' : 'hover:bg-black/5 dark:hover:bg-white/[0.06]'}
                   `}
                 >
                   {/* Active Indicator Line */}
                   {active && (
                     <div className="absolute left-0 top-2 bottom-2 w-[4px] bg-[#56D500] rounded-r-full shadow-[0_0_8px_rgba(86,213,0,0.5)]" />
                   )}
-                  
-                  <Icon 
-                    size={20} 
-                    className={`flex-shrink-0 transition-colors duration-300 ${
-                      active ? 'text-[#56D500]' : 'text-slate-400 group-hover:text-slate-600'
-                    }`} 
+
+                  <Icon
+                    size={20}
+                    className="flex-shrink-0 transition-colors duration-300"
+                    style={{ color: active ? '#56D500' : 'var(--text-tertiary)' }}
                   />
-                  
-                  <span className={`font-display text-[14px] font-semibold tracking-wide truncate transition-colors duration-300 ${
-                    active ? 'text-[#00314E] ' : 'text-slate-600  group-hover:text-slate-900'
-                  }`}>
+
+                  <span
+                    className={`font-display text-[14px] font-semibold tracking-wide truncate transition-colors duration-300 ${collapsed ? 'lg:hidden' : ''}`}
+                    style={{ color: active ? (isDark ? 'var(--text-primary)' : '#00314E') : 'var(--text-secondary)' }}
+                  >
                     {item.label}
                   </span>
                 </Link>
@@ -130,7 +156,44 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
           </nav>
 
           {/* Footer Actions */}
-          <div className="p-[16px] flex flex-col gap-[8px] border-t border-slate-100  z-10 bg-slate-50/50 ">
+          <div
+            className="p-[12px] flex flex-col gap-[8px] border-t z-10"
+            style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
+          >
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              title={collapsed ? (isDark ? 'Light mode' : 'Dark mode') : undefined}
+              className={`w-full flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 group hover:bg-black/5 dark:hover:bg-white/[0.06] ${collapsed ? 'lg:justify-center' : ''}`}
+            >
+              {isDark
+                ? <Sun size={20} className="flex-shrink-0 text-[#01BEFF]" />
+                : <Moon size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
+              <span
+                className={`font-display text-[12px] uppercase tracking-wider font-semibold ${collapsed ? 'lg:hidden' : ''}`}
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                {isDark ? 'Light Mode' : 'Dark Mode'}
+              </span>
+            </button>
+
+            {/* Collapse toggle (desktop only) */}
+            <button
+              onClick={() => setCollapsed(c => !c)}
+              title={collapsed ? 'Expand' : 'Collapse'}
+              className={`hidden lg:flex w-full items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 group hover:bg-black/5 dark:hover:bg-white/[0.06] ${collapsed ? 'justify-center' : ''}`}
+            >
+              {collapsed
+                ? <PanelLeftOpen size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />
+                : <PanelLeftClose size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
+              <span
+                className={`font-display text-[12px] uppercase tracking-wider font-semibold ${collapsed ? 'hidden' : ''}`}
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Collapse
+              </span>
+            </button>
+
             {/* Logout */}
             <button
               onClick={() => {
@@ -138,34 +201,40 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                   window.location.href = '/';
                 }
               }}
-              className="w-full flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 hover:bg-red-50 group border border-transparent hover:border-red-100"
+              title={collapsed ? 'Log Out' : undefined}
+              className={`w-full flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 group border border-transparent hover:bg-red-500/10 hover:border-red-500/20 ${collapsed ? 'lg:justify-center' : ''}`}
             >
-              <LogOut size={20} className="flex-shrink-0 text-slate-400 group-hover:text-red-500 transition-colors" />
-              <span className="font-display text-[12px] uppercase tracking-wider font-semibold text-slate-600  group-hover:text-red-600 transition-colors">Log Out</span>
+              <LogOut size={20} className="flex-shrink-0 transition-colors group-hover:text-red-500" style={{ color: 'var(--text-tertiary)' }} />
+              <span className={`font-display text-[12px] uppercase tracking-wider font-semibold group-hover:text-red-500 transition-colors ${collapsed ? 'lg:hidden' : ''}`} style={{ color: 'var(--text-secondary)' }}>
+                Log Out
+              </span>
             </button>
           </div>
 
           {/* Premium Azure AD Badge */}
-          <div className="p-[16px] border-t border-slate-100  bg-white z-10 relative overflow-hidden group">
-            {/* Subtle glow on hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#01BEFF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="flex items-center gap-[12px] relative z-10">
+          <div
+            className={`p-[16px] border-t z-10 relative overflow-hidden group ${collapsed ? 'lg:px-[12px]' : ''}`}
+            style={{
+              borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9',
+              backgroundColor: isDark ? 'var(--surface-dark)' : '#FFFFFF',
+            }}
+          >
+            <div className={`flex items-center gap-[12px] relative z-10 ${collapsed ? 'lg:justify-center' : ''}`}>
               <div className="relative flex-shrink-0">
                 <img
                   src={currentAdmin.profilePic}
                   alt={currentAdmin.displayName}
-                  className="w-[4px]0 h-[40px] rounded-full border-2 border-white shadow-sm object-cover"
+                  className="w-[40px] h-[40px] rounded-full border-2 border-white shadow-sm object-cover"
                   title={currentAdmin.displayName}
                 />
                 <div className="absolute -bottom-0.5 -right-0.5 w-[14px] h-[14px] bg-[#56D500] rounded-full border-2 border-white shadow-[0_0_8px_rgba(86,213,0,0.6)]" />
               </div>
-              
-              <div className="flex-1 min-w-0">
-                <p className="font-display text-[14px] font-bold text-slate-900  truncate">
+
+              <div className={`flex-1 min-w-0 ${collapsed ? 'lg:hidden' : ''}`}>
+                <p className="font-display text-[14px] font-bold truncate" style={{ color: 'var(--text-primary)' }}>
                   {currentAdmin.displayName}
                 </p>
-                <p className="font-mono text-[8px] text-slate-500  truncate flex items-center gap-1 mt-0.5">
+                <p className="font-mono text-[8px] truncate flex items-center gap-1 mt-0.5" style={{ color: 'var(--text-tertiary)' }}>
                   <ShieldAlert size={10} className="text-[#01BEFF]" />
                   {currentAdmin.role}
                 </p>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <style>{{ css }}</style>
+</head>
+<body>
+
+  <!-- ══════════════ COVER ══════════════ -->
+  <div class="cover">
+    <div class="accent-bar"></div>
+    <div class="wordmark">Bayer<span>.</span></div>
+    <div style="margin-top:40mm">
+      <div class="eyebrow">FacilityDesk Analytics · {{ period_label }} Review</div>
+      <h1>Service Experience<br/>&amp; Satisfaction Report</h1>
+      <div class="subtitle">
+        Employee-reported satisfaction, service-quality dimensions, and experience
+        risk across {{ office_label }} for the {{ period_label|lower }} reporting period.
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="k">Scope</div><div class="v">{{ office_label }}</div></div>
+      <div class="meta-item"><div class="k">Period</div><div class="v">{{ date_range }}</div></div>
+      <div class="meta-item"><div class="k">Responses</div><div class="v">{{ total_fb }}</div></div>
+      <div class="meta-item"><div class="k">Generated</div><div class="v">{{ generated_at }}</div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ EXECUTIVE SUMMARY ══════════════ -->
+  <div class="section">
+    <div class="section-kicker">01 · Executive Summary</div>
+    <h1 class="section-title">The story in brief</h1>
+    <div class="section-rule"></div>
+
+    <p class="lead">{{ summary_html|safe }}</p>
+
+    <div class="takeaways">
+      <div class="t-head">Key Takeaways</div>
+      <ol>
+        {% for t in takeaways %}<li>{{ t|safe }}</li>{% endfor %}
+      </ol>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi" style="--accent: var(--navy)">
+        <div class="k-val">{{ avg_overall }}</div>
+        <div class="k-lbl">Avg Rating / 5</div>
+      </div>
+      <div class="kpi" style="--accent: var(--green)">
+        <div class="k-val">{{ fb_rate }}%</div>
+        <div class="k-lbl">Response Rate</div>
+      </div>
+      <div class="kpi" style="--accent: var(--cyan)">
+        <div class="k-val">{{ total_fb }}</div>
+        <div class="k-lbl">Responses</div>
+      </div>
+      <div class="kpi" style="--accent: var(--amber)">
+        <div class="k-val">{{ promoters }}%</div>
+        <div class="k-lbl">4–5★ Share</div>
+      </div>
+      <div class="kpi" style="--accent: var(--red)">
+        <div class="k-val">{{ detractors }}%</div>
+        <div class="k-lbl">1–2★ Share</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SATISFACTION PROFILE ══════════════ -->
+  <div class="section">
+    <div class="section-kicker">02 · Satisfaction Profile</div>
+    <h1 class="section-title">How employees rate the service</h1>
+    <div class="section-rule"></div>
+
+    <div class="grid-2">
+      <div class="exhibit">
+        <div class="exhibit-head">
+          <div class="exhibit-label">Exhibit 1</div>
+          <div class="exhibit-title">Overall rating distribution</div>
+        </div>
+        {{ rating_vbar|safe }}
+      </div>
+
+      <div class="exhibit">
+        <div class="exhibit-head">
+          <div class="exhibit-label">Exhibit 2</div>
+          <div class="exhibit-title">Sentiment split</div>
+        </div>
+        <div class="exhibit-row">
+          <div class="chart">{{ sentiment_donut|safe }}</div>
+          <div class="legend">
+            {% for s in sentiment_legend %}
+            <div class="legend-item">
+              <span class="legend-swatch" style="background:{{ s.color }}"></span>
+              <span class="l-label">{{ s.label }}</span>
+              <span class="l-val">{{ s.value }}</span>
+              <span class="l-pct">{{ s.pct }}%</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dimension scores -->
+    <div class="exhibit">
+      <div class="exhibit-head">
+        <div class="exhibit-label">Exhibit 3</div>
+        <div class="exhibit-title">Service quality by dimension</div>
+        <div class="exhibit-sub">Mean score out of 5 across all responses</div>
+      </div>
+      {% for d in dimensions %}
+      <div style="display:flex; align-items:center; gap:3mm; margin-bottom:2.5mm;">
+        <div style="flex:0 0 42mm; font-size:9pt; color:var(--ink);">{{ d.label }}</div>
+        <div style="flex:1;">{{ d.svg|safe }}</div>
+        <div style="flex:0 0 14mm; text-align:right; font-weight:700; color:var(--navy); font-size:9.5pt;">{{ d.value }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ══════════════ CATEGORY SATISFACTION ══════════════ -->
+  <div class="section page-break">
+    <div class="section-kicker">03 · Where to Focus</div>
+    <h1 class="section-title">Satisfaction by service category</h1>
+    <div class="section-rule"></div>
+
+    <table class="data">
+      <thead>
+        <tr><th>Category</th><th class="num">Responses</th><th class="num">Avg Rating</th><th>Level</th></tr>
+      </thead>
+      <tbody>
+        {% for c in category_rows %}
+        <tr>
+          <td>{{ c.name }}</td>
+          <td class="num">{{ c.count }}</td>
+          <td class="num">{{ c.avg }} / 5</td>
+          <td><span class="pill {{ c.cls }}">{{ c.level }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════ INSIGHTS ══════════════ -->
+  <div class="section">
+    <div class="section-kicker">04 · Recommendations</div>
+    <h1 class="section-title">Insights &amp; recommended actions</h1>
+    <div class="section-rule"></div>
+
+    {% for i in insights %}
+    <div class="insight {{ i.sev }}">
+      <div class="tag"></div>
+      <div class="body">
+        <div class="i-title">{{ i.title }}<span class="sev">{{ i.sev_label }}</span></div>
+        <div class="i-body">{{ i.body|safe }}</div>
+        {% if i.rec %}<div class="i-rec"><b>Recommendation:</b> {{ i.rec|safe }}</div>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ══════════════ APPENDIX: RECENT FEEDBACK ══════════════ -->
+  {% if recent %}
+  <div class="section page-break">
+    <div class="section-kicker">Appendix A</div>
+    <h1 class="section-title">Recent verbatim feedback</h1>
+    <div class="section-rule"></div>
+    <table class="data">
+      <thead>
+        <tr><th>Ticket</th><th class="num">Rating</th><th class="num">Quality</th><th class="num">Response</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+        {% for f in recent %}
+        <tr>
+          <td style="font-family:monospace">{{ f.tid }}</td>
+          <td class="num">{{ f.rating }}/5</td>
+          <td class="num">{{ f.quality }}/5</td>
+          <td class="num">{{ f.response }}/5</td>
+          <td>{{ f.comment }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="footnote">
+    Source: Bayer FacilityDesk live operational database. Response rate is computed as
+    feedback responses ÷ tickets created in the reporting window. Sentiment split classifies
+    4–5★ as promoters, 3★ as passive, and 1–2★ as detractors.
+    This document is auto-generated for internal management use only.
+    For methodology questions contact facilities@bayer.com.
+  </div>
+
+</body>
+</html>

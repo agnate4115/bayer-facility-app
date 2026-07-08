@@ -60,7 +60,7 @@ export default function TicketDetail() {
 
   if (isLoading) {
     return (
-      <div className="p-6 lg:p-8 flex justify-center items-center" style={{ backgroundColor: '#F5F7FA', minHeight: '100vh' }}>
+      <div className="p-6 lg:p-8 flex justify-center items-center" style={{ backgroundColor: 'var(--surface-dark)', minHeight: '100vh' }}>
         <Loader2 size={32} className="animate-spin text-[#01BEFF]" />
       </div>
     );
@@ -68,7 +68,7 @@ export default function TicketDetail() {
 
   if (!ticket) {
     return (
-      <div className="p-6 lg:p-8" style={{ backgroundColor: '#F5F7FA' }}>
+      <div className="p-6 lg:p-8" style={{ backgroundColor: 'var(--surface-dark)' }}>
         <div className="text-center py-16">
           <p className="font-body text-lg" style={{ color: 'oklch(0.45 0.01 250)' }}>Ticket not found</p>
           <Link to="/admin/tickets" className="mt-4 inline-block font-display text-xs uppercase tracking-widest" style={{ color: '#01BEFF' }}>

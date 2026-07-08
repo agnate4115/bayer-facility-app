@@ -71,51 +71,58 @@
   }
 
   .dark {
-    /* Dark mode - Bayer professional dark */
-    --background: 210 30% 8%;
+    /* ── Perfect-black dark mode ──
+       Pure #000 canvas, near-black elevated surfaces so panels stay
+       distinguishable, high-contrast text tuned for full visibility. */
+
+    /* base = pure black, foreground = near-white */
+    --background: 0 0% 0%;
     --foreground: 0 0% 98%;
-    --card: 210 25% 10%;
+    /* cards sit just above pure black (#0D0D0D) */
+    --card: 0 0% 5%;
     --card-foreground: 0 0% 98%;
-    --popover: 210 25% 10%;
+    --popover: 0 0% 4%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 88 100% 42%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 200 100% 20%;
+    /* Bayer green stays primary; brighten cyan/green for dark contrast */
+    --primary: 88 100% 45%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 200 90% 30%;
     --secondary-foreground: 0 0% 100%;
-    --accent: 191 100% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 191 100% 55%;
+    --accent-foreground: 0 0% 4%;
 
-    --muted: 210 20% 15%;
-    --muted-foreground: 210 10% 60%;
-    --destructive: 0 84% 60%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 64%;
+    --destructive: 0 84% 62%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 20% 20%;
-    --input: 210 20% 20%;
-    --ring: 88 100% 42%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 88 100% 45%;
 
-    --sidebar-background: 200 100% 12%;
+    /* Sidebar: pure black with subtle elevated hover */
+    --sidebar-background: 0 0% 3%;
     --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 88 100% 42%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 200 100% 18%;
+    --sidebar-primary: 88 100% 45%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 10%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 200 50% 22%;
-    --sidebar-ring: 88 100% 42%;
+    --sidebar-border: 0 0% 14%;
+    --sidebar-ring: 88 100% 45%;
 
-    /* Legacy custom properties */
-    --deep-black: oklch(0.15 0.02 250);
-    --surface-dark: oklch(0.18 0.02 250);
-    --surface-mid: oklch(0.22 0.02 250);
-    --surface-light: oklch(0.26 0.02 250);
-    --surface-lighter: oklch(0.3 0.02 250);
-    --text-primary: oklch(0.95 0.005 250);
-    --text-secondary: oklch(0.65 0.01 250);
-    --text-tertiary: oklch(0.5 0.01 250);
-    --border-subtle: oklch(0.25 0.01 250);
-    --border: oklch(0.3 0.01 250);
-    --border-hover: oklch(0.4 0.015 250);
-    --hover-bg: oklch(0.25 0.015 250);
+    /* ── Legacy custom properties (perfect-black scale) ── */
+    --deep-black: #000000;
+    --surface-dark: #000000;      /* page canvas */
+    --surface-mid: #0D0D0D;       /* cards / panels */
+    --surface-light: #1A1A1A;     /* inputs / inner fills */
+    --surface-lighter: #2A2A2A;   /* hover / dividers */
+    --text-primary: #FAFAFA;      /* headings, key values */
+    --text-secondary: #B4B4B8;    /* body text — readable, not muddy */
+    --text-tertiary: #8A8A90;     /* labels / captions */
+    --border-subtle: #1C1C1C;
+    --border: #2A2A2A;
+    --border-hover: #3D3D3D;
+    --hover-bg: #141414;
   }
 }
 
@@ -242,6 +249,81 @@
   .font-mono {
     font-family: 'JetBrains Mono', monospace;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Scoped dark-mode overrides for the dashboards.
+   Many admin/employee pages use hardcoded Tailwind light utilities
+   (bg-white, text-gray-*, border-gray-*). Rather than touch hundreds
+   of call-sites, we remap those utilities to the perfect-black palette
+   — but ONLY inside `.dashboard-shell`, so the landing page (which has
+   no such wrapper) is never affected.
+   ══════════════════════════════════════════════════════════════════ */
+.dark .dashboard-shell {
+  /* Surfaces */
+  --ovr-surface: #0D0D0D;
+  --ovr-surface-2: #141414;
+  --ovr-canvas: #000000;
+  --ovr-border: #262626;
+  --ovr-border-soft: #1C1C1C;
+  --ovr-text-strong: #FAFAFA;
+  --ovr-text: #E4E4E7;
+  --ovr-text-mid: #B4B4B8;
+  --ovr-text-soft: #8A8A90;
+}
+
+/* Backgrounds */
+.dark .dashboard-shell .bg-white { background-color: var(--ovr-surface) !important; }
+.dark .dashboard-shell .bg-gray-50,
+.dark .dashboard-shell .bg-slate-50 { background-color: var(--ovr-surface-2) !important; }
+.dark .dashboard-shell .bg-gray-100,
+.dark .dashboard-shell .bg-slate-100 { background-color: var(--ovr-surface-2) !important; }
+
+/* Text */
+.dark .dashboard-shell .text-gray-900,
+.dark .dashboard-shell .text-slate-900,
+.dark .dashboard-shell .text-gray-800,
+.dark .dashboard-shell .text-slate-800 { color: var(--ovr-text-strong) !important; }
+.dark .dashboard-shell .text-gray-700,
+.dark .dashboard-shell .text-slate-700 { color: var(--ovr-text) !important; }
+.dark .dashboard-shell .text-gray-600,
+.dark .dashboard-shell .text-slate-600 { color: var(--ovr-text-mid) !important; }
+.dark .dashboard-shell .text-gray-500,
+.dark .dashboard-shell .text-slate-500,
+.dark .dashboard-shell .text-gray-400,
+.dark .dashboard-shell .text-slate-400 { color: var(--ovr-text-soft) !important; }
+
+/* Borders */
+.dark .dashboard-shell .border-gray-200,
+.dark .dashboard-shell .border-slate-200,
+.dark .dashboard-shell .border-gray-300,
+.dark .dashboard-shell .border-slate-300 { border-color: var(--ovr-border) !important; }
+.dark .dashboard-shell .border-gray-100,
+.dark .dashboard-shell .border-slate-100 { border-color: var(--ovr-border-soft) !important; }
+
+/* Hover states that assume light bg */
+.dark .dashboard-shell .hover\:bg-gray-50:hover,
+.dark .dashboard-shell .hover\:bg-gray-100:hover,
+.dark .dashboard-shell .hover\:bg-slate-50:hover,
+.dark .dashboard-shell .hover\:bg-slate-100:hover { background-color: var(--ovr-surface-2) !important; }
+
+/* Dividers (divide-* utilities) */
+.dark .dashboard-shell [class*="divide-gray"] > * + *,
+.dark .dashboard-shell [class*="divide-slate"] > * + * { border-color: var(--ovr-border-soft) !important; }
+
+/* Inputs / selects / textareas that rely on white bg */
+.dark .dashboard-shell input,
+.dark .dashboard-shell select,
+.dark .dashboard-shell textarea {
+  background-color: var(--ovr-surface-2);
+  color: var(--ovr-text);
+  border-color: var(--ovr-border);
+}
+.dark .dashboard-shell input::placeholder,
+.dark .dashboard-shell textarea::placeholder { color: var(--ovr-text-soft); }
+/* Native select dropdown arrow → light in dark mode */
+.dark .dashboard-shell select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23B4B4B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 /* Custom scrollbar */

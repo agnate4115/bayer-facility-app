@@ -1,0 +1,264 @@
+/* ══════════════════════════════════════════════════════════════════
+   McKinsey-style report stylesheet — A4, print-first.
+   Strong typographic hierarchy, exhibit labels, generous whitespace,
+   restrained Bayer palette (navy + cyan + green accents).
+   ══════════════════════════════════════════════════════════════════ */
+
+@page {
+  size: A4;
+  margin: 20mm 16mm 18mm 16mm;
+
+  @top-left {
+    content: "BAYER  ·  FACILITYDESK ANALYTICS";
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 7pt;
+    letter-spacing: 1.5px;
+    color: #8A98A5;
+  }
+  @top-right {
+    content: "{{ report_title }}";
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 7pt;
+    letter-spacing: 1px;
+    color: #8A98A5;
+  }
+  @bottom-left {
+    content: "Confidential  ·  Bayer AG — RE, Commercial Area & Facilities Management";
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 6.5pt;
+    color: #A9B4BF;
+  }
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 6.5pt;
+    color: #A9B4BF;
+  }
+}
+
+/* The cover page gets its own bare margin box */
+@page cover {
+  margin: 0;
+  @top-left { content: ""; }
+  @top-right { content: ""; }
+  @bottom-left { content: ""; }
+  @bottom-right { content: ""; }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #1A2733;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Palette helpers ── */
+:root {
+  --navy: #00314E;
+  --cyan: #01BEFF;
+  --green: #56D500;
+  --amber: #F59E0B;
+  --red: #DC2626;
+  --ink: #1A2733;
+  --ink-soft: #5B6B7A;
+  --hair: #E6EBF0;
+  --hair-strong: #CBD5DF;
+}
+
+/* ══════════════ COVER ══════════════ */
+.cover {
+  page: cover;
+  height: 297mm;
+  width: 210mm;
+  position: relative;
+  background: linear-gradient(150deg, #00263D 0%, #00314E 45%, #004A78 100%);
+  color: #fff;
+  padding: 34mm 22mm;
+  page-break-after: always;
+}
+.cover .accent-bar {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 6mm;
+  background: linear-gradient(90deg, var(--green) 0%, var(--cyan) 100%);
+}
+.cover .eyebrow {
+  font-size: 8.5pt; letter-spacing: 4px; text-transform: uppercase;
+  color: #7FE0FF; margin-bottom: 8mm;
+}
+.cover h1 {
+  font-size: 34pt; font-weight: 700; line-height: 1.08;
+  margin: 0 0 6mm 0; letter-spacing: -0.5px;
+}
+.cover .subtitle {
+  font-size: 12pt; color: #C7D6E2; font-weight: 300;
+  margin-bottom: 26mm; max-width: 130mm;
+}
+.cover .meta-grid {
+  position: absolute; bottom: 34mm; left: 22mm; right: 22mm;
+  border-top: 0.5pt solid rgba(255,255,255,0.25);
+  padding-top: 7mm;
+  display: flex; gap: 14mm;
+}
+.cover .meta-item .k {
+  font-size: 7pt; letter-spacing: 2px; text-transform: uppercase;
+  color: #7F9BB0; margin-bottom: 2mm;
+}
+.cover .meta-item .v { font-size: 11pt; font-weight: 600; color: #fff; }
+.cover .wordmark {
+  position: absolute; top: 24mm; left: 22mm;
+  font-size: 20pt; font-weight: 800; letter-spacing: 1px;
+}
+.cover .wordmark span { color: var(--green); }
+
+/* ══════════════ SECTION STRUCTURE ══════════════ */
+.section { margin-bottom: 9mm; }
+.section-kicker {
+  font-size: 7pt; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--cyan); font-weight: 700; margin-bottom: 1.5mm;
+}
+.section-title {
+  font-size: 15pt; font-weight: 700; color: var(--navy);
+  margin: 0 0 1mm 0; letter-spacing: -0.3px;
+}
+.section-rule {
+  height: 2pt; width: 100%;
+  background: linear-gradient(90deg, var(--green) 0%, var(--green) 22mm, var(--hair) 22mm, var(--hair) 100%);
+  margin: 2mm 0 4mm 0;
+}
+
+h2.block-title {
+  font-size: 11pt; font-weight: 700; color: var(--navy);
+  margin: 0 0 2mm 0;
+}
+
+/* Lead paragraph after a section title — the "so what" */
+.lead {
+  font-size: 10.5pt; line-height: 1.55; color: var(--ink);
+  margin: 0 0 4mm 0;
+}
+.lead b, .lead strong { color: var(--navy); }
+
+/* ══════════════ KEY TAKEAWAYS (exec summary) ══════════════ */
+.takeaways { border-left: 3pt solid var(--green); padding: 1mm 0 1mm 5mm; margin: 4mm 0; }
+.takeaways .t-head {
+  font-size: 7.5pt; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 2.5mm; font-weight: 700;
+}
+.takeaways ol { margin: 0; padding-left: 5mm; }
+.takeaways li { margin-bottom: 2.5mm; font-size: 9.5pt; line-height: 1.45; }
+.takeaways li b { color: var(--navy); }
+
+/* ══════════════ KPI STRIP ══════════════ */
+.kpi-strip { display: flex; gap: 3mm; margin: 4mm 0 2mm 0; }
+.kpi {
+  flex: 1; border: 0.5pt solid var(--hair-strong); border-radius: 2mm;
+  padding: 3.5mm 3mm; background: #FBFCFD; position: relative; overflow: hidden;
+}
+.kpi::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1.4mm;
+  background: var(--accent, var(--navy));
+}
+.kpi .k-val { font-size: 19pt; font-weight: 700; color: var(--navy); line-height: 1; margin-top: 1mm; }
+.kpi .k-lbl { font-size: 6.8pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-soft); margin-top: 2mm; }
+.kpi .k-delta { font-size: 7pt; margin-top: 1.5mm; font-weight: 600; }
+.kpi .k-delta.up { color: #17924A; }
+.kpi .k-delta.down { color: var(--red); }
+.kpi .k-delta.flat { color: var(--ink-soft); }
+
+/* ══════════════ EXHIBITS ══════════════ */
+.exhibit {
+  border: 0.5pt solid var(--hair-strong); border-radius: 2mm;
+  padding: 4mm 4mm 3mm 4mm; margin: 3mm 0 4mm 0;
+  page-break-inside: avoid;
+}
+.exhibit-head { margin-bottom: 3mm; }
+.exhibit-label {
+  font-size: 6.8pt; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cyan); font-weight: 700;
+}
+.exhibit-title { font-size: 10.5pt; font-weight: 700; color: var(--navy); margin: 0.5mm 0 0 0; }
+.exhibit-sub { font-size: 8pt; color: var(--ink-soft); margin-top: 0.5mm; }
+
+.exhibit-row { display: flex; gap: 5mm; align-items: center; }
+.exhibit-row .chart { flex: 0 0 auto; }
+.exhibit-row .legend { flex: 1; }
+
+/* Legend */
+.legend-item { display: flex; align-items: center; gap: 2.5mm; margin-bottom: 2mm; font-size: 8.5pt; }
+.legend-swatch { width: 3mm; height: 3mm; border-radius: 0.8mm; flex: 0 0 auto; }
+.legend-item .l-label { color: var(--ink); flex: 1; }
+.legend-item .l-val { font-weight: 700; color: var(--navy); }
+.legend-item .l-pct { color: var(--ink-soft); font-size: 7.5pt; width: 12mm; text-align: right; }
+
+/* Two-up exhibits */
+.grid-2 { display: flex; gap: 4mm; }
+.grid-2 > * { flex: 1; }
+
+/* ══════════════ TABLES ══════════════ */
+table.data { width: 100%; border-collapse: collapse; margin: 2mm 0; font-size: 8.5pt; }
+table.data thead th {
+  background: var(--navy); color: #fff; text-align: left;
+  padding: 2.2mm 2.5mm; font-size: 7.5pt; letter-spacing: 0.5px;
+  text-transform: uppercase; font-weight: 600;
+}
+table.data thead th.num { text-align: right; }
+table.data tbody td { padding: 2mm 2.5mm; border-bottom: 0.4pt solid var(--hair); color: var(--ink); }
+table.data tbody td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+table.data tbody tr:nth-child(even) td { background: #F7F9FB; }
+.bar-cell { position: relative; }
+.bar-cell .mini {
+  display: inline-block; height: 2mm; border-radius: 1mm; background: var(--cyan);
+  vertical-align: middle; margin-right: 2mm;
+}
+
+/* Pills */
+.pill { display: inline-block; padding: 0.6mm 2mm; border-radius: 3mm; font-size: 7pt; font-weight: 700; letter-spacing: 0.4px; }
+.pill.p1 { background: #FDE8E8; color: var(--red); }
+.pill.p2 { background: #FEF3E2; color: #B45309; }
+.pill.p3 { background: #E8F7E1; color: #2E7D0E; }
+.pill.good { background: #E8F7E1; color: #2E7D0E; }
+.pill.mid { background: #FEF3E2; color: #B45309; }
+.pill.bad { background: #FDE8E8; color: var(--red); }
+
+/* ══════════════ INSIGHTS ══════════════ */
+.insight {
+  display: flex; gap: 3mm; padding: 3mm; margin-bottom: 2.5mm;
+  border: 0.5pt solid var(--hair); border-radius: 2mm; background: #FBFCFD;
+  page-break-inside: avoid;
+}
+.insight .tag {
+  flex: 0 0 auto; width: 1.4mm; border-radius: 1mm; align-self: stretch;
+}
+.insight.critical .tag { background: var(--red); }
+.insight.warning .tag { background: var(--amber); }
+.insight.info .tag { background: var(--cyan); }
+.insight.positive .tag { background: var(--green); }
+.insight .body { flex: 1; }
+.insight .i-title { font-size: 9.5pt; font-weight: 700; color: var(--navy); margin-bottom: 1mm; }
+.insight .i-title .sev {
+  font-size: 6.5pt; letter-spacing: 1px; text-transform: uppercase;
+  padding: 0.4mm 1.6mm; border-radius: 2mm; margin-left: 2mm; vertical-align: middle;
+}
+.insight.critical .sev { background: #FDE8E8; color: var(--red); }
+.insight.warning .sev { background: #FEF3E2; color: #B45309; }
+.insight.info .sev { background: #E2F5FD; color: #0B6E8C; }
+.insight.positive .sev { background: #E8F7E1; color: #2E7D0E; }
+.insight .i-body { font-size: 8.8pt; line-height: 1.45; color: var(--ink); }
+.insight .i-body b { color: var(--navy); }
+.insight .i-rec { margin-top: 1.5mm; font-size: 8.5pt; color: var(--ink-soft); }
+.insight .i-rec b { color: var(--navy); }
+
+/* Force page breaks between major report parts */
+.page-break { page-break-before: always; }
+
+/* Footnote */
+.footnote {
+  margin-top: 6mm; padding-top: 3mm; border-top: 0.4pt solid var(--hair);
+  font-size: 7pt; color: #A9B4BF; line-height: 1.4;
+}
