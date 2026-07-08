@@ -11,6 +11,7 @@ import EditFeedback from './EditFeedback';
 import { useTheme } from '@/context/ThemeContext';
 import { currentEmployee, azureAdPeople } from '@/data/azureAdPeople';
 import { API_URL } from '@/config';
+import BayerLogoBadge from '@/components/BayerLogoBadge';
 
 // Mock user data - sourced from Azure AD
 const mockUser = {
@@ -75,7 +76,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             className="h-20 flex items-center px-6 gap-3 flex-shrink-0 border-b relative z-10"
             style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
           >
-            <img src="/Bayer-Logo.wine.svg" alt="Bayer" className="h-10 w-auto flex-shrink-0 drop-shadow-sm" />
+            <BayerLogoBadge size={42} />
             <div className="flex flex-col min-w-0">
               <span className="font-display text-lg font-bold tracking-tight truncate leading-tight" style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}>
                 FacilityDesk
@@ -131,35 +132,36 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             })}
           </nav>
 
-          {/* Footer Actions */}
+          {/* Footer Actions — compact */}
           <div
-            className="p-4 flex flex-col gap-2 border-t z-10"
+            className="px-[12px] py-[10px] flex flex-col gap-[6px] border-t z-10"
             style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
           >
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group hover:bg-black/5 dark:hover:bg-white/[0.06]"
+              title={isDark ? 'Light mode' : 'Dark mode'}
+              className="w-full flex items-center justify-center gap-[8px] h-[34px] rounded-lg transition-all duration-200 hover:bg-black/5 dark:hover:bg-white/[0.06]"
             >
               {isDark
-                ? <Sun size={20} className="flex-shrink-0 text-[#01BEFF]" />
-                : <Moon size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
-              <span className="font-display text-xs uppercase tracking-wider font-semibold" style={{ color: 'var(--text-secondary)' }}>
-                {isDark ? 'Light Mode' : 'Dark Mode'}
+                ? <Sun size={16} className="flex-shrink-0 text-[#38CFFF]" />
+                : <Moon size={16} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
+              <span className="font-display text-[10px] uppercase tracking-wider font-semibold" style={{ color: 'var(--text-secondary)' }}>
+                {isDark ? 'Light' : 'Dark'}
               </span>
             </button>
 
-            {/* Logout */}
+            {/* Logout — slim */}
             <button
               onClick={() => {
                 if (confirm('Are you sure you want to log out?')) {
                   window.location.href = '/';
                 }
               }}
-              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group border border-transparent hover:bg-red-500/10 hover:border-red-500/20"
+              className="w-full flex items-center gap-[10px] px-[10px] h-[34px] rounded-lg transition-all duration-200 group hover:bg-red-500/10"
             >
-              <LogOut size={20} className="flex-shrink-0 transition-colors group-hover:text-red-500" style={{ color: 'var(--text-tertiary)' }} />
-              <span className="font-display text-xs uppercase tracking-wider font-semibold group-hover:text-red-500 transition-colors" style={{ color: 'var(--text-secondary)' }}>Log Out</span>
+              <LogOut size={16} className="flex-shrink-0 transition-colors group-hover:text-red-500" style={{ color: 'var(--text-tertiary)' }} />
+              <span className="font-display text-[10px] uppercase tracking-wider font-semibold group-hover:text-red-500 transition-colors" style={{ color: 'var(--text-secondary)' }}>Log Out</span>
             </button>
           </div>
 

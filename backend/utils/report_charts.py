@@ -80,6 +80,7 @@ def donut_chart(segments, center_label="", center_sub="", size=200, thickness=30
 
     return (
         f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" '
+        f'style="max-width:{size}px;height:auto;display:block" '
         f'xmlns="http://www.w3.org/2000/svg">{"".join(parts)}{center}</svg>'
     )
 
@@ -97,7 +98,7 @@ def hbar_chart(rows, color=CYAN, width=520, bar_h=22, gap=14, label_w=140, value
     maxv = max(v for _, v in rows) or 1
     plot_w = width - label_w - 46
     h = len(rows) * (bar_h + gap) + gap
-    parts = [f'<svg viewBox="0 0 {width} {h}" width="{width}" height="{h}" xmlns="http://www.w3.org/2000/svg">']
+    parts = [f'<svg viewBox="0 0 {width} {h}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">']
 
     y = gap
     for label, value in rows:
@@ -145,7 +146,7 @@ def vbar_chart(rows, colors=None, width=520, height=220, value_suffix=""):
     slot = plot_w / n
     bar_w = min(48, slot * 0.6)
 
-    parts = [f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" xmlns="http://www.w3.org/2000/svg">']
+    parts = [f'<svg viewBox="0 0 {width} {height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">']
 
     # gridlines (4 steps)
     for i in range(5):
@@ -189,7 +190,7 @@ def line_chart(labels, series, width=520, height=230):
         y = pad_t + plot_h - (v / maxv) * plot_h
         return x, y
 
-    parts = [f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" xmlns="http://www.w3.org/2000/svg">']
+    parts = [f'<svg viewBox="0 0 {width} {height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">']
     # gridlines
     for i in range(5):
         gy = pad_t + plot_h - (plot_h * i / 4)
@@ -228,7 +229,7 @@ def score_bar_svg(value, out_of=5, width=260, color=NAVY):
     h = 10
     frac = max(0, min(1, value / out_of))
     return (
-        f'<svg viewBox="0 0 {width} {h}" width="{width}" height="{h}" xmlns="http://www.w3.org/2000/svg">'
+        f'<svg viewBox="0 0 {width} {h}" width="100%" height="auto" preserveAspectRatio="none" style="display:block;width:100%;height:{h}px" xmlns="http://www.w3.org/2000/svg">'
         f'<rect x="0" y="0" width="{width}" height="{h}" rx="5" fill="{GRID}" />'
         f'<rect x="0" y="0" width="{width*frac:.1f}" height="{h}" rx="5" fill="{color}" />'
         f'</svg>'

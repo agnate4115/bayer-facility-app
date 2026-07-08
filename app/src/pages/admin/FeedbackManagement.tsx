@@ -189,7 +189,7 @@ export default function FeedbackManagement() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#FAFAFA]">
+      <div className="flex justify-center items-center h-screen" style={{ backgroundColor: 'var(--surface-dark)' }}>
         <Loader2 size={32} className="animate-spin text-[#01BEFF]" />
       </div>
     );

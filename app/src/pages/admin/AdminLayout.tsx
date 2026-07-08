@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
 import { useTheme } from '@/context/ThemeContext';
+import BayerLogoBadge from '@/components/BayerLogoBadge';
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,7 +32,7 @@ export default function AdminLayout() {
           >
             <Menu size={22} style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }} />
           </button>
-          <img src="/Bayer-Logo.wine.png" alt="Bayer" className="h-[32px] w-auto" />
+          <BayerLogoBadge size={34} />
           <span
             className="font-display text-[14px] font-semibold"
             style={{ color: isDark ? 'var(--text-primary)' : '#00314E' }}

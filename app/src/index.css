@@ -326,6 +326,17 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23B4B4B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
+/* ── Bayer navy text is invisible on black. Brighten to a light,
+   readable tint wherever the navy/blue is applied as a Tailwind class.
+   (Inline style={{color:'#00314E'}} cases are edited at the source.) ── */
+.dark .dashboard-shell .text-\[\#00314E\] { color: #EAF2F8 !important; }
+.dark .dashboard-shell .text-\[\#004A78\] { color: #8EC5E6 !important; }
+.dark .dashboard-shell .text-blue-600,
+.dark .dashboard-shell .text-blue-700,
+.dark .dashboard-shell .text-blue-800 { color: #4DB8F5 !important; }
+/* Bayer-cyan headings/links keep their hue but lift for contrast */
+.dark .dashboard-shell .text-\[\#01BEFF\] { color: #38CFFF !important; }
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

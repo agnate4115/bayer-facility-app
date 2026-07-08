@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Download, Search, AlertCircle, Loader2 } from 'lucide-react';
 import { API_URL } from '@/config';
+import BayerLogoBadge from '@/components/BayerLogoBadge';
 
 export default function QRCodesPage() {
   const [offices, setOffices] = useState<any[]>([]);
@@ -73,10 +74,10 @@ export default function QRCodesPage() {
           {filtered.map((office) => (
             <div
               key={office.id}
-              style={{ boxShadow: '0 20px 60px rgba(0, 49, 78, 0.15)', border: '1px solid #E5E7EB' }}
-              className="p-10 rounded-3xl flex flex-col items-center gap-6 bg-white"
+              style={{ boxShadow: '0 20px 60px rgba(0, 49, 78, 0.15)', border: '1px solid #E5E7EB', backgroundColor: '#FFFFFF' }}
+              className="p-10 rounded-3xl flex flex-col items-center gap-6"
             >
-              <img src="/Bayer-Logo.wine.svg" alt="Bayer" className="h-10" />
+              <BayerLogoBadge size={48} />
               <div
                 style={{ backgroundColor: '#F8F9FA', border: '2px solid #E5E7EB' }}
                 className="w-56 h-56 rounded-2xl flex items-center justify-center overflow-hidden"

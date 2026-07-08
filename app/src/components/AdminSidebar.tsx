@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { currentAdmin } from '@/data/azureAdPeople';
 import { useTheme } from '@/context/ThemeContext';
+import BayerLogoBadge from '@/components/BayerLogoBadge';
 
 const menuItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
@@ -94,7 +95,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
             className={`h-[80px] flex items-center gap-[12px] flex-shrink-0 border-b relative z-10 ${collapsed ? 'lg:px-[18px] px-[24px]' : 'px-[24px]'}`}
             style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
           >
-            <img src="/Bayer-Logo.wine.svg" alt="Bayer" className="h-[40px] w-auto flex-shrink-0 drop-shadow-sm" />
+            <BayerLogoBadge size={42} />
             <div className={`flex flex-col min-w-0 ${collapsed ? 'lg:hidden' : ''}`}>
               <span
                 className="font-display text-[18px] font-bold tracking-tight truncate leading-tight"
@@ -155,46 +156,42 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
             })}
           </nav>
 
-          {/* Footer Actions */}
+          {/* Footer Actions — compact */}
           <div
-            className="p-[12px] flex flex-col gap-[8px] border-t z-10"
+            className="px-[12px] py-[10px] flex flex-col gap-[6px] border-t z-10"
             style={{ borderColor: isDark ? 'var(--border-subtle)' : '#F1F5F9' }}
           >
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              title={collapsed ? (isDark ? 'Light mode' : 'Dark mode') : undefined}
-              className={`w-full flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 group hover:bg-black/5 dark:hover:bg-white/[0.06] ${collapsed ? 'lg:justify-center' : ''}`}
-            >
-              {isDark
-                ? <Sun size={20} className="flex-shrink-0 text-[#01BEFF]" />
-                : <Moon size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
-              <span
-                className={`font-display text-[12px] uppercase tracking-wider font-semibold ${collapsed ? 'lg:hidden' : ''}`}
-                style={{ color: 'var(--text-secondary)' }}
+            {/* Compact control row: theme toggle + collapse (icon buttons) */}
+            <div className={`flex items-center gap-[6px] ${collapsed ? 'lg:flex-col' : ''}`}>
+              <button
+                onClick={toggleTheme}
+                title={isDark ? 'Light mode' : 'Dark mode'}
+                className="flex-1 flex items-center justify-center gap-[8px] h-[34px] rounded-lg transition-all duration-200 hover:bg-black/5 dark:hover:bg-white/[0.06]"
               >
-                {isDark ? 'Light Mode' : 'Dark Mode'}
-              </span>
-            </button>
+                {isDark
+                  ? <Sun size={16} className="flex-shrink-0 text-[#38CFFF]" />
+                  : <Moon size={16} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
+                <span
+                  className={`font-display text-[10px] uppercase tracking-wider font-semibold ${collapsed ? 'lg:hidden' : ''}`}
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  {isDark ? 'Light' : 'Dark'}
+                </span>
+              </button>
 
-            {/* Collapse toggle (desktop only) */}
-            <button
-              onClick={() => setCollapsed(c => !c)}
-              title={collapsed ? 'Expand' : 'Collapse'}
-              className={`hidden lg:flex w-full items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 group hover:bg-black/5 dark:hover:bg-white/[0.06] ${collapsed ? 'justify-center' : ''}`}
-            >
-              {collapsed
-                ? <PanelLeftOpen size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />
-                : <PanelLeftClose size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
-              <span
-                className={`font-display text-[12px] uppercase tracking-wider font-semibold ${collapsed ? 'hidden' : ''}`}
-                style={{ color: 'var(--text-secondary)' }}
+              {/* Collapse toggle (desktop only) */}
+              <button
+                onClick={() => setCollapsed(c => !c)}
+                title={collapsed ? 'Expand' : 'Collapse'}
+                className="hidden lg:flex flex-1 items-center justify-center h-[34px] rounded-lg transition-all duration-200 hover:bg-black/5 dark:hover:bg-white/[0.06]"
               >
-                Collapse
-              </span>
-            </button>
+                {collapsed
+                  ? <PanelLeftOpen size={16} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />
+                  : <PanelLeftClose size={16} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />}
+              </button>
+            </div>
 
-            {/* Logout */}
+            {/* Logout — slim */}
             <button
               onClick={() => {
                 if (confirm('Are you sure you want to log out?')) {
@@ -202,10 +199,10 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
                 }
               }}
               title={collapsed ? 'Log Out' : undefined}
-              className={`w-full flex items-center gap-[12px] px-[12px] py-[12px] rounded-xl transition-all duration-200 group border border-transparent hover:bg-red-500/10 hover:border-red-500/20 ${collapsed ? 'lg:justify-center' : ''}`}
+              className={`w-full flex items-center gap-[10px] px-[10px] h-[34px] rounded-lg transition-all duration-200 group hover:bg-red-500/10 ${collapsed ? 'lg:justify-center' : ''}`}
             >
-              <LogOut size={20} className="flex-shrink-0 transition-colors group-hover:text-red-500" style={{ color: 'var(--text-tertiary)' }} />
-              <span className={`font-display text-[12px] uppercase tracking-wider font-semibold group-hover:text-red-500 transition-colors ${collapsed ? 'lg:hidden' : ''}`} style={{ color: 'var(--text-secondary)' }}>
+              <LogOut size={16} className="flex-shrink-0 transition-colors group-hover:text-red-500" style={{ color: 'var(--text-tertiary)' }} />
+              <span className={`font-display text-[10px] uppercase tracking-wider font-semibold group-hover:text-red-500 transition-colors ${collapsed ? 'lg:hidden' : ''}`} style={{ color: 'var(--text-secondary)' }}>
                 Log Out
               </span>
             </button>
