@@ -133,7 +133,7 @@ def generate_ticket_report(
 
     cat_top = categories.most_common(7)
     # category chart sits in a half-width exhibit; office chart is full width
-    category_hbar = charts.hbar_chart(cat_top, color=charts.CYAN, width=215, label_w=70)
+    category_hbar = charts.hbar_chart(cat_top, color=charts.CYAN, width=215, label_w=85)
     office_hbar = charts.hbar_chart(offices_count.most_common(), color=charts.NAVY)
 
     # ── Tables ──

@@ -119,13 +119,20 @@ def hbar_chart(rows, color=CYAN, width=None, bar_h=26, gap=16, label_w=150, valu
     h = len(rows) * (bar_h + gap) + gap
     parts = [f'<svg viewBox="0 0 {width} {h}" width="{width}" height="{h}" style="display:block" xmlns="http://www.w3.org/2000/svg">']
 
+    # Fit the label to the available gutter: ~5px per char at font-size 9.
+    label_font = 9
+    max_chars = max(6, int((label_w - 8) / 5))
+
     y = gap
     for label, value in rows:
         bw = max(2, (value / maxv) * plot_w)
+        txt = str(label)
+        if len(txt) > max_chars:
+            txt = txt[:max_chars - 1] + "…"
         # label
         parts.append(
-            f'<text x="{label_w - 10}" y="{y + bar_h/2 + 4}" text-anchor="end" '
-            f'font-size="10" fill="{INK_SOFT}">{escape(str(label)[:22])}</text>'
+            f'<text x="{label_w - 8}" y="{y + bar_h/2 + 4}" text-anchor="end" '
+            f'font-size="{label_font}" fill="{INK_SOFT}">{escape(txt)}</text>'
         )
         # track
         parts.append(
