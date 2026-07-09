@@ -55,16 +55,26 @@ function DashboardHome() {
     const fetchData = async () => {
       try {
         const currentUser = azureAdPeople.find(p => p.email === mockUser.email || p.displayName === mockUser.name);
-        const user_id = currentUser ? currentUser.id : "user-123";
+        // A ticket belongs to me if its user_id matches ANY of my identifiers
+        // (the app has historically stored id, employeeId, or email here), or my name.
+        const myIds = new Set(
+          [currentUser?.id, currentUser?.employeeId, currentUser?.email, mockUser.employeeId, mockUser.email]
+            .filter(Boolean)
+            .map(v => String(v).toLowerCase())
+        );
+        const myName = (mockUser.name || '').toLowerCase();
+        const mine = (t: any) =>
+          (t.user_id && myIds.has(String(t.user_id).toLowerCase())) ||
+          (t.user_name && String(t.user_name).toLowerCase() === myName);
 
         const [tRes, fRes] = await Promise.all([
           fetch(`${API_URL}/api/tickets/`),
-          fetch(`${API_URL}/api/feedback/?user_id=${user_id}`)
+          fetch(`${API_URL}/api/feedback/?user_id=${currentUser?.employeeId || currentUser?.id || ''}`)
         ]);
 
         if (tRes.ok) {
           const allTickets = await tRes.json();
-          setTickets(allTickets.filter((t: any) => t.user_id === user_id || t.user_name === mockUser.name));
+          setTickets(allTickets.filter(mine));
         }
         if (fRes.ok) {
           setFeedbacks(await fRes.json());
@@ -78,11 +88,20 @@ function DashboardHome() {
     fetchData();
   }, []);
 
+  // ── Single source of truth for status buckets ──
+  // Every ticket falls into exactly one bucket, so the counts always add up.
+  const bucketOf = (status?: string): 'resolved' | 'closed' | 'active' => {
+    const s = String(status || '').toLowerCase();
+    if (s === 'resolved') return 'resolved';
+    if (s === 'closed') return 'closed';
+    return 'active';   // Open, Acknowledged, Assigned, In Progress, On Hold, Escalated
+  };
+
   const totalRequests = tickets.length;
-  // Active = anything not yet resolved or closed (matches the admin dashboard),
-  // so Acknowledged / Assigned / On Hold / Escalated tickets are counted too.
-  const resolvedRequests = tickets.filter(t => t.status === 'Resolved' || t.status === 'Closed').length;
-  const activeRequests = totalRequests - resolvedRequests;
+  const activeRequests = tickets.filter(t => bucketOf(t.status) === 'active').length;
+  const resolvedCount = tickets.filter(t => bucketOf(t.status) === 'resolved').length;
+  const closedCount = tickets.filter(t => bucketOf(t.status) === 'closed').length;
+  const resolvedRequests = resolvedCount + closedCount;   // completed = resolved + closed
   const resolutionRate = totalRequests > 0 ? Math.round((resolvedRequests / totalRequests) * 100) : 0;
   const totalFeedbacks = feedbacks.length;
 
@@ -134,8 +153,8 @@ function DashboardHome() {
             <span className="font-display text-3xl font-bold" style={{ color: BAYER_GREEN }}>{resolvedRequests}</span>
             <CheckCircle size={18} style={{ color: BAYER_GREEN }} />
           </div>
-          <p className="font-body text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Resolved</p>
-          <p className="font-body text-xs mt-1" style={{ color: 'var(--text-tertiary)' }}>{resolutionRate}% resolution rate</p>
+          <p className="font-body text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Completed</p>
+          <p className="font-body text-xs mt-1" style={{ color: 'var(--text-tertiary)' }}>{resolvedCount} resolved · {closedCount} closed</p>
         </div>
 
         <div className="rounded-xl p-5 border" style={cardStyle}>

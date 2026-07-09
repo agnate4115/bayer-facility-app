@@ -83,10 +83,12 @@ export default function DashboardOverview() {
     fetchData();
   }, []);
 
-  // Compute metrics
+  // Compute metrics. A ticket is "completed" if resolved or closed (case-insensitive);
+  // everything else (Open, Acknowledged, Assigned, In Progress, On Hold, Escalated) is active.
+  const isCompleted = (t: any) => ['resolved', 'closed'].includes(String(t.status || '').toLowerCase());
   const totalTickets = tickets.length;
-  const activeTickets = tickets.filter(t => t.status !== 'Resolved' && t.status !== 'Closed').length;
-  const resolvedTickets = tickets.filter(t => t.status === 'Resolved' || t.status === 'Closed').length;
+  const activeTickets = tickets.filter(t => !isCompleted(t)).length;
+  const resolvedTickets = tickets.filter(isCompleted).length;
   const totalFeedbacks = feedbacks.length;
   
   const resolutionRate = totalTickets > 0 ? ((resolvedTickets / totalTickets) * 100).toFixed(1) : '0.0';
