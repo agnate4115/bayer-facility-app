@@ -71,26 +71,28 @@
     <h1 class="section-title">How employees rate the service</h1>
     <div class="section-rule"></div>
 
-    <div class="grid-2">
-      <div class="exhibit">
-        <div class="exhibit-head">
-          <div class="exhibit-label">Exhibit 1</div>
-          <div class="exhibit-title">Overall rating distribution</div>
-        </div>
-        {{ rating_vbar|safe }}
+    <!-- Exhibit 1: rating distribution (full width) -->
+    <div class="exhibit">
+      <div class="exhibit-head">
+        <div class="exhibit-label">Exhibit 1</div>
+        <div class="exhibit-title">Overall rating distribution</div>
       </div>
+      {{ rating_vbar|safe }}
+    </div>
 
-      <div class="exhibit">
-        <div class="exhibit-head">
-          <div class="exhibit-label">Exhibit 2</div>
-          <div class="exhibit-title">Sentiment split</div>
-        </div>
-        <div class="exhibit-row">
-          <div class="chart">{{ sentiment_donut|safe }}</div>
+    <!-- Exhibit 2: sentiment split (full width) -->
+    <div class="exhibit">
+      <div class="exhibit-head">
+        <div class="exhibit-label">Exhibit 2</div>
+        <div class="exhibit-title">Sentiment split</div>
+      </div>
+      <div class="donut-wrap">
+        <div class="donut-cell">{{ sentiment_donut|safe }}</div>
+        <div class="legend-cell">
           <div class="legend">
             {% for s in sentiment_legend %}
             <div class="legend-item">
-              <span class="legend-swatch" style="background:{{ s.color }}"></span>
+              <span class="l-swatch-cell"><span class="legend-swatch" style="display:inline-block;background:{{ s.color }}"></span></span>
               <span class="l-label">{{ s.label }}</span>
               <span class="l-val">{{ s.value }}</span>
               <span class="l-pct">{{ s.pct }}%</span>
@@ -108,13 +110,15 @@
         <div class="exhibit-title">Service quality by dimension</div>
         <div class="exhibit-sub">Mean score out of 5 across all responses</div>
       </div>
-      {% for d in dimensions %}
-      <div style="display:flex; align-items:center; gap:3mm; margin-bottom:2.5mm;">
-        <div style="flex:0 0 42mm; font-size:9pt; color:var(--ink);">{{ d.label }}</div>
-        <div style="flex:1;">{{ d.svg|safe }}</div>
-        <div style="flex:0 0 14mm; text-align:right; font-weight:700; color:var(--navy); font-size:9.5pt;">{{ d.value }}</div>
-      </div>
-      {% endfor %}
+      <table style="width:100%; border-collapse:collapse;">
+        {% for d in dimensions %}
+        <tr>
+          <td style="width:44mm; font-size:9.5pt; color:var(--ink); padding:1.8mm 0;">{{ d.label }}</td>
+          <td style="padding:1.8mm 3mm;">{{ d.svg|safe }}</td>
+          <td style="width:14mm; text-align:right; font-weight:700; color:var(--navy); font-size:10pt;">{{ d.value }}</td>
+        </tr>
+        {% endfor %}
+      </table>
     </div>
   </div>
 

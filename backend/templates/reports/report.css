@@ -187,22 +187,25 @@ h2.block-title {
 .exhibit-title { font-size: 10.5pt; font-weight: 700; color: var(--navy); margin: 0.5mm 0 0 0; }
 .exhibit-sub { font-size: 8pt; color: var(--ink-soft); margin-top: 0.5mm; }
 
-/* Donut + legend stacked vertically — WeasyPrint's flex-shrink starves a
-   side-by-side legend, so we center the donut and list the legend beneath it. */
-.exhibit-row { text-align: center; }
-.exhibit-row .chart { margin: 0 auto 3mm auto; width: 140px; }
-.exhibit-row .legend { text-align: left; margin: 0 auto; max-width: 60mm; }
+/* Donut + legend as a CSS table (WeasyPrint renders tables reliably; flex
+   starves the legend). Donut on the left, legend filling the rest. */
+.donut-wrap { display: table; width: 100%; }
+.donut-wrap .donut-cell { display: table-cell; width: 180px; vertical-align: middle; text-align: center; }
+.donut-wrap .legend-cell { display: table-cell; vertical-align: middle; padding-left: 8mm; }
 
-/* Legend */
-.legend-item { display: flex; align-items: center; gap: 2.5mm; margin-bottom: 2mm; font-size: 8.5pt; }
-.legend-swatch { width: 3mm; height: 3mm; border-radius: 0.8mm; flex: 0 0 auto; }
-.legend-item .l-label { color: var(--ink); flex: 1; }
-.legend-item .l-val { font-weight: 700; color: var(--navy); }
-.legend-item .l-pct { color: var(--ink-soft); font-size: 7.5pt; width: 12mm; text-align: right; }
+/* Legend — table rows so columns align in WeasyPrint */
+.legend { display: table; width: 100%; }
+.legend-item { display: table-row; font-size: 10pt; }
+.legend-item > span { display: table-cell; padding: 1.6mm 0; vertical-align: middle; }
+.legend-swatch { width: 4mm; height: 4mm; border-radius: 1mm; }
+.legend-item .l-swatch-cell { width: 6mm; }
+.legend-item .l-label { color: var(--ink); }
+.legend-item .l-val { font-weight: 700; color: var(--navy); text-align: right; width: 14mm; }
+.legend-item .l-pct { color: var(--ink-soft); font-size: 9pt; width: 16mm; text-align: right; }
 
-/* Two-up exhibits */
-.grid-2 { display: flex; gap: 4mm; }
-.grid-2 > * { flex: 1; }
+/* Two-up exhibits → full-width stacked (flex leaves tiny floating cards in
+   WeasyPrint). Each exhibit now spans the page for a filled, balanced layout. */
+.grid-2 > * { width: 100%; }
 
 /* ══════════════ TABLES ══════════════ */
 table.data { width: 100%; border-collapse: collapse; margin: 2mm 0; font-size: 8.5pt; }

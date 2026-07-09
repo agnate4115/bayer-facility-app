@@ -38,7 +38,7 @@ def _fmt(n):
 # ══════════════════════════════════════════════════════════════════
 #  DONUT CHART  (priority mix, rating distribution)
 # ══════════════════════════════════════════════════════════════════
-def donut_chart(segments, center_label="", center_sub="", size=140, thickness=22):
+def donut_chart(segments, center_label="", center_sub="", size=160, thickness=26):
     """
     segments: list of dicts {label, value, color}
     Returns an SVG donut with a legend rendered separately by the template.
@@ -85,12 +85,12 @@ def donut_chart(segments, center_label="", center_sub="", size=140, thickness=22
     if center_label:
         center = (
             f'<text x="{cx}" y="{cy - 1}" text-anchor="middle" '
-            f'font-size="22" font-weight="700" fill="{INK}">{escape(str(center_label))}</text>'
+            f'font-size="26" font-weight="700" fill="{INK}">{escape(str(center_label))}</text>'
         )
         if center_sub:
             center += (
-                f'<text x="{cx}" y="{cy + 13}" text-anchor="middle" '
-                f'font-size="7.5" letter-spacing="1" fill="{INK_SOFT}">{escape(str(center_sub)).upper()}</text>'
+                f'<text x="{cx}" y="{cy + 15}" text-anchor="middle" '
+                f'font-size="8.5" letter-spacing="1" fill="{INK_SOFT}">{escape(str(center_sub)).upper()}</text>'
             )
 
     # Fixed compact size — WeasyPrint does not reliably resolve % widths against
@@ -274,14 +274,14 @@ def line_chart(labels, series, width=FULL_W, height=210):
 # ══════════════════════════════════════════════════════════════════
 #  DIMENSION BARS  (feedback 0–5 scores) — returns list for template
 # ══════════════════════════════════════════════════════════════════
-def score_bar_svg(value, out_of=5, width=260, color=NAVY):
-    """A single horizontal 0–5 score bar."""
-    h = 10
+def score_bar_svg(value, out_of=5, width=300, color=NAVY):
+    """A single horizontal 0–5 score bar (fixed width for reliable WeasyPrint)."""
+    h = 11
     frac = max(0, min(1, value / out_of))
     return (
-        f'<svg viewBox="0 0 {width} {h}" width="100%" height="auto" preserveAspectRatio="none" style="display:block;width:100%;height:{h}px" xmlns="http://www.w3.org/2000/svg">'
-        f'<rect x="0" y="0" width="{width}" height="{h}" rx="5" fill="{GRID}" />'
-        f'<rect x="0" y="0" width="{width*frac:.1f}" height="{h}" rx="5" fill="{color}" />'
+        f'<svg viewBox="0 0 {width} {h}" width="{width}" height="{h}" style="display:block" xmlns="http://www.w3.org/2000/svg">'
+        f'<rect x="0" y="0" width="{width}" height="{h}" rx="5.5" fill="{GRID}" />'
+        f'<rect x="0" y="0" width="{width*frac:.1f}" height="{h}" rx="5.5" fill="{color}" />'
         f'</svg>'
     )
 
