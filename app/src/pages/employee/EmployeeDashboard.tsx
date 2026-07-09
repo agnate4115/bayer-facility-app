@@ -79,8 +79,10 @@ function DashboardHome() {
   }, []);
 
   const totalRequests = tickets.length;
-  const activeRequests = tickets.filter(t => t.status === 'Open' || t.status === 'In Progress').length;
+  // Active = anything not yet resolved or closed (matches the admin dashboard),
+  // so Acknowledged / Assigned / On Hold / Escalated tickets are counted too.
   const resolvedRequests = tickets.filter(t => t.status === 'Resolved' || t.status === 'Closed').length;
+  const activeRequests = totalRequests - resolvedRequests;
   const resolutionRate = totalRequests > 0 ? Math.round((resolvedRequests / totalRequests) * 100) : 0;
   const totalFeedbacks = feedbacks.length;
 

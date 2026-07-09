@@ -27,6 +27,7 @@ interface RatingDetails {
 interface FeedbackData {
   id: string;
   ticketId: string;
+  ticketFullId?: string;
   ticketTitle?: string;
   submittedDate: string;
   rating: number;
@@ -182,8 +183,8 @@ export default function FeedbackDetailView({
             {showTicketLink && feedback.ticketTitle && (
               <div className="flex items-center gap-2 mt-4">
                 <span className="text-sm font-medium text-slate-500 ">Related to:</span>
-                <Link 
-                  to={`/admin/tickets/${feedback.ticketId}`}
+                <Link
+                  to={`/admin/tickets/${feedback.ticketFullId || feedback.ticketId}`}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#01BEFF] hover:text-blue-500 transition-colors"
                 >
                   <FileText size={14} />

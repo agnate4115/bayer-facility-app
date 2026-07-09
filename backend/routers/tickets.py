@@ -11,7 +11,9 @@ from database import get_db
 from models.ticket import Ticket
 from models.office import Office
 from models.settings import IssueCategory, SystemSettings
+from models.comment import TicketComment
 from schemas.ticket import TicketSchema, TicketUpdate
+from schemas.comment import CommentSchema, CommentCreate
 from utils.ai_categorizer import categorize_ticket_ai
 from utils.storage import upload_to_blob
 from utils.audit import log_audit
@@ -252,5 +254,36 @@ def update_ticket(ticket_id: UUID, ticket_update: TicketUpdate, db: Session = De
         user_email = f"user_{ticket.user_id}@bayer.com" # Would look up via DB
         send_feedback_reminder.apply_async(args=[str(ticket.id), user_email, False], countdown=2700) # 45 mins
         send_feedback_reminder.apply_async(args=[str(ticket.id), user_email, True], countdown=10800) # 3 hours
-        
+
     return ticket
+
+
+# ── Ticket comments (admin ↔ employee conversation) ──
+
+@router.get("/{ticket_id}/comments", response_model=List[CommentSchema])
+def list_comments(ticket_id: UUID, db: Session = Depends(get_db)):
+    return (
+        db.query(TicketComment)
+        .filter(TicketComment.ticket_id == ticket_id)
+        .order_by(TicketComment.created_at.asc())
+        .all()
+    )
+
+
+@router.post("/{ticket_id}/comments", response_model=CommentSchema)
+def add_comment(ticket_id: UUID, payload: CommentCreate, db: Session = Depends(get_db)):
+    ticket = db.query(Ticket).filter(Ticket.id == ticket_id).first()
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+
+    comment = TicketComment(
+        ticket_id=ticket_id,
+        author_name=payload.author_name,
+        author_role=payload.author_role,
+        message=payload.message,
+        stage=payload.stage,
+    )
+    db.add(comment)
+    db.commit()
+    db.refresh(comment)
+    return comment

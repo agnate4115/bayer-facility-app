@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import PriorityIndicator from './PriorityIndicator';
+import TicketComments from './TicketComments';
 
 interface TicketData {
   id: string;
@@ -54,6 +55,8 @@ interface TicketDetailViewProps {
   assignees?: string[];
   teams?: string[];
   departments?: string[];
+  /** Display name of the person posting comments on this page */
+  commenterName?: string;
 }
 
 export default function TicketDetailView({
@@ -68,6 +71,7 @@ export default function TicketDetailView({
   assignees = [],
   teams = [],
   departments = [],
+  commenterName,
 }: TicketDetailViewProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [status, setStatus] = useState(ticket.status);
@@ -408,6 +412,15 @@ export default function TicketDetailView({
 
           </div>
         </div>
+
+        {/* Conversation between the facilities team and the reporter */}
+        <TicketComments
+          ticketId={ticket.id}
+          currentRole={isAdminView ? 'Admin' : 'Employee'}
+          currentName={commenterName || (isAdminView ? 'Facilities Admin' : (ticket.reportedBy || 'Reporter'))}
+          accent={isAdminView ? '#56D500' : '#01BEFF'}
+          stage={status}
+        />
       </div>
     </div>
   );

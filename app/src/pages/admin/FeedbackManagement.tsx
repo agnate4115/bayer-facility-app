@@ -372,8 +372,8 @@ export default function FeedbackManagement() {
                 <tr
                   key={fb.id}
                   className="transition-colors border-b border-gray-100"
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--surface-light)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
                   <td className="px-4 py-3">
                     <span style={{ color: BAYER_CYAN }} className="font-mono text-xs">

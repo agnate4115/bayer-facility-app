@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import TicketDetailView from '@/components/TicketDetailView';
 import { Loader2 } from 'lucide-react';
-import { azureAdPeople } from '@/data/azureAdPeople';
+import { azureAdPeople, currentAdmin } from '@/data/azureAdPeople';
 import { API_URL } from '@/config';
 
 const teams = ['HVAC Team', 'Electrical Team', 'Plumbing Team', 'IT Team', 'Facilities Team', 'Security Team'];
@@ -139,6 +139,7 @@ export default function TicketDetail() {
       onTeamChange={handleTeamChange}
       assignees={assignees}
       teams={dynamicTeams}
+      commenterName={currentAdmin.displayName}
     />
   );
 }

@@ -67,6 +67,7 @@ export default function FeedbackDetail() {
   const feedbackForView = {
     id: feedback.id,
     ticketId: feedback.ticket_id.substring(0,8).toUpperCase(),
+    ticketFullId: feedback.ticket_id,
     ticketTitle: ticket?.description.substring(0,50) + "...",
     submittedDate: feedback.created_at,
     rating: feedback.overall_rating,
