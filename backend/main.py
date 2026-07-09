@@ -6,9 +6,29 @@ from database import engine, Base
 import logging
 logger = logging.getLogger(__name__)
 
+# Default issue categories seeded on first boot (empty on a fresh database).
+DEFAULT_CATEGORIES = [
+    "Plumbing", "Electrical", "HVAC / AC", "Furniture", "Housekeeping",
+    "IT Infrastructure", "Safety", "Lift / Elevator", "Pantry / Kitchen",
+    "Pest Control", "Access / Security", "Other",
+]
+
+
+def _seed_categories():
+    """Populate the issue_categories table if it is empty."""
+    from sqlalchemy.orm import Session
+    from models.settings import IssueCategory
+    with Session(engine) as db:
+        if db.query(IssueCategory).count() == 0:
+            db.add_all(IssueCategory(name=name) for name in DEFAULT_CATEGORIES)
+            db.commit()
+            logger.info("Seeded %d default issue categories", len(DEFAULT_CATEGORIES))
+
+
 # Create DB Tables
 try:
     Base.metadata.create_all(bind=engine)
+    _seed_categories()
     db_status = "Connected"
 except Exception as e:
     logger.error(f"Failed to connect to database on startup: {e}")

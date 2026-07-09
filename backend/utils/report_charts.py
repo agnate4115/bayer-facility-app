@@ -22,6 +22,11 @@ INK_SOFT = "#5B6B7A"
 # Sequential palette for categorical charts (muted, professional)
 SERIES = [NAVY, CYAN, GREEN, "#6C8EA8", AMBER, "#8B5CF6", "#0E7C86", "#B45309"]
 
+# Full-width charts render at this fixed pixel width. The report content area is
+# A4 (210mm) − 2×16mm margins − exhibit padding ≈ 480px. A fixed size is used
+# because WeasyPrint does not scale % SVG widths the way browsers do.
+FULL_W = 480
+
 
 def _fmt(n):
     """Compact number formatting."""
@@ -100,17 +105,19 @@ def donut_chart(segments, center_label="", center_sub="", size=140, thickness=22
 # ══════════════════════════════════════════════════════════════════
 #  HORIZONTAL BAR CHART  (tickets by office, by category)
 # ══════════════════════════════════════════════════════════════════
-def hbar_chart(rows, color=CYAN, width=520, bar_h=22, gap=14, label_w=140, value_suffix=""):
+def hbar_chart(rows, color=CYAN, width=None, bar_h=26, gap=16, label_w=150, value_suffix=""):
     """
     rows: list of (label, value). Sorted by caller.
     """
+    if width is None:
+        width = FULL_W
     rows = list(rows)
     if not rows:
         return _empty(width, 120)
     maxv = max(v for _, v in rows) or 1
     plot_w = width - label_w - 46
     h = len(rows) * (bar_h + gap) + gap
-    parts = [f'<svg viewBox="0 0 {width} {h}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">']
+    parts = [f'<svg viewBox="0 0 {width} {h}" width="{width}" height="{h}" style="display:block" xmlns="http://www.w3.org/2000/svg">']
 
     y = gap
     for label, value in rows:
@@ -142,33 +149,36 @@ def hbar_chart(rows, color=CYAN, width=520, bar_h=22, gap=14, label_w=140, value
 # ══════════════════════════════════════════════════════════════════
 #  VERTICAL BAR CHART  (rating distribution, daily volume)
 # ══════════════════════════════════════════════════════════════════
-def vbar_chart(rows, colors=None, width=520, height=220, value_suffix=""):
+def vbar_chart(rows, colors=None, width=None, height=210, value_suffix=""):
     """
     rows: list of (label, value)
     colors: optional list matching rows, else NAVY
     """
+    if width is None:
+        width = FULL_W
     rows = list(rows)
     if not rows:
         return _empty(width, height)
-    maxv = max(v for _, v in rows) or 1
-    pad_l, pad_r, pad_t, pad_b = 34, 12, 18, 34
+    raw_max = max(v for _, v in rows) or 1
+    axis_max, ticks = _nice_axis_max(raw_max)
+    pad_l, pad_r, pad_t, pad_b = 34, 12, 18, 32
     plot_w = width - pad_l - pad_r
     plot_h = height - pad_t - pad_b
     n = len(rows)
     slot = plot_w / n
-    bar_w = min(48, slot * 0.6)
+    bar_w = min(60, slot * 0.62)
 
-    parts = [f'<svg viewBox="0 0 {width} {height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">']
+    parts = [f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" style="display:block" xmlns="http://www.w3.org/2000/svg">']
 
-    # gridlines (4 steps)
-    for i in range(5):
-        gy = pad_t + plot_h - (plot_h * i / 4)
-        val = maxv * i / 4
+    # gridlines with unique integer labels
+    for i in range(ticks + 1):
+        gy = pad_t + plot_h - (plot_h * i / ticks)
+        val = int(round(axis_max * i / ticks))
         parts.append(f'<line x1="{pad_l}" y1="{gy:.1f}" x2="{width-pad_r}" y2="{gy:.1f}" stroke="{GRID}" stroke-width="1" />')
-        parts.append(f'<text x="{pad_l-6}" y="{gy+3:.1f}" text-anchor="end" font-size="8" fill="{AXIS}">{_fmt(round(val,1))}</text>')
+        parts.append(f'<text x="{pad_l-6}" y="{gy+3:.1f}" text-anchor="end" font-size="8" fill="{AXIS}">{val}</text>')
 
     for i, (label, value) in enumerate(rows):
-        bh = (value / maxv) * plot_h
+        bh = (value / axis_max) * plot_h
         bx = pad_l + slot * i + (slot - bar_w) / 2
         by = pad_t + plot_h - bh
         color = (colors[i] if colors and i < len(colors) else NAVY)
@@ -180,52 +190,73 @@ def vbar_chart(rows, colors=None, width=520, height=220, value_suffix=""):
     return "".join(parts)
 
 
-# ══════════════════════════════════════════════════════════════════
-#  LINE / AREA CHART  (daily trend, dual series)
-# ══════════════════════════════════════════════════════════════════
-def line_chart(labels, series, width=520, height=230):
+def _nice_axis_max(v):
+    """Return a 'nice' integer axis max >= v, and a step count (<=5) with integer ticks."""
+    v = max(1, int(math.ceil(v)))
+    # choose a step so ticks are whole numbers and there are 2..5 of them
+    for step in (1, 2, 5, 10, 20, 25, 50, 100, 200, 500, 1000):
+        if step * 4 >= v:
+            top = step * 4
+            # shrink tick count if top is much larger than needed
+            ticks = 4
+            while ticks > 2 and step * (ticks - 1) >= v:
+                ticks -= 1
+            return step * ticks, ticks
+    top = ((v + 3) // 4) * 4
+    return top, 4
+
+
+def line_chart(labels, series, width=FULL_W, height=210):
     """
     labels: list of x labels
     series: list of dicts {name, color, values}
     """
     if not labels:
         return _empty(width, height)
-    pad_l, pad_r, pad_t, pad_b = 34, 14, 18, 30
+    pad_l, pad_r, pad_t, pad_b = 34, 16, 16, 28
     plot_w = width - pad_l - pad_r
     plot_h = height - pad_t - pad_b
     n = len(labels)
-    maxv = max([max(s["values"]) for s in series if s["values"]] + [1])
+    raw_max = max([max(s["values"]) for s in series if s["values"]] + [1])
+    axis_max, ticks = _nice_axis_max(raw_max)
+    single = n == 1
     step = plot_w / max(1, n - 1)
 
-    def pt(i, v):
-        x = pad_l + step * i
-        y = pad_t + plot_h - (v / maxv) * plot_h
-        return x, y
+    def px(i):
+        # centre a lone point instead of pinning it to the left edge
+        return pad_l + plot_w / 2 if single else pad_l + step * i
 
-    parts = [f'<svg viewBox="0 0 {width} {height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">']
-    # gridlines
-    for i in range(5):
-        gy = pad_t + plot_h - (plot_h * i / 4)
+    def py(v):
+        return pad_t + plot_h - (v / axis_max) * plot_h
+
+    parts = [f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" style="display:block" xmlns="http://www.w3.org/2000/svg">']
+
+    # gridlines with unique integer labels
+    for i in range(ticks + 1):
+        gy = pad_t + plot_h - (plot_h * i / ticks)
+        val = int(round(axis_max * i / ticks))
         parts.append(f'<line x1="{pad_l}" y1="{gy:.1f}" x2="{width-pad_r}" y2="{gy:.1f}" stroke="{GRID}" stroke-width="1" />')
-        parts.append(f'<text x="{pad_l-6}" y="{gy+3:.1f}" text-anchor="end" font-size="8" fill="{AXIS}">{int(round(maxv*i/4))}</text>')
+        parts.append(f'<text x="{pad_l-6}" y="{gy+3:.1f}" text-anchor="end" font-size="8" fill="{AXIS}">{val}</text>')
 
-    # x labels (thin out if many)
+    # x labels
     label_every = max(1, n // 8)
     for i, lab in enumerate(labels):
-        if i % label_every == 0 or i == n - 1:
-            x = pad_l + step * i
-            parts.append(f'<text x="{x:.1f}" y="{height-pad_b+16:.1f}" text-anchor="middle" font-size="8" fill="{INK_SOFT}">{escape(str(lab))}</text>')
+        if single or i % label_every == 0 or i == n - 1:
+            parts.append(f'<text x="{px(i):.1f}" y="{height-pad_b+16:.1f}" text-anchor="middle" font-size="8" fill="{INK_SOFT}">{escape(str(lab))}</text>')
 
     for s in series:
         vals = s["values"]
-        pts = [pt(i, v) for i, v in enumerate(vals)]
-        # area fill
+        pts = [(px(i), py(v)) for i, v in enumerate(vals)]
+        if single:
+            # a single reading has no line — draw a clear labelled marker
+            x, y = pts[0]
+            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="{s["color"]}" stroke="#fff" stroke-width="1.5" />')
+            parts.append(f'<text x="{x:.1f}" y="{y-9:.1f}" text-anchor="middle" font-size="9" font-weight="700" fill="{INK}">{_fmt(vals[0])}</text>')
+            continue
         area = f'M {pts[0][0]:.1f} {pad_t+plot_h:.1f} ' + " ".join(f'L {x:.1f} {y:.1f}' for x, y in pts) + f' L {pts[-1][0]:.1f} {pad_t+plot_h:.1f} Z'
         parts.append(f'<path d="{area}" fill="{s["color"]}" fill-opacity="0.10" />')
-        # line
         line = "M " + " L ".join(f'{x:.1f} {y:.1f}' for x, y in pts)
         parts.append(f'<path d="{line}" fill="none" stroke="{s["color"]}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" />')
-        # dots
         for x, y in pts:
             parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.6" fill="#fff" stroke="{s["color"]}" stroke-width="1.6" />')
 

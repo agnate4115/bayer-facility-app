@@ -132,7 +132,8 @@ def generate_ticket_report(
     ] if total else []
 
     cat_top = categories.most_common(7)
-    category_hbar = charts.hbar_chart(cat_top, color=charts.CYAN)
+    # category chart sits in a half-width exhibit; office chart is full width
+    category_hbar = charts.hbar_chart(cat_top, color=charts.CYAN, width=215, label_w=70)
     office_hbar = charts.hbar_chart(offices_count.most_common(), color=charts.NAVY)
 
     # ── Tables ──
@@ -358,7 +359,7 @@ def generate_feedback_report(
     # ── Charts ──
     rating_rows = [(f"{i}★", rating_dist.get(i, 0)) for i in range(1, 6)]
     rating_colors = [charts.RED, charts.RED, charts.AMBER, charts.GREEN, charts.GREEN]
-    rating_vbar = charts.vbar_chart(rating_rows, colors=rating_colors)
+    rating_vbar = charts.vbar_chart(rating_rows, colors=rating_colors, width=215, height=190)
 
     sentiment_segments = []
     for lbl, val, col in [("Promoters (4–5★)", promoters_n, charts.GREEN), ("Passive (3★)", passives_n, charts.AMBER), ("Detractors (1–2★)", detractors_n, charts.RED)]:

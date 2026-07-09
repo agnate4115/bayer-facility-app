@@ -178,7 +178,7 @@ h2.block-title {
   page-break-inside: avoid;
   overflow: hidden; max-width: 100%;
 }
-.exhibit svg { max-width: 100%; height: auto; }
+.exhibit svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 .exhibit-head { margin-bottom: 3mm; }
 .exhibit-label {
   font-size: 6.8pt; letter-spacing: 2px; text-transform: uppercase;

@@ -63,6 +63,13 @@ jobs:
               PGPASSWORD="${{ secrets.PGPASSWORD }}" \
               ENABLE_AZURE_INTEGRATION="False"
 
+          # Keep at least one replica warm to avoid slow cold starts
+          az containerapp update \
+            --name bayer-backend \
+            --resource-group bayer-facility-rg \
+            --min-replicas 1 \
+            --max-replicas 5
+
           # Get the HTTPS FQDN
           FQDN=$(az containerapp show --name bayer-backend --resource-group bayer-facility-rg --query properties.configuration.ingress.fqdn -o tsv)
           echo "Backend deployed at: https://$FQDN"

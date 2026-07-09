@@ -152,6 +152,22 @@ def update_office(office_id: UUID, office_data: OfficeUpdate, db: Session = Depe
     return map_office_to_schema(office)
 
 
+@router.post("/regenerate-qr")
+def regenerate_all_qr(db: Session = Depends(get_db)):
+    """Force-regenerate QR image + PDF assets for every office.
+    Used to refresh assets built by an older generator (e.g. missing logo)."""
+    offices = db.query(Office).all()
+    count = 0
+    for office in offices:
+        code = office.qr_code or f"BAYER-{office.name[:3].upper()}"
+        img_url, pdf_url = generate_office_qr_assets(str(office.id), office.name, code)
+        office.qr_image_url = img_url
+        office.qr_pdf_url = pdf_url
+        count += 1
+    db.commit()
+    return {"regenerated": count}
+
+
 @router.delete("/{office_id}")
 def delete_office(office_id: UUID, db: Session = Depends(get_db)):
     office = db.query(Office).filter(Office.id == office_id).first()
